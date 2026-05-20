@@ -1,4 +1,5 @@
 <?php
+include 'config/koneksi.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Daftar Guru & Tenaga Kependidikan - MI Al Karomah</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
     
@@ -22,7 +24,7 @@
         }
 
         body {
-            background-color: #fcfbf7; /* Background cream hangat sesuai tema */
+            background-color: #fcfbf7; 
             color: #333333;
             overflow-x: hidden;
         }
@@ -83,7 +85,6 @@
             max-width: 480px;
         }
 
-        /* Hero Right (Gambar Masking Melengkung Khas) */
         .hero-right {
             position: relative;
         }
@@ -98,7 +99,7 @@
             width: 100%;
             height: auto;
             object-fit: cover;
-            border-radius: 200px 200px 0 200px; /* Lengkung asimetris premium */
+            border-radius: 200px 200px 0 200px; 
         }
 
         /* Floating Badge Jumlah Guru */
@@ -225,95 +226,114 @@
             margin-top: 8px;
         }
 
+        /* ========================================================
+        5. DIUBAH SAMA PERSIS SEPERTI MODEL & UKURAN FACILITIES 
+        ======================================================== */
+
+        .direktori-guru { 
+            padding: 60px 0; 
+            background: white; 
+        }
+
         .guru-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+            gap: 25px; 
+            margin-top: 30px; 
             margin-bottom: 8px;
         }
 
         .card-guru {
-            background: #ffffff;
-            border-radius: 24px;
+            background: #fefcf5;
+            border-radius: 20px; 
             overflow: hidden;
-            border: 1px solid #f1f1f1;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            text-align: center;
+            border: none; 
+            box-shadow: none; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card-guru:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(15, 107, 59, 0.08);
-            border-color: #e6f0ea;
+            transform: translateY(-4px);
         }
 
         .wrapper-foto-guru {
             width: 100%;
-            height: 280px;
+            height: 160px; 
             overflow: hidden;
-            background: #f7f7f7;
             position: relative;
+            background: #f7f7f7; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .wrapper-foto-guru img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            object-fit: contain; 
+            padding: 10px; 
+            box-sizing: border-box;
         }
 
-        .card-guru:hover .wrapper-foto-guru img {
-            transform: scale(1.04);
-        }
 
-        /* Label Jabatan di Atas Foto */
         .badge-jabatan {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 10px;
+            left: 10px;
             background: #0f6b3b;
             color: #ffffff;
-            padding: 6px 14px;
+            padding: 4px 10px;
             border-radius: 30px;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 0.3px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 2;
         }
 
         .info-guru {
-            padding: 22px 20px;
+            padding: 15px; 
             text-align: center;
         }
 
         .info-guru h4 {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #0f6b3b;
-            font-weight: 800;
-            margin-bottom: 4px;
+            font-weight: 600; 
+            margin-bottom: 6px;
             line-height: 1.3;
         }
 
         .info-guru .mapel {
-            font-size: 0.78rem;
-            color: #facc15;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: #0f6b3b; 
+            font-weight: 600;
+            margin-bottom: 4px;
         }
 
         .info-guru .nip {
             font-size: 0.75rem;
-            color: #888888;
-            background: #f8f9fa;
-            padding: 4px 10px;
-            border-radius: 6px;
-            display: inline-block;
+            color: #0f6b3b; 
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+
+        .sosmed-guru {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .sosmed-guru a {
+            font-size: 1.1rem;
+            transition: opacity 0.2s;
+        }
+        .sosmed-guru a:hover {
+            opacity: 0.7;
         }
 
         /* ==========================================================================
-           5. OPTIMASI RESPONSIVE SMARTPHONE ( ANTI MELUBER / ANTI BREAK )
+           6. OPTIMASI RESPONSIVE SMARTPHONE ( ANTI MELUBER / ANTI BREAK )
            ========================================================================== */
         @media screen and (max-width: 1024px) {
             .guru-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -333,7 +353,6 @@
                 width: 100% !important;
             }
 
-            /* Gambar Utama Naik Ke Atas Mengikuti Tema Mobile */
             .hero-right {
                 order: 1 !important;
                 width: calc(100% + 40px) !important;
@@ -373,7 +392,6 @@
             .floating-char-card h4 { font-size: 0.95rem !important; }
             .floating-char-card p { font-size: 0.6rem !important; }
 
-            /* Teks Pindah Ke Tengah */
             .hero-left {
                 order: 2 !important;
                 width: 100% !important;
@@ -384,30 +402,28 @@
             .hero-left h1 { font-size: 1.8rem !important; }
             .hero-left p { font-size: 0.82rem !important; line-height: 1.5 !important; }
 
-            /* Stats Counter Bar Ringkas di HP */
-            /* Stats Counter Bar Berderet Kesamping (Horizontal) */
             .hero-stats-row {
-                grid-template-columns: repeat(3, 1fr) !important; /* Memaksa 3 kolom berderet kesamping */
-                gap: 8px !important; /* Memperkecil celah antar boks agar pas di layar HP */
-                padding: 12px 8px !important; /* Padding disesuaikan */
+                grid-template-columns: repeat(3, 1fr) !important; 
+                gap: 8px !important;
+                padding: 12px 8px !important; 
                 border-radius: 16px !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
             }
 
             .stat-mini-box {
-                flex-direction: column !important; /* Ikon di atas, teks di bawah agar hemat ruang horizontal */
+                flex-direction: column !important; 
                 text-align: center !important;
                 padding: 0 !important;
                 gap: 6px !important;
             }
 
             .stat-mini-box:not(:last-child)::after { 
-                display: none !important; /* Menghilangkan garis pembatas laptop */
+                display: none !important; 
             }
 
             .stat-mini-box .icon-container {
-                width: 36px !important; /* Mengecilkan ukuran boks ikon */
+                width: 36px !important; 
                 height: 36px !important;
                 border-radius: 10px !important;
                 font-size: 1rem !important;
@@ -420,27 +436,42 @@
             }
 
             .stat-mini-box h3 { 
-                font-size: 1rem !important; /* Ukuran angka (misal: 25+, 100%) */
+                font-size: 1rem !important;
                 font-weight: 800 !important;
                 margin-bottom: 1px !important;
             }
 
             .stat-mini-box p { 
-                font-size: 0.65rem !important; /* Ukuran keterangan teks di bawah angka */
-                white-space: normal !important; /* Mengizinkan teks melipat ke bawah jika terlalu panjang */
+                font-size: 0.65rem !important; 
+                white-space: normal !important; 
                 line-height: 1.2 !important;
                 color: #6b7280 !important;
             }
 
-            /* Grid Kartu Guru di HP (Dibuat 2 Kolom Sejajar Sempurna) */
             .section-title h2 { font-size: 1.5rem !important; }
             
             .guru-grid {
-                grid-template-columns: repeat(2, 1fr) !important; /* Mengunci 2 kolom di HP */
+                grid-template-columns: repeat(2, 1fr) !important;
                 gap: 12px !important;
             }
 
-            .wrapper-foto-guru { height: 180px !important; } /* Tinggi foto dikurangi agar seimbang */
+            .wrapper-foto-guru { 
+                height: 180px !important; 
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: #f7f7f7 !important;
+                overflow: hidden !important;
+            } 
+            
+            .wrapper-foto-guru img {
+                object-fit: contain !important; 
+                width: auto !important;
+                height: 100% !important; 
+                max-width: 100% !important;
+                padding: 5px !important; 
+                box-sizing: border-box !important;
+            }
             
             .badge-jabatan {
                 padding: 4px 8px !important;
@@ -513,68 +544,70 @@
             </div>
         </div>
     </div>
-
-    <section class="direktori-guru" style="padding-bottom: 60px;">
-        <div class="container">
+        
+    <div class="guru-grid">
+    <?php 
+    // Mengubah nama variabel query menjadi $ambil_data agar kompak dengan baris bawahnya
+    $ambil_data = mysqli_query($conn, "SELECT * FROM guru WHERE status = 'aktif'");
+    
+        // Sekarang $ambil_data sudah didefinisikan dan bisa dibaca dengan benar
+        if (mysqli_num_rows($ambil_data) > 0) : 
+            while ($d = mysqli_fetch_assoc($ambil_data)) : 
+    ?>
+        <div class="card-guru">
+            <div class="wrapper-foto-guru">
+                <span class="badge-jabatan"><?= htmlspecialchars($d['jabatan']); ?></span>
+                <img src="assets/guru/<?= !empty($d['foto']) ? htmlspecialchars($d['foto']) : 'default-guru.jpg'; ?>" alt="<?= htmlspecialchars($d['nama']); ?>">
+            </div>
             
-            <div class="section-title">
-                <h2>Tenaga Pendidik Kami</h2>
-            </div>
-
-            <div class="guru-grid">
+            <div class="info-guru">
+                <h4><?= htmlspecialchars($d['nama']); ?></h4>
                 
-                <div class="card-guru">
-                    <div class="wrapper-foto-guru">
-                        <span class="badge-jabatan">Kepala Madrasah</span>
-                        <img src="images/guru-1.jpg" alt="Nama Kepala Sekolah">
-                    </div>
-                    <div class="info-guru">
-                        <h4>Ahmad Syarif, M.Pd.</h4>
-                        <p class="mapel">Manajemen Sekolah</p>
-                        <span class="nip">NIP. 19820314XXXXXXXXX</span>
-                    </div>
-                </div>
+                <p class="jabatan"><i class="fas fa-book"></i> <?= $d['jabatan'] ? htmlspecialchars($d['jabatan']) : '-'; ?></p>
+                <p class="nip"><i class="far fa-id-card"></i> NIP. <?= $d['nip'] ? htmlspecialchars($d['nip']) : '-'; ?></p>
+                <p class="pendidikan"><i class="fas fa-graduation-cap"></i> <?= $d['pendidikan'] ? htmlspecialchars($d['pendidikan']) : '-'; ?></p>
+                
+                <hr style="border: 0; border-top: 1px dashed #eee; margin: 10px 0;">
 
-                <div class="card-guru">
-                    <div class="wrapper-foto-guru">
-                        <span class="badge-jabatan">Waka Kurikulum</span>
-                        <img src="images/guru-2.jpg" alt="Nama Guru">
-                    </div>
-                    <div class="info-guru">
-                        <h4>Siti Aminah, S.Pd.I.</h4>
-                        <p class="mapel">Pendidikan Agama Islam</p>
-                        <span class="nip">NIP. 19870522XXXXXXXXX</span>
-                    </div>
-                </div>
+                <div class="sosmed-guru" style="display: flex; gap: 10px; justify-content: center; margin-top: 8px;">
 
-                <div class="card-guru">
-                    <div class="wrapper-foto-guru">
-                        <span class="badge-jabatan">Guru Kelas</span>
-                        <img src="images/guru-3.jpg" alt="Nama Guru">
-                    </div>
-                    <div class="info-guru">
-                        <h4>Budi Santoso, S.Pd.</h4>
-                        <p class="mapel">Tematik Kelas 5</p>
-                        <span class="nip">NIP. 19910110XXXXXXXXX</span>
-                    </div>
-                </div>
+                <?php if (!empty($d['whatsapp'])) : ?>
+                    <?php 
+                        $nomor_wa = preg_replace('/[^0-9]/', '', $d['whatsapp']); 
+                        // Jika admin input pakai angka 0 di depan (misal 0812...), ubah otomatis ke format kode negara 62
+                        if (substr($nomor_wa, 0, 1) === '0') {
+                            $nomor_wa = '62' . substr($nomor_wa, 1);
+                        }
+                    ?>
+                    <a href="https://wa.me/<?= $nomor_wa; ?>" target="_blank" title="Hubungi via WhatsApp" style="color: #25D366; font-size: 1.2rem;">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                <?php endif; ?>
 
-                <div class="card-guru">
-                    <div class="wrapper-foto-guru">
-                        <span class="badge-jabatan">Guru Spesialis</span>
-                        <img src="images/guru-4.jpg" alt="Nama Guru">
-                    </div>
-                    <div class="info-guru">
-                        <h4>Rina Lestari, S.Hum.</h4>
-                        <p class="mapel">Bahasa Inggris</p>
-                        <span class="nip">NIP. 19940818XXXXXXXXX</span>
-                    </div>
-                </div>
+                <?php if (!empty($d['instagram'])) : ?>
+                    <a href="https://instagram.com/<?= htmlspecialchars($d['instagram']); ?>" target="_blank" title="Instagram" style="color: #E1306C; font-size: 1.2rem;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                <?php endif; ?>
 
+                <?php if (!empty($d['facebook'])) : ?>
+                    <a href="https://facebook.com/<?= htmlspecialchars($d['facebook']); ?>" target="_blank" title="Facebook" style="color: #1877F2; font-size: 1.2rem;">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                <?php endif; ?>
+
+                </div>
             </div>
-
         </div>
-    </section>
+    <?php 
+        endwhile; 
+    else : 
+    ?>
+        <div class="empty-state" style="grid-column: span 4; text-align: center; padding: 40px;">
+            <p>Belum ada data tenaga pendidik.</p>
+        </div>
+    <?php endif; ?>
+</div>
 
 <?php include 'layout/footer.php'; ?>
 </body>

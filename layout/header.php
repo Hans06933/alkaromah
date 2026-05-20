@@ -371,6 +371,11 @@
                 <a href="guru.php">Guru</a>
                 <a href="galeri.php">Galeri</a>
                 <a href="kontak.php">Kontak</a>
+
+                <a href="admin/login.php" class="btn-login">
+                    <i class="fas fa-user"></i>
+                    Login
+                </a>
             </nav>
         </div>
     </div>

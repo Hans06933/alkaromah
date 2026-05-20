@@ -1,246 +1,309 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['login'])){
+    header("Location: login.php");
+    exit;
+}
+
 include '../layout/admin_header.php';
+include '../config/koneksi.php';
+
+// Fitur Pencarian Berita
+$keyword = "";
+if (isset($_GET['cari'])) {
+    $keyword = mysqli_real_escape_string($conn, $_GET['cari']);
+    $query_str = "SELECT * FROM berita WHERE judul LIKE '%$keyword%' OR kategori LIKE '%$keyword%' OR penulis LIKE '%$keyword%' ORDER BY id DESC";
+} else {
+    $query_str = "SELECT * FROM berita ORDER BY id DESC";
+}
+
+$data = mysqli_query($conn, $query_str);
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - MI Al Karomah</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+/* ==========================================
+   WORKSPACE CONTENT (PAS DI BAWAH TOPBAR & PRESISI)
+========================================== */
+.content-body {
+    padding: 30px;
+    flex: 1;
+    background: #f4f6f9;
+}
 
-    <style>
-        /* --- RESET & GLOBAL STYLE --- */
-        :root {
-            --primary-green: #0B5E34;
-            --active-gradient: linear-gradient(135deg, #22c55e, #0B5E34);
-            --bg-light: #f4f6f9;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --white: #ffffff;
-        }
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+.page-title h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            display: flex;
-            min-height: 100vh;
-        }
+.page-title p {
+    color: #6b7280;
+    font-size: 13px;
+    margin: 0;
+}
 
-        /* ==========================================
-           2. MAIN CONTENT WRAPPER & TOPBAR OFFSET
-        ========================================== */
-        .main-wrapper {
-            flex: 1;
-            margin-left: 260px; /* Offset agar konten tidak tertutup sidebar */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+/* Kumpulan Tombol & Search Bar */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
 
-        /* Topbar Header */
-        .topbar {
-            height: 70px;
-            background: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            border-bottom: 1px solid #eef2f5;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
+/* Desain Kolom Cari */
+.search-form {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0 15px;
+    height: 42px;
+    width: 280px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
 
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+.search-form i {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-right: 10px;
+}
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
+.search-form input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    color: #111827;
+}
 
-        .welcome-text {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
+.btn-search-clear {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 13px;
+}
+.btn-search-clear:hover { color: #ef4444; }
 
-        .welcome-text span {
-            font-weight: 600;
-            color: var(--text-dark);
-        }
+.btn-add {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    padding: 0 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    transition: 0.2s;
+}
 
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+.btn-add:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
 
-        .notification {
-            position: relative;
-            cursor: pointer;
-        }
+/* ==========================================
+   TABLE SYSTEM STYLE
+========================================== */
+.table-responsive {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    border: 1px solid #eef2f5;
+}
 
-        .notification i {
-            font-size: 18px;
-            color: var(--text-muted);
-        }
+.news-table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-        .notification-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background-color: #22c55e;
-            color: var(--white);
-            font-size: 9px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border: 2px solid var(--white);
-        }
+.news-table th {
+    background: #166534;
+    color: white;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+}
 
-        .admin-profile-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-left: 1px solid #e2e8f0;
-            padding-left: 20px;
-            cursor: pointer;
-        }
+.news-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+    font-size: 13px;
+}
 
-        .admin-profile-box img {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+.news-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 
-        .admin-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.news-thumb {
+    width: 80px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f3f4f6;
+}
 
-        .admin-name i {
-            font-size: 10px;
-            color: var(--text-muted);
-        }
+.news-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 3px;
+}
 
-        /* ==========================================
-           3. AREA WORKSPACE CONTENT
-        ========================================== */
-        .content-body {
-            padding: 30px;
-            flex: 1;
-        }
+.news-desc {
+    font-size: 12px;
+    color: #6b7280;
+}
 
-        /* Jumbotron Banner */
-        .banner-jumbotron {
-            background: linear-gradient(to right, #0B5E34, #1B7343);
-            border-radius: 16px;
-            padding: 30px;
-            color: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
 
-        .banner-text h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+.badge-publish { background: #dcfce7; color: #166534; }
+.badge-draft { background: #fef3c7; color: #92400e; }
 
-        .banner-text h4 {
-            font-size: 15px;
-            font-weight: 500;
-            color: #a7f3d0;
-            margin-bottom: 8px;
-        }
+.action-group {
+    display: flex;
+    gap: 8px;
+}
 
-        .banner-text p {
-            font-size: 13px;
-            opacity: 0.85;
-        }
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.2s;
+    font-size: 13px;
+}
 
-        .banner-img-placeholder {
-            width: 280px;
-            height: 130px;
-            background: rgba(255,255,255,0.1) url('assets/images/gedung.jpg') center/cover no-repeat;
-            border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
+.view-btn { background: #f0fdf4; color: #16a34a; }
+.edit-btn { background: #f0f6ff; color: #2563eb; }
+.delete-btn { background: #fdf2f2; color: #dc2626; }
 
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
+.action-btn:hover { transform: translateY(-1px); }
 
-        .stat-card {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid #eef2f5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-        }
+.empty-state {
+    padding: 40px;
+    text-align: center;
+    color: #6b7280;
+}
 
-        /* Custom layout split detail berita & widget bisa ditambahkan di bawah jika diperlukan */
+@media(max-width: 991px) {
+    .table-responsive { overflow-x: auto; }
+    .news-table { min-width: 850px; }
+}
+</style>
 
-    </style>
-</head>
-<body>
+<div class="content-body">
 
-    <div class="main-wrapper">
-        
-        <main class="content-body">
-            
-            <div class="banner-jumbotron">
-                <div class="banner-text">
-                    <h2>Dashboard Admin</h2>
-                    <h4>MI Al Karomah</h4>
-                    <p>Kelola semua konten website dengan mudah dan cepat.</p>
-                </div>
-                <div class="banner-img-placeholder"></div>
-            </div>
+    <div class="page-header">
+        <div class="page-title">
+            <h1>Kelola Berita</h1>
+            <p>Kelola berita dan publikasi artikel website MI Al Karomah</p>
+        </div>
 
-            <div class="stats-grid">
-                <div class="stat-card"><h4>Total Berita</h4><h2>24</h2></div>
-                <div class="stat-card"><h4>Total Guru</h4><h2>18</h2></div>
-                <div class="stat-card"><h4>Total Galeri</h4><h2>56</h2></div>
-                <div class="stat-card"><h4>Total Agenda</h4><h2>12</h2></div>
-            </div>
+        <div class="header-actions">
+            <form action="" method="GET" class="search-form">
+                <i class="fas fa-search"></i>
+                <input type="text" name="cari" placeholder="Cari berita..." value="<?= htmlspecialchars($keyword); ?>">
+                <?php if(!empty($keyword)): ?>
+                    <a href="berita.php" class="btn-search-clear"><i class="fas fa-times-circle"></i></a>
+                <?php endif; ?>
+            </form>
 
-            </main>
+            <a href="tambah_berita.php" class="btn-add">
+                <i class="fas fa-plus"></i> Tambah Berita
+            </a>
+        </div>
     </div>
 
-</body>
+    <div class="table-responsive">
+        <table class="news-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px; text-align: center;">No</th>
+                    <th>Berita</th>
+                    <th style="width: 150px;">Kategori</th>
+                    <th style="width: 120px;">Penulis</th>
+                    <th style="width: 100px;">Status</th>
+                    <th style="width: 140px;">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            if(mysqli_num_rows($data) > 0):
+                $no = 1;
+                while($d = mysqli_fetch_assoc($data)) :
+            ?>
+                <tr>
+                    <td style="text-align: center; font-weight: 600; color: #6b7280;"><?= $no++; ?></td>
+                    <td>
+                        <div class="news-item">
+                            <img src="../assets/berita/<?= !empty($d['thumbnail']) ? $d['thumbnail'] : 'default.jpg'; ?>" class="news-thumb" onerror="this.src='../assets/berita/default.jpg'">
+                            <div>
+                                <div class="news-title"><?= htmlspecialchars($d['judul']); ?></div>
+                                <div class="news-desc">
+                                    <?= substr(strip_tags($d['isi']),0,70); ?>...
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span style="font-weight: 500;"><?= htmlspecialchars($d['kategori']); ?></span></td>
+                    <td><?= htmlspecialchars($d['penulis']); ?></td>
+                    <td>
+                        <?php if($d['status'] == 'publish') : ?>
+                            <span class="badge badge-publish">Publish</span>
+                        <?php else : ?>
+                            <span class="badge badge-draft">Draft</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            <a href="../berita_detail.php?slug=<?= $d['slug']; ?>" target="_blank" class="action-btn view-btn"><i class="fas fa-eye"></i></a>
+                            <a href="edit_berita.php?id=<?= $d['id']; ?>" class="action-btn edit-btn"><i class="fas fa-pen"></i></a>
+                            <a href="hapus_berita.php?id=<?= $d['id']; ?>" onclick="return confirm('Yakin ingin menghapus berita ini?')" class="action-btn delete-btn"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            <?php 
+                endwhile;
+            else: 
+            ?>
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-search" style="font-size: 20px; display:block; margin-bottom:8px; color:#9ca3af;"></i>
+                        Data berita tidak ditemukan.
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+</div> </div> </body>
 </html>

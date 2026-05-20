@@ -1,3 +1,13 @@
+<?php
+// Hubungkan ke file koneksi database
+include 'config/koneksi.php';
+
+// Ambil maksimal 4 data kegiatan terbaru yang statusnya 'publish'
+$queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan 
+                                      WHERE status = 'publish' 
+                                      ORDER BY id DESC 
+                                      LIMIT 4");
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -763,63 +773,51 @@
     </section>
 
     <section id="kegiatan-utama" class="kegiatan-unggulan">
-        <div class="container">
-            <div class="section-header-flex">
-                <h3 class="main-title-decorated">Kegiatan Unggulan</h3>
-                <a href="#" class="link-lihat-semua">Lihat Semua Kegiatan ➔</a>
-            </div>
-
-            <div class="kegiatan-grid">
-                <div class="kegiatan-card">
-                    <div class="kg-img-box">
-                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80" alt="Literasi">
-                        <span class="badge-tag-kg">Akademik</span>
-                    </div>
-                    <div class="kg-body">
-                        <h4>Literasi Pagi</h4>
-                        <p>Kegiatan membaca bersama setiap pagi untuk menumbuhkan budaya literasi sejak dini.</p>
-                        <a href="#" class="btn-arrow-circle">➔</a>
-                    </div>
-                </div>
-
-                <div class="kegiatan-card">
-                    <div class="kg-img-box">
-                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&q=80" alt="Tahfidz">
-                        <span class="badge-tag-kg">Keagamaan</span>
-                    </div>
-                    <div class="kg-body">
-                        <h4>Tahfidz Al-Qur'an</h4>
-                        <p>Program menghafal Al-Qur'an dengan metode yang menyenangkan dan tartil.</p>
-                        <a href="#" class="btn-arrow-circle">➔</a>
-                    </div>
-                </div>
-
-                <div class="kegiatan-card">
-                    <div class="kg-img-box">
-                        <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=400&q=80" alt="Sepak Bola">
-                        <span class="badge-tag-kg">Olahraga</span>
-                    </div>
-                    <div class="kg-body">
-                        <h4>Latihan Sepak Bola</h4>
-                        <p>Melatih sportivitas, kerja sama tim, kesehatan jasmani, serta ketahanan fisik.</p>
-                        <a href="#" class="btn-arrow-circle">➔</a>
-                    </div>
-                </div>
-
-                <div class="kegiatan-card">
-                    <div class="kg-img-box">
-                        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80" alt="Tari">
-                        <span class="badge-tag-kg">Seni & Budaya</span>
-                    </div>
-                    <div class="kg-body">
-                        <h4>Tari Tradisional</h4>
-                        <p>Langkah nyata melestarikan budaya bangsa melalui pembelajaran ragam seni tari.</p>
-                        <a href="#" class="btn-arrow-circle">➔</a>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        
+        <div class="section-header-flex">
+            <h3 class="main-title-decorated">Kegiatan Utama</h3>
+            <a href="kegiatan.php" class="link-lihat-semua">Lihat Semua Kegiatan ➔</a>
         </div>
-    </section>
+
+        <div class="kegiatan-grid">
+            <?php if (mysqli_num_rows($queryKegiatan) > 0): ?>
+                <?php while ($kg = mysqli_fetch_assoc($queryKegiatan)): ?>
+                    
+                    <div class="kegiatan-card">
+                        <div class="kg-img-box">
+                            <img src="assets/kegiatan/<?= $kg['gambar']; ?>" 
+                                 alt="<?= htmlspecialchars($kg['judul']); ?>" 
+                                 onerror="this.src='upload/default.jpg'">
+                            
+                            <span class="badge-tag-kg">
+                                <?= htmlspecialchars($kg['kategori']); ?>
+                            </span>
+                        </div>
+                        
+                        <div class="kg-body">
+                            <h4><?= htmlspecialchars($kg['judul']); ?></h4>
+                            
+                            <p><?= htmlspecialchars(substr($kg['deskripsi'], 0, 100)); ?>...</p>
+                            
+                            <a href="kegiatan_detail.php?slug=<?= $kg['slug']; ?>" class="btn-arrow-circle">➔</a>
+                        </div>
+                    </div>
+
+                <?php endwhile; ?>
+            <?php else: ?>
+
+                <div class="empty-kegiatan" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6b7280;">
+                    <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: 10px;"></i>
+                    <h3>Belum Ada Kegiatan</h3>
+                    <p>Data kegiatan saat ini belum tersedia.</p>
+                </div>
+
+            <?php endif; ?>
+        </div>
+
+    </div>
+</section>
 
     <section class="manfaat-cta-section">
         <div class="container">

@@ -1,600 +1,440 @@
 <?php
+
+session_start();
+
+if(!isset($_SESSION['login'])){
+    header("Location: login.php");
+    exit;
+}
+
 include '../layout/admin_header.php';
+include '../config/koneksi.php';
+
+// Fitur Pencarian Data Guru
+$keyword = "";
+if (isset($_GET['cari'])) {
+    $keyword = mysqli_real_escape_string($conn, $_GET['cari']);
+    // Cari berdasarkan nama, nip, jabatan, atau mapel
+    $query_str = "SELECT * FROM guru WHERE 
+                  nama LIKE '%$keyword%' OR 
+                  nip LIKE '%$keyword%' OR 
+                  jabatan LIKE '%$keyword%' OR 
+                  mapel LIKE '%$keyword%' 
+                  ORDER BY id DESC";
+} else {
+    $query_str = "SELECT * FROM guru ORDER BY id DESC";
+}
+
+$data = mysqli_query($conn, $query_str);
 ?>
 
 <style>
-
-/* =========================
-   MAIN CONTENT
-========================= */
-
-.main-content{
-margin-left:260px;
-padding:110px 25px 30px;
-background:#f4f6f9;
-min-height:100vh;
+/* ==========================================
+   WORKSPACE CONTENT (MENEMPEL PAS DI BAWAH TOPBAR)
+========================================== */
+.content-body {
+    padding: 30px;
+    flex: 1;
+    background: #f4f6f9;
+    min-width: 0; /* Mencegah konten meluber keluar wrapper flex */
 }
 
-/* =========================
-   PAGE HEADER
-========================= */
-
-.page-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-margin-bottom:25px;
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.page-title h1{
-font-size:34px;
-color:#111827;
-margin-bottom:5px;
+.page-title h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.5px;
 }
 
-.page-title p{
-font-size:15px;
-color:#6b7280;
+.page-title p {
+    color: #6b7280;
+    font-size: 13px;
+    margin: 0;
 }
 
-.btn-add{
-background:linear-gradient(135deg,#16a34a,#15803d);
-padding:14px 22px;
-border-radius:14px;
-color:white;
-text-decoration:none;
-font-size:14px;
-font-weight:500;
-display:flex;
-align-items:center;
-gap:10px;
-transition:0.3s;
-box-shadow:0 5px 15px rgba(22,163,74,0.2);
+/* Kumpulan Tombol & Search Bar */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.btn-add:hover{
-transform:translateY(-3px);
+/* Desain Kolom Cari */
+.search-form {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0 14px;
+    height: 42px;
+    width: 280px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* =========================
-   FILTER BOX
-========================= */
-
-.filter-box{
-background:white;
-padding:20px;
-border-radius:22px;
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-margin-bottom:25px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
+.search-form:focus-within {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
 }
 
-.filter-box input,
-.filter-box select{
-height:50px;
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:0 15px;
-font-size:14px;
-outline:none;
-flex:1;
-min-width:220px;
-transition:0.3s;
+.search-form i {
+    color: #9ca3af;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
-.filter-box input:focus,
-.filter-box select:focus{
-border-color:#16a34a;
+.search-form input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    color: #111827;
+    background: transparent;
 }
 
-.filter-btn{
-height:50px;
-padding:0 25px;
-border:none;
-border-radius:12px;
-background:#166534;
-color:white;
-font-size:14px;
-font-weight:500;
-cursor:pointer;
-transition:0.3s;
+.btn-search-clear {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+}
+.btn-search-clear:hover { color: #ef4444; }
+
+.btn-add {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    padding: 0 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.15);
 }
 
-.filter-btn:hover{
-background:#14532d;
+.btn-add:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(22, 163, 74, 0.25);
+    opacity: 0.95;
 }
 
-/* =========================
-   TABLE CARD
-========================= */
-
-.card{
-background:white;
-border-radius:22px;
-overflow:hidden;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
+/* ==========================================
+   GRID & CARD DATA STYLE (RAPI & SIMETRIS)
+========================================== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
 }
 
-.card-header{
-padding:22px 25px;
-border-bottom:1px solid #eee;
-display:flex;
-justify-content:space-between;
-align-items:center;
+.gallery-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    border: 1px solid #eef2f5;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Memastikan tinggi seluruh card dalam satu baris selalu sama rata */
 }
 
-.card-header h2{
-font-size:22px;
-color:#111827;
+.gallery-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.06);
 }
 
-/* =========================
-   TABLE
-========================= */
-
-.table-responsive{
-overflow:auto;
+/* Kunci ukuran gambar foto profil guru */
+.gallery-image {
+    width: 100%;
+    height: 210px; /* Disesuaikan agar proporsi foto profil vertikal/setengah badan terlihat bagus */
+    overflow: hidden;
+    background-color: #f3f4f6;
+    position: relative;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Foto terpotong rapi di tengah tanpa penyok */
+    transition: transform 0.5s ease;
 }
 
-table th{
-background:#f9fafb;
-padding:18px;
-font-size:14px;
-color:#4b5563;
-text-align:left;
-white-space:nowrap;
+.gallery-card:hover .gallery-image img {
+    transform: scale(1.04);
 }
 
-table td{
-padding:18px;
-border-bottom:1px solid #f1f5f9;
-font-size:14px;
-vertical-align:middle;
-white-space:nowrap;
+.gallery-content {
+    padding: 18px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-/* =========================
-   GURU INFO
-========================= */
-
-.guru-info{
-display:flex;
-align-items:center;
-gap:15px;
-min-width:260px;
+.gallery-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
-.guru-info img{
-width:65px;
-height:65px;
-border-radius:18px;
-object-fit:cover;
+.badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
 }
 
-.guru-text h4{
-font-size:15px;
-font-weight:600;
-color:#111827;
-margin-bottom:5px;
+/* Hijau untuk Status Aktif */
+.badge-green {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
 }
 
-.guru-text p{
-font-size:13px;
-color:#6b7280;
+/* Merah untuk Status Nonaktif */
+.badge-red {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
-/* =========================
-   BADGE
-========================= */
-
-.badge{
-padding:7px 14px;
-border-radius:30px;
-font-size:12px;
-font-weight:600;
-display:inline-block;
+.guru-nip-text {
+    font-size: 12px;
+    color: #9ca3af;
+    font-weight: 500;
 }
 
-.badge-green{
-background:#dcfce7;
-color:#166534;
+/* Nama Guru */
+.gallery-content h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111827;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.badge-blue{
-background:#dbeafe;
-color:#1d4ed8;
+/* Meta Data Informasi Guru */
+.guru-meta-info {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0 0 18px 0;
 }
 
-.badge-orange{
-background:#ffedd5;
-color:#ea580c;
+.guru-meta-info div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
 }
 
-/* =========================
-   ACTION BUTTON
-========================= */
-
-.action-btn{
-display:flex;
-gap:10px;
+.guru-meta-info i {
+    color: #166534; /* Warna ikon diselaraskan dengan MI Al Karomah */
+    width: 16px;
+    font-size: 12px;
 }
 
-.action-btn a{
-width:38px;
-height:38px;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-decoration:none;
-font-size:14px;
-transition:0.3s;
+/* Group Tombol Aksi */
+.action-group {
+    display: flex;
+    gap: 8px;
+    margin-top: auto; /* Memaksa tombol aksi selalu menempel tepat di dasar card */
 }
 
-.view{
-background:#ecfdf5;
-color:#16a34a;
+.action-btn {
+    flex: 1;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.2s, opacity 0.2s;
+    font-size: 12px;
+    font-weight: 500;
 }
 
-.edit{
-background:#eff6ff;
-color:#2563eb;
+.view-btn { background: #f0fdf4; color: #16a34a; }
+.view-btn:hover { background: #dcfce7; }
+
+.edit-btn { background: #f0f6ff; color: #2563eb; }
+.edit-btn:hover { background: #dbeafe; }
+
+.delete-btn { background: #fdf2f2; color: #dc2626; }
+.delete-btn:hover { background: #fee2e2; }
+
+.empty-state {
+    grid-column: span 3;
+    background: white;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 16px;
+    color: #9ca3af;
+    border: 1px solid #eef2f5;
 }
 
-.delete{
-background:#fef2f2;
-color:#dc2626;
+/* ==========================================
+   RESPONSIVE BREAKPOINTS (LEBIH HALUS & MATANG)
+========================================== */
+@media(max-width: 1200px) {
+    .gallery-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 20px;
+    }
+    .empty-state { grid-column: span 2; }
 }
 
-.action-btn a:hover{
-transform:scale(1.08);
-}
+@media(max-width: 768px) {
+    .content-body { 
+        padding: 20px; 
+    }
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-form {
+        width: 100%;
+    }
+    .btn-add {
+        justify-content: center;
+    }
 
-/* =========================
-   PAGINATION
-========================= */
+    .gallery-grid { 
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 12px; 
+    }
 
-.pagination{
-padding:25px;
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-}
+    .empty-state { 
+        grid-column: span 2; 
+    }
 
-.pagination a{
-width:42px;
-height:42px;
-background:#f3f4f6;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-text-decoration:none;
-color:#111827;
-font-weight:500;
-transition:0.3s;
-}
+    .gallery-image {
+        height: 160px; 
+    }
 
-.pagination a.active{
-background:#15803d;
-color:white;
-}
-
-.pagination a:hover{
-background:#15803d;
-color:white;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:991px){
-
-.main-content{
-margin-left:0;
-padding:100px 20px 20px;
-}
-
-}
-
-@media(max-width:768px){
-
-.page-header{
-flex-direction:column;
-align-items:flex-start;
-}
-
-.page-title h1{
-font-size:28px;
-}
-
-table{
-min-width:1200px;
-}
-
-}
-
+   .guru-meta-info {
+        display: none !important;
+    }
 </style>
 
-<div class="main-content">
+<div class="content-body">
 
-    <!-- PAGE HEADER -->
     <div class="page-header">
-
         <div class="page-title">
-            <h1>Guru & Staff</h1>
-            <p>Kelola data guru dan staff MI Al Karomah.</p>
+            <h1>Data Guru & Staf</h1>
+            <p>Kelola data guru dan staff pengajar MI Al Karomah</p>
         </div>
 
-        <a href="#" class="btn-add">
-            <i class="fas fa-plus"></i>
-            Tambah Guru
-        </a>
+        <div class="header-actions">
+            <form action="" method="GET" class="search-form">
+                <i class="fas fa-search"></i>
+                <input type="text" name="cari" placeholder="Cari nama, jabatan, atau mapel..." value="<?= htmlspecialchars($keyword); ?>">
+                <?php if(!empty($keyword)): ?>
+                    <a href="guru.php" class="btn-search-clear"><i class="fas fa-times-circle"></i></a>
+                <?php endif; ?>
+            </form>
 
+            <a href="tambah_guru.php" class="btn-add">
+                <i class="fas fa-plus"></i> Tambah Guru
+            </a>
+        </div>
     </div>
 
-    <!-- FILTER -->
-    <div class="filter-box">
-
-        <input type="text" placeholder="Cari nama guru...">
-
-        <select>
-            <option>Semua Jabatan</option>
-            <option>Kepala Sekolah</option>
-            <option>Guru Kelas</option>
-            <option>Guru Agama</option>
-            <option>Staff TU</option>
-        </select>
-
-        <select>
-            <option>Semua Status</option>
-            <option>Aktif</option>
-            <option>Nonaktif</option>
-        </select>
-
-        <button class="filter-btn">
-            <i class="fas fa-search"></i>
-            Filter
-        </button>
-
-    </div>
-
-    <!-- TABLE -->
-    <div class="card">
-
-        <div class="card-header">
-            <h2>Daftar Guru & Staff</h2>
-        </div>
-
-        <div class="table-responsive">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>No</th>
-                        <th>Guru</th>
-                        <th>NIP</th>
-                        <th>Jabatan</th>
-                        <th>Pendidikan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>1</td>
-
-                        <td>
-
-                            <div class="guru-info">
-
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg">
-
-                                <div class="guru-text">
-                                    <h4>Ahmad Fauzi, S.Pd.I</h4>
-                                    <p>Guru Pendidikan Agama Islam</p>
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>1987654321</td>
-
-                        <td>
-                            <span class="badge badge-green">
-                                Guru Agama
-                            </span>
-                        </td>
-
-                        <td>S1 Pendidikan Islam</td>
-
-                        <td>
-                            <span class="badge badge-blue">
-                                Aktif
-                            </span>
-                        </td>
-
-                        <td>
-
-                            <div class="action-btn">
-
-                                <a href="#" class="view">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
-                                <a href="#" class="edit">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-
-                                <a href="#" class="delete">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>2</td>
-
-                        <td>
-
-                            <div class="guru-info">
-
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg">
-
-                                <div class="guru-text">
-                                    <h4>Siti Aminah, S.Pd</h4>
-                                    <p>Wali Kelas 5A</p>
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>1987654322</td>
-
-                        <td>
-                            <span class="badge badge-orange">
-                                Guru Kelas
-                            </span>
-                        </td>
-
-                        <td>S1 PGSD</td>
-
-                        <td>
-                            <span class="badge badge-blue">
-                                Aktif
-                            </span>
-                        </td>
-
-                        <td>
-
-                            <div class="action-btn">
-
-                                <a href="#" class="view">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
-                                <a href="#" class="edit">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-
-                                <a href="#" class="delete">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>3</td>
-
-                        <td>
-
-                            <div class="guru-info">
-
-                                <img src="https://randomuser.me/api/portraits/men/65.jpg">
-
-                                <div class="guru-text">
-                                    <h4>Muhammad Ridwan, M.Pd</h4>
-                                    <p>Kepala Sekolah</p>
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>1987654323</td>
-
-                        <td>
-                            <span class="badge badge-green">
-                                Kepala Sekolah
-                            </span>
-                        </td>
-
-                        <td>S2 Manajemen Pendidikan</td>
-
-                        <td>
-                            <span class="badge badge-blue">
-                                Aktif
-                            </span>
-                        </td>
-
-                        <td>
-
-                            <div class="action-btn">
-
-                                <a href="#" class="view">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
-                                <a href="#" class="edit">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-
-                                <a href="#" class="delete">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+    <div class="gallery-grid">
+
+        <?php 
+        if(mysqli_num_rows($data) > 0):
+            while($d = mysqli_fetch_assoc($data)) : 
+        ?>
+        <div class="gallery-card">
+
+            <div class="gallery-image">
+                <img src="../assets/guru/<?= !empty($d['foto']) ? $d['foto'] : 'default-guru.jpg'; ?>" onerror="this.src='../assets/guru/default-guru.jpg'" alt="Foto Profil">
+            </div>
+
+            <div class="gallery-content">
+
+                <div class="gallery-top">
+                    <?php if($d['status'] == 'aktif') : ?>
+                        <span class="badge badge-green">Aktif</span>
+                    <?php else : ?>
+                        <span class="badge badge-red">Nonaktif</span>
+                    <?php endif; ?>
+                    
+                    <div class="guru-nip-text">
+                        <i class="far fa-id-card"></i> NIP: <?= $d['nip'] ? htmlspecialchars($d['nip']) : '-'; ?>
+                    </div>
+                </div>
+
+                <h3><?= htmlspecialchars($d['nama']); ?></h3>
+
+                <div class="guru-meta-info">
+                    <div>
+                        <i class="fas fa-briefcase"></i> 
+                        <span><strong>Jabatan:</strong> <?= htmlspecialchars($d['jabatan']); ?></span>
+                    </div>
+                    <div>
+                        <i class="fas fa-book"></i> 
+                        <span><strong>Mapel:</strong> <?= $d['mapel'] ? htmlspecialchars($d['mapel']) : '-'; ?></span>
+                    </div>
+                    <div>
+                        <i class="fas fa-graduation-cap"></i> 
+                        <span><strong>Pendidikan:</strong> <?= $d['pendidikan'] ? htmlspecialchars($d['pendidikan']) : '-'; ?></span>
+                    </div>
+                </div>
+
+                <div class="action-group">
+                    <a href="../assets/guru/<?= $d['foto']; ?>" target="_blank" class="action-btn view-btn" title="Lihat Foto Full">
+                        <i class="fas fa-eye"></i>
+                    </a>
+
+                    <a href="edit_guru.php?id=<?= $d['id']; ?>" class="action-btn edit-btn" title="Ubah Data">
+                        <i class="fas fa-pen"></i>
+                    </a>
+
+                    <a href="hapus_guru.php?id=<?= $d['id']; ?>" onclick="return confirm('Yakin ingin menghapus data guru ini?')" class="action-btn delete-btn" title="Hapus Data">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+
+            </div>
 
         </div>
-
-        <!-- PAGINATION -->
-
-        <div class="pagination">
-
-            <a href="#">
-                <i class="fas fa-angle-left"></i>
-            </a>
-
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-
-            <a href="#">
-                <i class="fas fa-angle-right"></i>
-            </a>
-
-        </div>
+        <?php 
+            endwhile; 
+        else: 
+        ?>
+            <div class="empty-state">
+                <i class="fas fa-user-slash" style="font-size: 32px; display: block; margin-bottom: 12px; color: #9ca3af;"></i>
+                Tidak ada data guru yang cocok dengan pencarian Anda.
+            </div>
+        <?php endif; ?>
 
     </div>
 
 </div>
-
-</body>
-</html>

@@ -1,5 +1,5 @@
 <?php
-// file: informasi.php - Halaman Informasi & Berita dengan desain baru
+include 'config/koneksi.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -239,9 +239,10 @@
             border-radius: 4px;
         }
         
+        /* Modifikasi responsif grid agar muat 2 kolom di dalam layout kiri */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 32px;
             margin-top: 24px;
         }
@@ -680,7 +681,6 @@
 <body>
     <?php include 'layout/header.php'; ?>
 
-<!-- HERO BERITA (BERITA UTAMA) -->
 <section class="hero-news">
     <div class="container">
         <div class="hero-news-container">
@@ -702,114 +702,100 @@
     </div>
 </section>
 
-<!-- FILTER KATEGORI & PENCARIAN -->
 <section class="filter-section">
     <div class="container">
-        <div class="filter-wrapper">
-            <div class="filter-categories">
-                <button class="filter-btn active">✨ Semua</button>
-                <button class="filter-btn">📢 Pengumuman</button>
-                <button class="filter-btn">🏆 Prestasi</button>
-                <button class="filter-btn">🎨 Kegiatan</button>
-                <button class="filter-btn">📝 Artikel</button>
-            </div>
             <div class="search-news">
-                <input type="text" placeholder="Cari berita...">
-                <button><i class="fas fa-search"></i> Cari</button>
+                <form action="berita.php" method="GET" style="display: flex; width: 100%;">
+                    <input type="text" name="keyword" placeholder="Cari berita..." value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
+                    <button type="submit"><i class="fas fa-search"></i> Cari</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
 
-<!-- MAIN CONTENT: NEWS GRID + SIDEBAR -->
 <section class="news-grid-section">
     <div class="container">
         <div class="info-layout">
-            <!-- Kolom Kiri: Daftar Berita -->
             <div>
                 <div class="section-title">📰 Berita Terbaru</div>
                 <div class="news-grid">
-                    <!-- Berita 1 -->
+                    
+                    <?php 
+                    // ==========================================================================
+                    // LOGIKA BARU: MENANGKAP KATA KUNCI PENCARIAN DARI INPUT FORM
+                    // ==========================================================================
+                    if (isset($_GET['keyword']) && trim($_GET['keyword']) !== '') {
+                        // Mengamankan string input dari SQL Injection
+                        $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
+                        
+                        // Query pencarian: mencari teks yang mirip di kolom 'judul' atau 'isi' berita
+                        $sql = "SELECT * FROM berita WHERE status = 'publish' AND (judul LIKE '%$keyword%' OR isi LIKE '%$keyword%') ORDER BY id DESC";
+                    } else {
+                        // Query normal: tampilkan berita default jika tidak ada pencarian (dibatasi 6 berita)
+                        $sql = "SELECT * FROM berita WHERE status = 'publish' ORDER BY id DESC LIMIT 6";
+                    }
+                    
+                    // Eksekusi query gabungan di atas
+                    $query_berita = mysqli_query($conn, $sql);
+                    // ==========================================================================
+                    
+                    if(mysqli_num_rows($query_berita) > 0):
+                        while($b = mysqli_fetch_assoc($query_berita)) : 
+                            
+                            // Ambil kategori dari database
+                            $kategori = htmlspecialchars($b['kategori']);
+                            
+                            // Logika penanganan ikon badge kategori secara dinamis
+                            if(strpos(strtolower($kategori), 'agenda') !== false || strpos(strtolower($kategori), 'kegiatan') !== false) {
+                                $badge_kat = "🎨 " . $kategori;
+                            } elseif (strtolower($kategori) == 'prestasi') {
+                                $badge_kat = "🏆 " . $kategori;
+                            } elseif (strtolower($kategori) == 'pengumuman') {
+                                $badge_kat = "📢 " . $kategori;
+                            } else {
+                                $badge_kat = "📌 " . $kategori;
+                            }
+
+                            // MENYESUAIKAN DATABASE: Menggunakan kolom 'thumbnail' sesuai phpMyAdmin kamu
+                            $foto_berita = !empty($b['thumbnail']) ? $b['thumbnail'] : 'default-berita.jpg';
+                    ?>
+                    
                     <div class="news-card">
                         <div class="news-img">
-                            <img src="https://picsum.photos/id/26/400/250" alt="Prestasi Siswa">
+                            <img src="assets/berita/<?= $foto_berita; ?>" onerror="this.src='assets/berita/default-berita.jpg'" alt="<?= htmlspecialchars($b['judul']); ?>">
                         </div>
                         <div class="news-content">
-                            <span class="news-category">🏆 Prestasi</span>
-                            <h3>Juara 1 MTQ Tingkat Kecamatan</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 10 Maret 2025</span><span><i class="far fa-eye"></i> 210</span></div>
-                            <p>Tim siswa MI Al Karomah berhasil meraih juara 1 dalam lomba MTQ tingkat kecamatan...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
+                            <span class="news-category"><?= $badge_kat; ?></span>
+                            
+                            <h3><?= htmlspecialchars($b['judul']); ?></h3>
+                            
+                            <div class="news-meta">
+                                <span><i class="far fa-calendar-alt"></i> <?= date('d M Y', strtotime($b['created_at'])); ?></span>
+                                <span><i class="far fa-user"></i> <?= htmlspecialchars($b['penulis']); ?></span>
+                            </div>
+                            
+                            <p><?= substr(strip_tags($b['isi']), 0, 100); ?>...</p>
+                            
+                            <a href="detail_berita.php?id=<?= $b['id']; ?>" class="news-link">Selengkapnya →</a>
                         </div>
                     </div>
-                    <!-- Berita 2 -->
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://picsum.photos/id/27/400/250" alt="Pesantren Ramadhan">
+
+                    <?php 
+                        endwhile; 
+                    else: 
+                    ?>
+                        <div class="empty-state" style="grid-column: span 2; text-align: center; padding: 40px; color: #9ca3af;">
+                            <i class="fas fa-search" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>
+                            <?php if (isset($_GET['keyword'])) : ?>
+                                Berita dengan kata kunci "<strong><?= htmlspecialchars($_GET['keyword']); ?></strong>" tidak ditemukan.<br>
+                                <a href="berita.php" style="color: #0f6b3b; display: inline-block; margin-top: 10px; font-weight: bold; text-decoration: underline;">Kembali Tampilkan Semua Berita</a>
+                            <?php else : ?>
+                                Belum ada berita yang diterbitkan.
+                            <?php endif; ?>
                         </div>
-                        <div class="news-content">
-                            <span class="news-category">🎨 Kegiatan</span>
-                            <h3>Pesantren Ramadhan 1446 H</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 15 Maret 2025</span><span><i class="far fa-eye"></i> 178</span></div>
-                            <p>Kegiatan pesantren kilat selama Ramadhan diikuti seluruh siswa dengan penuh semangat...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
-                        </div>
-                    </div>
-                    <!-- Berita 3 -->
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://picsum.photos/id/28/400/250" alt="Libur Sekolah">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-category">📢 Pengumuman</span>
-                            <h3>Jadwal Libur Idul Fitri 2025</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 20 Maret 2025</span><span><i class="far fa-eye"></i> 312</span></div>
-                            <p>MI Al Karomah akan meliburkan siswa mulai tanggal 28 Maret - 7 April 2025...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
-                        </div>
-                    </div>
-                    <!-- Berita 4 -->
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://picsum.photos/id/29/400/250" alt="Olimpiade">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-category">🏆 Prestasi</span>
-                            <h3>Olimpiade Sains Kabupaten</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 25 Maret 2025</span><span><i class="far fa-eye"></i> 145</span></div>
-                            <p>5 siswa MI Al Karomah lolos ke babak final Olimpiade Sains tingkat kabupaten...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
-                        </div>
-                    </div>
-                    <!-- Berita 5 -->
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://picsum.photos/id/30/400/250" alt="Kunjungan">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-category">🎨 Kegiatan</span>
-                            <h3>Studi Tiru ke Madrasah Unggulan</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 2 April 2025</span><span><i class="far fa-eye"></i> 98</span></div>
-                            <p>Guru dan siswa melakukan kunjungan ke madrasah unggulan di kota tetangga...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
-                        </div>
-                    </div>
-                    <!-- Berita 6 -->
-                    <div class="news-card">
-                        <div class="news-img">
-                            <img src="https://picsum.photos/id/31/400/250" alt="Rapat">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-category">📢 Pengumuman</span>
-                            <h3>Rapat Orang Tua Wali Semester Genap</h3>
-                            <div class="news-meta"><span><i class="far fa-calendar-alt"></i> 5 April 2025</span><span><i class="far fa-eye"></i> 220</span></div>
-                            <p>Undangan rapat orang tua wali dalam rangka evaluasi pembelajaran semester genap...</p>
-                            <a href="#" class="news-link">Selengkapnya →</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Pagination -->
-                <div class="pagination">
+                    <?php endif; ?>
+                </div> <div class="pagination">
                     <a href="#">«</a>
                     <a href="#" class="active">1</a>
                     <a href="#">2</a>
@@ -818,7 +804,6 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Sidebar -->
             <aside class="sidebar">
                 <div class="sidebar-widget">
                     <h3>🔥 Berita Populer</h3>
@@ -869,7 +854,6 @@
     </div>
 </section>
 
-<!-- CTA SECTION -->
 <section class="cta-section">
     <div class="container">
         <div class="cta">
@@ -883,14 +867,12 @@
     </div>
 </section>
 
-<!-- Script -->
 <script>
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            // Simulasi filter (bisa diganti dengan AJAX nantinya)
             console.log('Filter aktif: ' + this.innerText);
         });
     });

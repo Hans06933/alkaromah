@@ -12,7 +12,8 @@
         /* --- RESET & VARIABLE STYLE --- */
         :root {
             --primary-green: #0B5E34;
-            --active-gradient: linear-gradient(135deg, #52A028, #0B5E34);
+            /* Update gradasi hijau terang menyala khusus menu aktif sesuai mockup */
+            --active-gradient: linear-gradient(135deg, #22c55e, #16a34a); 
             --bg-light: #f4f6f9;
             --text-dark: #1e293b;
             --text-muted: #64748b;
@@ -31,6 +32,7 @@
             color: var(--text-dark);
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* ==========================================
@@ -49,6 +51,7 @@
             left: 0;
             z-index: 1000;
             box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
 
         .sidebar-brand {
@@ -78,6 +81,7 @@
         .brand-title p {
             font-size: 11px;
             color: #a7f3d0;
+            margin: 0;
         }
 
         .sidebar-menu {
@@ -119,19 +123,21 @@
             color: var(--white);
         }
 
+        /* Update: Warna berbeda gradient hijau menyala HANYA untuk elemen aktif */
         .menu-item.active {
-            background: var(--active-gradient);
-            color: var(--white);
-            font-weight: 500;
+            background: var(--active-gradient) !important;
+            color: var(--white) !important;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
         }
 
-        /* Gambar siluet masjid di bagian bawah sidebar */
         .sidebar-footer-bg {
             padding: 20px;
             opacity: 0.08;
             text-align: center;
             font-size: 55px;
             line-height: 1;
+            color: var(--white);
         }
 
         /* ==========================================
@@ -139,10 +145,12 @@
         ========================================== */
         .main-wrapper {
             flex: 1;
-            margin-left: 260px; /* Mengisi ruang kosong kiri */
+            margin-left: 260px;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            width: calc(100% - 260px);
+            transition: all 0.3s ease;
         }
 
         .topbar {
@@ -161,6 +169,24 @@
         .topbar-left {
             display: flex;
             align-items: center;
+            gap: 15px;
+        }
+
+        /* TOMBOL HAMBURGER (Disembunyikan secara default di Laptop/Desktop) */
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        
+        .hamburger-menu:hover {
+            background-color: #f1f5f9;
         }
 
         .welcome-text {
@@ -239,61 +265,67 @@
             color: var(--text-muted);
         }
 
+        /* OVERLAY BACKGROUND SAAT MENU DI HP DIKLIK */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            backdrop-filter: blur(2px);
+        }
+
         /* ==========================================
-           3. WORKSPACE CONTAINER CONTENT
+           3. RESPONSIVE MEDIA SYSTEM (Hanya Kerja di HP/Tablet)
         ========================================== */
-        .content-body {
-            padding: 30px;
-            flex: 1;
-        }
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%); /* Sembunyikan sidebar ke kiri luar layar */
+            }
 
-        /* Jumbotron Banner */
-        .banner-jumbotron {
-            background: linear-gradient(to right, #0B5E34, #1B7343);
-            border-radius: 16px;
-            padding: 30px;
-            color: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(11, 94, 52, 0.05);
-        }
+            /* Saat kelas .active dipasang lewat JavaScript, sidebar muncul */
+            .sidebar.show {
+                transform: translateX(0);
+            }
 
-        .banner-text h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+            .main-wrapper {
+                margin-left: 0; /* Reset margin laptop */
+                width: 100%;
+            }
 
-        .banner-text h4 {
-            font-size: 14px;
-            font-weight: 400;
-            color: #a7f3d0;
-            margin-bottom: 8px;
-        }
+            .hamburger-menu {
+                display: block; /* Munculkan tombol hamburger di HP */
+            }
 
-        .banner-text p {
-            font-size: 13px;
-            opacity: 0.85;
-        }
-
-        .banner-img-placeholder {
-            width: 260px;
-            height: 120px;
-            background: rgba(255,255,255,0.1) url('assets/images/gedung.jpg') center/cover no-repeat;
-            border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
+            .sidebar-overlay.show {
+                display: block; /* Munculkan overlay gelap saat sidebar aktif di HP */
+            }
+            
+            .topbar {
+                padding: 0 20px;
+            }
+            
+            .admin-name span {
+                display: none; /* Sembunyikan tulisan 'Administrator' di HP biar ringkas */
+            }
+            
+            .admin-profile-box {
+                padding-left: 12px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="sidebar" id="sidebarContainer">
         <div>
             <div class="sidebar-brand">
                 <img src="../assets/logo/logo.png" alt="Logo MI" class="brand-logo-img">
-
                 <div class="brand-title">
                     <h1>MI AL KAROMAH</h1>
                     <p>Dashboard Admin</p>
@@ -302,45 +334,73 @@
 
             <div class="sidebar-menu">
                 <a href="dashboard.php" class="menu-item active">
-                    <i class="fas fa-th-large"></i> Dashboard
+                    <i class="fas fa-th-large"></i> 
+                    <span>Dashboard</span>
                 </a>
 
                 <div class="menu-title">Menu Utama</div>
-                <a href="hero.php" class="menu-item"><i class="fas fa-image"></i> Slider Beranda</a>
-                <a href="berita.php" class="menu-item"><i class="fas fa-file-alt"></i> Berita / Artikel</a>
-                <a href="guru.php" class="menu-item"><i class="fas fa-users"></i> Guru & Staf</a>
-                <a href="galeri.php" class="menu-item"><i class="fas fa-camera"></i> Kelola Galeri</a>
-                <a href="kegiatan.php" class="menu-item"><i class="fas fa-calendar-alt"></i> Agenda / Kegiatan</a>
+                <a href="berita.php" class="menu-item">
+                    <i class="fas fa-file-alt"></i> 
+                    <span>Berita / Artikel</span>
+                </a>
+                <a href="guru.php" class="menu-item">
+                    <i class="fas fa-users"></i> 
+                    <span>Guru & Staf</span>
+                </a>
+                <a href="galeri.php" class="menu-item">
+                    <i class="fas fa-camera"></i> 
+                    <span>Kelola Galeri</span>
+                </a>
+                <a href="kegiatan.php" class="menu-item">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <span>Agenda / Kegiatan</span>
+                </a>
 
                 <div class="menu-title">Akun</div>
-                <a href="#" class="menu-item"><i class="fas fa-user"></i> Profil Admin</a>
-                <a href="logout.php" class="menu-item" style="color: #fca5a5;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="../index.php" class="menu-item">
+                    <i class="fas fa-globe"></i> 
+                    <span>Lihat Website</span>
+                </a>
+                <a href="logout.php" class="menu-item" style="color: #fca5a5;">
+                    <i class="fas fa-sign-out-alt"></i> 
+                    <span>Logout</span>
+                </a>
             </div>
         </div>
         <div class="sidebar-footer-bg"><i class="fas fa-mosque"></i></div>
     </div>
 
-
     <div class="main-wrapper">
         
         <header class="topbar">
             <div class="topbar-left">
+                <button class="hamburger-menu" id="hamburgerBtn" title="Buka Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="welcome-text">Selamat datang, <b>Admin 👋</b></div>
             </div>
             <div class="topbar-right">
-                <div class="notification">
-                    <i class="far fa-bell"></i>
-                    <div class="notification-badge">3</div>
-                </div>
                 <div class="admin-profile-box">
                     <img src="https://i.pravatar.cc/100" alt="Admin">
                     <div class="admin-name">
-                        Administrator
+                        <span>Administrator</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
             </div>
         </header>
 
-</body>
-</html>
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebarContainer = document.getElementById('sidebarContainer');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        // Fungsi Buka / Tutup Sidebar
+        function toggleSidebar() {
+            sidebarContainer.classList.toggle('show');
+            sidebarOverlay.classList.toggle('show');
+        }
+
+        hamburgerBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+    </script>
