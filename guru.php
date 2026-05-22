@@ -1,4 +1,5 @@
 <?php
+include 'layout/header.php';
 include 'config/koneksi.php';
 ?>
 <!DOCTYPE html>
@@ -488,7 +489,6 @@ include 'config/koneksi.php';
     </style>
 </head>
 <body>
-<?php include 'layout/header.php'; ?>
 
     <section class="hero-guru">
         <div class="container">

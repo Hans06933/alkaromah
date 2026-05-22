@@ -1,5 +1,13 @@
 <?php
-// file: profil.php - Halaman Profil dengan gambar di samping judul
+include 'layout/header.php';
+include 'config/koneksi.php';
+
+$queryFasilitas = mysqli_query($conn, "
+SELECT * FROM fasilitas
+WHERE status='aktif'
+ORDER BY id DESC
+LIMIT 8
+");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -13,302 +21,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Poppins', sans-serif; background: #f9faf8; color: #1e2a2e; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        
-               /* ---------- TOPBAR ---------- */
-        .topbar {
-            background: #066534;
-            color: white;
-            padding: 8px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .top-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .ppdb-btn {
-            background: #facc15;
-            color: #064e3b;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 12px;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-
-        .ppdb-btn:hover {
-            background: #e5b800;
-        }
-
-        .top-right {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-        }
-
-        .social-icon {
-            color: #ffffff;
-            font-size: 16px;
-            text-decoration: none;
-            transition: color 0.3s ease, transform 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-2px);
-        }
-
-        .social-icon:hover .fa-facebook-f { color: #1877F2; }
-        .social-icon:hover .fa-instagram { color: #E1306C; }
-        .social-icon:hover .fa-youtube { color: #FF0000; }
-
-        /* ---------- HEADER / NAVBAR ---------- */
-        header {
-            background: white;
-            padding: 18px 7%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .logo img {
-            width: 70px;
-            height: auto;
-            background: #e9ecef;
-            border-radius: 12px;
-        }
-
-        .logo-text h1 {
-            font-size: 38px;
-            font-weight: 800;
-            color: #0f6b3b;
-            line-height: 1;
-        }
-
-        .logo-text p {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #222;
-            font-weight: 500;
-            position: relative;
-            text-decoration: none;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            width: 0%;
-            height: 3px;
-            background: #15803d;
-            transition: 0.3s;
-            border-radius: 10px;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        .search-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: #0f6b3b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .search-btn:hover {
-            background: #0a532e;
-        }
-
-        /* Menyembunyikan fungsionalitas hamburger bawaan di laptop */
-        .menu-toggle, .hamburger-icon {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-        /* 1. Reset Topbar */
-        .topbar {
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            padding: 8px 5%;
-        }
-        
-        .top-left { flex: 1; }
-        .top-right { flex: none; margin-left: auto; }
-
-        /* 2. Header & Navbar Mobile */
-        header {
-            padding: 10px 5% !important; /* Batasi padding agar tidak terlalu tebal di HP */
-        }
-
-        .navbar {
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important; /* Memaksa grup logo (kiri) dan grup utilitas (kanan) saling menjauh */
-            align-items: center !important;
-            flex-wrap: nowrap !important;
-            width: 100% !important;
-        }
-
-        /* KUNCI PERBAIKAN LOGO (RATA KIRI PENUH) */
-        .logo {
-            display: flex !important;
-            flex-direction: row !important; /* Memaksa gambar & teks berjejer kesamping */
-            align-items: center !important;
-            justify-content: flex-start !important; /* Memaksa seluruh isi logo rapat ke ujung kiri */
-            text-align: left !important; /* Menghapus efek center jika ada */
-            flex-wrap: nowrap !important;
-            margin: 0 !important; /* Menghilangkan margin auto yang bikin elemen ke tengah */
-            padding: 0 !important;
-            flex: 1 !important;
-        }
-
-        .logo img {
-            width: 40px !important; /* Ukuran diperkecil sedikit agar pas di layar HP mini */
-            height: 40px !important;
-            object-fit: contain !important;
-            border-radius: 8px !important;
-            flex-shrink: 0 !important; /* Menjaga logo gambar agar tidak gepeng */
-            margin-right: 10px !important; /* Jarak antara logo gambar dan teks di sampingnya */
-        }
-
-        .logo-text {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: flex-start !important; /* Teks rata kiri */
-            justify-content: center !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        /* TULISAN DIBUAT LEBIH KECIL & RAPI */
-        .logo-text h1 {
-            font-size: 16px !important; /* Diperkecil dari 18px/20px agar pas satu baris dan rapi */
-            font-weight: 800 !important;
-            color: #0f6b3b !important;
-            line-height: 1.2 !important;
-            margin: 0 !important;
-            letter-spacing: 0.5px !important; /* Memberi sedikit jarak antar huruf agar elegan */
-        }
-
-        .logo-text p {
-            font-size: 9px !important; /* Slogan dibuat super kecil namun tetap terbaca */
-            color: #666 !important;
-            margin: 2px 0 0 0 !important;
-            line-height: 1 !important;
-            white-space: nowrap !important; /* Mencegah slogan patah menjadi 2 baris */
-        }
-
-        /* Sisi Kanan: Pembungkus Utilitas (Search & Hamburger) */
-        .nav-utilities {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-            flex-shrink: 0 !important;
-            margin-left: auto !important; /* Memastikan area ini tetap terkunci di ujung kanan */
-        }
-
-        .search-btn {
-            width: 32px !important;
-            height: 32px !important;
-            font-size: 12px !important;
-        }
-
-        /* Hamburger Icon */
-        .hamburger-icon {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-            cursor: pointer;
-            z-index: 1000 !important;
-        }
-
-        .hamburger-icon span {
-            display: block !important;
-            width: 22px !important;
-            height: 2.5px !important;
-            background: #0f6b3b !important;
-            border-radius: 2px !important;
-            transition: 0.3s !important;
-        }
-
-        /* Nav Dropdown Mobile */
-        nav {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: white;
-            flex-direction: column;
-            gap: 0;
-            padding: 5px 0;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.08);
-            border-top: 1px solid #f0f0f0;
-        }
-
-        nav a {
-            width: 100%;
-            padding: 14px 5%;
-            box-sizing: border-box;
-            border-bottom: 1px solid #f9f9f9;
-            text-decoration: none;
-        }
-
-        nav a::after { display: none; }
-        .menu-toggle:checked ~ nav { display: flex; }
-
-        /* Animasi Hamburger */
-        .menu-toggle:checked ~ .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(4px, 5px); }
-        .menu-toggle:checked ~ .hamburger-icon span:nth-child(2) { opacity: 0; }
-        .menu-toggle:checked ~ .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-    }
         
         /* ==========================================================================
         CSS PROFIL HEADER UTAMA (LAPTOP / DESKTOP - FIX SATU BARIS)
@@ -772,110 +484,234 @@
             }
         }    
              
-        /* Fasilitas dengan gambar */
-        .facilities { padding: 60px 0; background: white; }
-        .facilities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 30px; }
-        .facility-card { background: #fefcf5; border-radius: 20px; overflow: hidden; text-align: center; }
-        .facility-card img { width: 100%; height: 160px; object-fit: cover; }
-        .facility-card p { padding: 15px; font-weight: 600; color: #0f6b3b; }
-        /* ==========================================================================
-        OPTIMASI GRID FASILITAS KHUSUS SMARTPHONE (max-width: 768px)
-        ========================================================================== */
-        @media screen and (max-width: 768px) {
-            .facilities {
-                padding: 40px 0 !important; /* Menyesuaikan ruang atas-bawah section di HP */
-            }
+        /* =========================
+        FASILITAS SEKOLAH
+        ========================= */
 
-            /* Mengunci induk grid menjadi 2 kolom ke samping */
-            .facilities .facilities-grid {
-                display: grid !important;
-                grid-template-columns: repeat(2, 1fr) !important; /* KUNCI: Menjadi 2 grid berdampingan */
-                gap: 12px !important; /* Memperkecil jarak antar kartu agar proporsional */
-                margin-top: 20px !important;
-            }
+       /* ==========================================================================
+   FASILITAS SEKOLAH
+   ========================================================================== */
 
-            .facilities-grid .facility-card {
-                border-radius: 14px !important; /* Mengurangi kebulatan sudut agar pas dengan skala HP */
-            }
+.facilities {
+    padding: 90px 0;
+    background: #f8fafc;
+}
 
-            /* Menyesuaikan proporsi gambar di dalam grid HP */
-            .facility-card img {
-                height: 120px !important; /* KUNCI: Diturunkan dari 160px agar kartu tidak terlalu jangkung */
-            }
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
 
-            /* Menyesuaikan teks nama fasilitas di bawah gambar */
-            .facility-card p {
-                padding: 10px 8px !important; /* Merapatkan padding teks */
-                font-size: 0.85rem !important; /* Mengecilkan ukuran font agar teks panjang tidak turun berantakan */
-                line-height: 1.3 !important;
-            }
-        }
-        
-        footer { background: #065f37; color: white; padding: 30px 7%; margin-top: 40px; }
-        .footer-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .stats-grid, .values-grid, .facilities-grid { grid-template-columns: repeat(2, 1fr); }
-            .history-grid, .visi-misi-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .stats-grid, .values-grid, .facilities-grid { grid-template-columns: 1fr; }
-            .navbar { flex-direction: column; }
-            .logo { flex-direction: column; text-align: center; }
-            .profil-header-wrapper { flex-direction: column-reverse; text-align: center; }
-            .profil-header-text h1 { font-size: 2.2rem; }
-            .profil-desc { margin: 0 auto; }
-            .profil-header-image img { width: 200px; }
-        }
+.section-title h2 {
+    font-size: 38px;
+    color: #166534;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.section-title p {
+    font-size: 15px;
+    color: #6b7280;
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.8;
+}
+
+/* GRID SYSTEM */
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* CARD DESIGN */
+.facility-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+    transition: 0.35s;
+    position: relative;
+}
+
+.facility-card:hover {
+    transform: translateY(-8px);
+}
+
+/* IMAGE LIGHTBOX LINK */
+.facility-link {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+    position: relative;
+    overflow: hidden;
+}
+
+.facility-image {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+.facility-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s;
+}
+
+/* EFFECT HOVER DESKTOP */
+.facility-card:hover img {
+    transform: scale(1.08);
+}
+
+.facility-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 55px;
+    height: 55px;
+    border-radius: 18px;
+    background: rgba(22, 163, 74, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    backdrop-filter: blur(5px);
+    transition: 0.3s ease;
+}
+
+/* Mengubah ikon overlay menjadi kaca pembesar saat kartu di-hover */
+.facility-card:hover .facility-overlay i {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f00e"; /* Kode unicode untuk fa-search-plus */
+}
+.facility-card:hover .facility-overlay {
+    background: rgba(16, 185, 129, 0.95);
+}
+
+/* CARD DETAILS */
+.facility-content {
+    padding: 24px;
+}
+
+.facility-category {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 30px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.facility-content h3 {
+    font-size: 24px;
+    color: #111827;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.facility-content p {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.8;
+}
+
+/* EMPTY STATE */
+.empty-facility-wrapper {
+    grid-column: 1 / -1;
+    text-align: center;
+    width: 100%;
+}
+
+.empty-facility {
+    background: white;
+    padding: 70px 30px;
+    border-radius: 24px;
+    text-align: center;
+}
+
+.empty-facility i {
+    font-size: 48px;
+    color: #cbd5e1;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.empty-facility h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.empty-facility p {
+    color: #6b7280;
+}
+
+/* RESPONSIVE DESIGN (TABLET & SMARTPHONE 2 KOLOM) */
+@media (max-width: 768px) {
+    .facilities {
+        padding: 70px 0;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    .facilities-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .facility-image {
+        height: 140px; 
+    }
+
+    .facility-content {
+        padding: 12px;
+    }
+
+    .facility-category {
+        padding: 4px 10px;
+        font-size: 10px;
+        margin-bottom: 8px;
+    }
+
+    .facility-content h3 {
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .facility-content p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+    
+    .facility-overlay {
+        width: 35px;
+        height: 35px;
+        border-radius: 10px;
+        font-size: 16px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .empty-facility {
+        padding: 50px 20px;
+    }
+    
+    .empty-facility h3 {
+        font-size: 24px;
+    }
+}
+
     </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
-<div class="topbar">
-    <div class="top-left">
-        <a href="#" class="ppdb-btn">PPDB 2024/2025</a>
-    </div>
-    <div class="top-right">
-        <span><i class="fab fa-facebook-f"></i></span>
-        <span><i class="fab fa-instagram"></i></span>
-        <span><i class="fab fa-youtube"></i></span>
-    </div>
-</div>
-
-<!-- HEADER & NAVIGASI -->
-<header>
-    <div class="navbar">
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo">
-            <div class="logo-text">
-                <h1>MI AL KAROMAH</h1>
-                <p>Berilmu, Berakhlak, Berprestasi</p>
-            </div>
-        </div>
-
-        <div class="nav-utilities">
-            
-            <input type="checkbox" id="menu-toggle" class="menu-toggle" style="display:none;">
-            <label for="menu-toggle" class="hamburger-icon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-            
-             <nav>
-                <a href="index.php">Beranda</a>
-                <a href="profil.php">Profil</a>
-                <a href="akademik.php">Akademik</a>
-                <a href="kegiatan.php">Kegiatan</a>
-                <a href="guru.php">Guru</a>
-                <a href="galeri.php">Galeri</a>
-                <a href="kontak.php">Kontak</a>
-            </nav>
-        </div>
-    </div>
-</header>
 
 <!-- HEADER HALAMAN PROFIL (dengan gambar di samping) -->
 <section class="profil-header">
@@ -1005,21 +841,79 @@
     </div>
 </section>
 
-<!-- FASILITAS SEKOLAH (dengan gambar) -->
+<!-- FASILITAS SEKOLAH -->
 <section class="facilities">
+    <!-- Pustaka CSS Lightbox2 (Aman ditaruh di sini jika tidak ingin repot membuka header.php) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhERhyyv24M3nBqVRQQc7pT3x768LMlscteBXG8GqmG5JWixQ0lfCIn699SB4DWteQXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <div class="container">
-        <h2 style="text-align:center; color:#0f6b3b;">Fasilitas Sekolah</h2>
-        <div class="facilities-grid">
-            <div class="facility-card"><img src="https://picsum.photos/id/1/300/200" alt="Ruang Kelas"><p>Ruang Kelas</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/2/300/200" alt="Laboratorium"><p>Laboratorium Eksperimen</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/0/300/200" alt="Perpustakaan"><p>Perpustakaan</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/7/300/200" alt="Lapangan"><p>Lapangan Olahraga</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/3/300/200" alt="Ruang Guru"><p>Ruang Guru</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/12/300/200" alt="Hutan Kota"><p>Hutan Kota / Taman</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/4/300/200" alt="Musholla"><p>Musholla</p></div>
-            <div class="facility-card"><img src="https://picsum.photos/id/5/300/200" alt="Lab Komputer"><p>Laboratorium Komputer</p></div>
+
+        <div class="section-title">
+            <h2>Fasilitas Sekolah</h2>
+            <p>Sarana dan prasarana terbaik untuk mendukung kegiatan belajar siswa.</p>
         </div>
+
+        <div class="facilities-grid">
+            <?php if (mysqli_num_rows($queryFasilitas) > 0) : ?>
+
+                <?php while ($f = mysqli_fetch_assoc($queryFasilitas)) : ?>
+                    <div class="facility-card">
+
+                        <!-- UPDATE: Dibungkus dengan tag anchor menuju file gambar asli -->
+                        <!-- data-lightbox="gallery-fasilitas" membuat gambar bisa di-next/prev saat di-zoom -->
+                        <a href="assets/fasilitas/<?= $f['gambar']; ?>" class="facility-link" data-lightbox="gallery-fasilitas" data-title="<?= htmlspecialchars($f['nama']); ?>">
+                            <div class="facility-image">
+                                <img src="assets/fasilitas/<?= $f['gambar']; ?>" 
+                                     alt="<?= htmlspecialchars($f['nama']); ?>" 
+                                     onerror="this.src='assets/default.jpg'">
+                                
+                                <div class="facility-overlay">
+                                    <i class="<?= htmlspecialchars($f['icon']); ?>"></i>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="facility-content">
+                            <span class="facility-category">
+                                <?= htmlspecialchars($f['kategori']); ?>
+                            </span>
+                            <h3>
+                                <?= htmlspecialchars($f['nama']); ?>
+                            </h3>
+                            <p>
+                                <?= htmlspecialchars(substr($f['deskripsi'], 0, 90)); ?>...
+                            </p>
+                        </div>
+
+                    </div>
+                <?php endwhile; ?>
+
+            <?php else : ?>
+
+                <div class="empty-facility-wrapper">
+                    <div class="empty-facility">
+                        <i class="fas fa-school"></i>
+                        <h3>Belum Ada Fasilitas</h3>
+                        <p>Data fasilitas sekolah belum tersedia saat ini.</p>
+                    </div>
+                </div>
+
+            <?php endif; ?>
+        </div>
+
     </div>
+
+    <!-- Pustaka JavaScript Lightbox2 & Dependensi jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" integrity="sha512-Ixzuzfxv1EqafeQlTCufWfaC6ful6WFqIz4G+dWvK0beHw6sBOUR9Y/Sl5eyM4Q37iNJYw9Vfb87mI0MxgJKIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // Konfigurasi opsi Lightbox (Opsional)
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true, // Mengulang dari awal jika gambar habis digeser
+            'albumLabel': "Gambar %1 dari %2" // Label penunjuk jumlah gambar
+        })
+    </script>
 </section>
 
 <?php include_once 'layout/footer.php'; ?>

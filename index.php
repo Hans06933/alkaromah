@@ -1,5 +1,13 @@
 <?php
 include 'layout/header.php';
+include 'config/koneksi.php';
+
+$queryFasilitas = mysqli_query($conn, "
+SELECT * FROM fasilitas
+WHERE status='aktif'
+ORDER BY id DESC
+LIMIT 8
+");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -615,6 +623,214 @@ include 'layout/header.php';
             box-shadow: 0 6px 15px rgba(0,0,0,0.06) !important;
         }
     }
+
+        /* ==========================================================================
+    FASILITAS SEKOLAH
+    ========================================================================== */
+
+    .facilities {
+        padding: 90px 0;
+        background: #f8fafc;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 38px;
+        color: #166534;
+        margin-bottom: 12px;
+        font-weight: 700;
+    }
+
+    .section-title p {
+        font-size: 15px;
+        color: #6b7280;
+        max-width: 650px;
+        margin: auto;
+        line-height: 1.8;
+    }
+
+    /* GRID SYSTEM */
+    .facilities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    /* CARD DESIGN */
+    .facility-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+        transition: 0.35s;
+        position: relative;
+    }
+
+    .facility-card:hover {
+        transform: translateY(-8px);
+    }
+
+    /* IMAGE & OVERLAY EFFECT */
+    .facility-image {
+        height: 220px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .facility-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.4s;
+    }
+
+    .facility-card:hover img {
+        transform: scale(1.08);
+    }
+
+    .facility-overlay {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 55px;
+        height: 55px;
+        border-radius: 18px;
+        background: rgba(22, 163, 74, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        backdrop-filter: blur(5px);
+    }
+
+    /* CARD DETAILS */
+    .facility-content {
+        padding: 24px;
+    }
+
+    .facility-category {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 30px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+
+    .facility-content h3 {
+        font-size: 24px;
+        color: #111827;
+        margin-bottom: 12px;
+        font-weight: 700;
+    }
+
+    .facility-content p {
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.8;
+    }
+
+    /* EMPTY STATE AREA */
+    .empty-facility-wrapper {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .empty-facility {
+        background: white;
+        padding: 70px 30px;
+        border-radius: 24px;
+        text-align: center;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .empty-facility i {
+        font-size: 55px;
+        color: #cbd5e1; /* Warna abu-abu halus agar lebih pas untuk ikon "kosong" */
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .empty-facility h3 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #111827;
+        font-weight: 700;
+    }
+
+    .empty-facility p {
+        font-size: 15px;
+        color: #6b7280;
+    }
+
+    /* RESPONSIVE DESIGN (TABLET & MOBILE) */
+    @media (max-width: 768px) {
+        .facilities {
+            padding: 70px 0;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+        }
+
+        /* Mengubah jarak antar kartu agar tidak terlalu sempit di layar HP */
+        .facilities-grid {
+            grid-template-columns: repeat(2, 1fr); /* Memaksa grid menjadi 2 kolom ke samping */
+            gap: 15px; /* Memperkecil jarak antar komponen agar muat */
+        }
+
+        /* Menyesuaikan tinggi gambar agar kartu tidak terlalu panjang ke bawah */
+        .facility-image {
+            height: 140px; 
+        }
+
+        /* Mengurangi padding dalam kartu agar teks tidak berdesakan */
+        .facility-content {
+            padding: 12px;
+        }
+
+        /* Memperkecil ukuran teks agar pas dengan ukuran kartu yang mengecil */
+        .facility-category {
+            padding: 4px 10px;
+            font-size: 10px;
+            margin-bottom: 8px;
+        }
+
+        .facility-content h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .facility-content p {
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        
+        /* Ukuran overlay ikon di pojok gambar juga disesuaikan */
+        .facility-overlay {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            font-size: 16px;
+            top: 10px;
+            right: 10px;
+        }
+
+        .empty-facility {
+            padding: 50px 20px;
+        }
+        
+        .empty-facility h3 {
+            font-size: 24px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -687,6 +903,62 @@ include 'layout/header.php';
         <div class="profile-image">
             <img src="img/sekolah.png" alt="Gedung MI Al Karomah">
         </div>
+    </div>
+</section>
+
+<section class="facilities">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Fasilitas Sekolah</h2>
+            <p>Sarana dan prasarana terbaik untuk mendukung kegiatan belajar siswa.</p>
+        </div>
+
+        <div class="facilities-grid">
+            <?php if (mysqli_num_rows($queryFasilitas) > 0) : ?>
+
+                <?php while ($f = mysqli_fetch_assoc($queryFasilitas)) : ?>
+                    <div class="facility-card">
+
+                        <div class="facility-image">
+                            <img src="assets/fasilitas/<?= $f['gambar']; ?>" 
+                                 alt="<?= htmlspecialchars($f['nama']); ?>" 
+                                 onerror="this.src='assets/default.jpg'">
+                            
+                            <div class="facility-overlay">
+                                <i class="<?= htmlspecialchars($f['icon']); ?>"></i>
+                            </div>
+                        </div>
+
+                        <div class="facility-content">
+                            <span class="facility-category">
+                                <?= htmlspecialchars($f['kategori']); ?>
+                            </span>
+                            <h3>
+                                <?= htmlspecialchars($f['nama']); ?>
+                            </h3>
+                            <p>
+                                <?= htmlspecialchars(substr($f['deskripsi'], 0, 90)); ?>...
+                            </p>
+                        </div>
+
+                    </div>
+                <?php endwhile; ?>
+
+            <?php else : ?>
+
+                <!-- Diberi pembungkus full-width agar layout grid tidak merusak tampilan teks kosong -->
+                <div class="empty-facility-wrapper" style="grid-column: 1 / -1; text-align: center; width: 100%;">
+                    <div class="empty-facility">
+                        <i class="fas fa-school" style="font-size: 48px; color: #cbd5e1; margin-bottom: 15px; display: inline-block;"></i>
+                        <h3>Belum Ada Fasilitas</h3>
+                        <p>Data fasilitas sekolah belum tersedia saat ini.</p>
+                    </div>
+                </div>
+
+            <?php endif; ?>
+        </div>
+
     </div>
 </section>
 

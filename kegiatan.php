@@ -1,8 +1,6 @@
 <?php
-// Hubungkan ke file koneksi database
 include 'config/koneksi.php';
 
-// Ambil maksimal 4 data kegiatan terbaru yang statusnya 'publish'
 $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan 
                                       WHERE status = 'publish' 
                                       ORDER BY id DESC 
@@ -731,8 +729,8 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
         }
     </style>
 </head>
-<?php include_once 'layout/header.php'; ?>
 <body>
+    <?php include 'layout/header.php'; ?>
 
     <section class="hero-kegiatan">
         <div class="container">

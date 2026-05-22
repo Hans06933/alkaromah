@@ -347,6 +347,10 @@
                     <i class="fas fa-users"></i> 
                     <span>Guru & Staf</span>
                 </a>
+                <a href="fasilitas.php" class="menu-item">
+                    <i class="fas fa-building"></i> 
+                    <span>Fasilitas Sekolah</span>
+                </a>
                 <a href="galeri.php" class="menu-item">
                     <i class="fas fa-camera"></i> 
                     <span>Kelola Galeri</span>
