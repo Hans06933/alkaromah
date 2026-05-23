@@ -9,6 +9,10 @@ include 'config/koneksi.php';
     <title>Informasi & Berita - MI Al Karomah</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- AOS ANIMATION CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -28,14 +32,13 @@ include 'config/koneksi.php';
             padding: 0 24px;
         }
 
-        /* ========== HERO BERITA (BERITA UTAMA) ========== */
         .hero-news {
             padding: 40px 0 0 0;
         }
-        
+
         .hero-news-container {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1fr 1fr; 
             gap: 0;
             background: white;
             border-radius: 32px;
@@ -43,14 +46,17 @@ include 'config/koneksi.php';
             box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .hero-news-container:hover {
             box-shadow: 0 25px 50px rgba(0,0,0,0.12);
         }
-        
+
         .hero-news-content {
             padding: 48px;
             background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .hero-news-category {
@@ -117,23 +123,62 @@ include 'config/koneksi.php';
         }
         
         .hero-news-image {
-            height: 100%;
+            width: 100%;
+            height: 100%; 
             position: relative;
             overflow: hidden;
-        }
-        
-        .hero-news-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        
-        .hero-news-container:hover .hero-news-image img {
-            transform: scale(1.05);
+            background-color: #0f6b3b; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ========== FILTER KATEGORI ========== */
+        .hero-news-image img {
+            width: 100%;
+            height: 100%; 
+            object-fit: fill; 
+            transition: transform 0.5s;
+        }
+
+        .hero-news-container:hover .hero-news-image img {
+            transform: scale(1.03); 
+        }
+
+        @media screen and (max-width: 992px) {
+            .hero-news-container {
+                grid-template-columns: 1fr; 
+            }
+            
+            .hero-news-content {
+                padding: 32px 24px; 
+            }
+
+            .hero-news-content h2 {
+                font-size: 1.6rem; 
+            }
+
+            .read-more-btn {
+                font-size: 0.85rem;
+                padding: 10px 20px;
+                white-space: nowrap; 
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .hero-news-image {
+                aspect-ratio: 16 / 10; 
+                width: 100%;
+                height: auto;
+            }
+            
+            .hero-news-image img {
+                object-fit: fill; 
+                width: 100%;
+                height: 100%;
+            }
+        }
+
         .filter-section {
             padding: 48px 0 32px 0;
         }
@@ -213,7 +258,6 @@ include 'config/koneksi.php';
             transform: scale(1.02);
         }
 
-        /* ========== DAFTAR BERITA (GRID) ========== */
         .news-grid-section {
             padding: 32px 0 60px 0;
             background: #f9faf8;
@@ -238,8 +282,7 @@ include 'config/koneksi.php';
             background: linear-gradient(90deg, #facc15, #f59e0b);
             border-radius: 4px;
         }
-        
-        /* Modifikasi responsif grid agar muat 2 kolom di dalam layout kiri */
+
         .news-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -342,7 +385,6 @@ include 'config/koneksi.php';
             gap: 12px;
         }
 
-        /* ========== SIDEBAR ========== */
         .info-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -490,7 +532,6 @@ include 'config/koneksi.php';
             transform: translateX(6px);
         }
 
-        /* ========== PAGINATION ========== */
         .pagination {
             display: flex;
             justify-content: center;
@@ -522,7 +563,6 @@ include 'config/koneksi.php';
             box-shadow: 0 6px 12px rgba(15,107,59,0.25);
         }
 
-        /* ========== CTA SECTION ========== */
         .cta-section {
             padding: 0 0 60px 0;
         }
@@ -550,8 +590,8 @@ include 'config/koneksi.php';
         }
         
         .btn-primary {
-            background: #facc15;
-            color: #064e3b;
+            background: #2e46ff;
+            color: #ffffff;
             padding: 14px 36px;
             border-radius: 50px;
             font-weight: 700;
@@ -561,7 +601,7 @@ include 'config/koneksi.php';
         }
         
         .btn-primary:hover {
-            background: #fbbf24;
+            background: #0e0362;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
@@ -583,7 +623,6 @@ include 'config/koneksi.php';
             transform: translateY(-2px);
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 1024px) {
             .news-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -661,30 +700,24 @@ include 'config/koneksi.php';
                 text-align: center;
             }
         }
+
+        [data-aos] {
+            opacity: 0;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
         
-        @media (max-width: 480px) {
-            .hero-news-content h2 {
-                font-size: 1.3rem;
-            }
-            
-            .hero-news-meta {
-                gap: 12px;
-                font-size: 0.7rem;
-            }
-            
-            .sidebar {
-                padding: 20px;
-            }
+        [data-aos].aos-animate {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <?php include 'layout/header.php'; ?>
 
-<section class="hero-news">
+<section class="hero-news" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
     <div class="container">
         <div class="hero-news-container">
-            <div class="hero-news-content">
+            <div class="hero-news-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
                 <span class="hero-news-category">🎉 Pengumuman</span>
                 <h2>PPDB MI Al Karomah Tahun Ajaran 2026/2027 Dibuka</h2>
                 <div class="hero-news-meta">
@@ -695,58 +728,47 @@ include 'config/koneksi.php';
                 <p>Pendaftaran peserta didik baru telah dibuka mulai 30 Mei 2026 hingga 25 Mei 2027. Informasi lengkap dapat diakses melalui website atau datang langsung ke madrasah. Dapatkan potongan biaya pendaftaran untuk 100 pendaftar pertama!</p>
                 <a href="#" class="read-more-btn">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="hero-news-image">
-                <img src="https://picsum.photos/id/183/600/400" alt="PPDB MI Al Karomah">
+            <div class="hero-news-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
+                <img src="img/ppdb.jpg" alt="PPDB MI Al Karomah">
             </div>
         </div>
     </div>
 </section>
 
-<section class="filter-section">
+<section class="filter-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="container">
-            <div class="search-news">
-                <form action="berita.php" method="GET" style="display: flex; width: 100%;">
-                    <input type="text" name="keyword" placeholder="Cari berita..." value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
-                    <button type="submit"><i class="fas fa-search"></i> Cari</button>
-                </form>
-            </div>
+        <div class="search-news">
+            <form action="berita.php" method="GET" style="display: flex; width: 100%;">
+                <input type="text" name="keyword" placeholder="Cari berita..." value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>">
+                <button type="submit"><i class="fas fa-search"></i> Cari</button>
+            </form>
         </div>
     </div>
 </section>
 
-<section class="news-grid-section">
+<section class="news-grid-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="container">
         <div class="info-layout">
             <div>
-                <div class="section-title">📰 Berita Terbaru</div>
+                <div class="section-title" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">📰 Berita Terbaru</div>
                 <div class="news-grid">
                     
                     <?php 
-                    // ==========================================================================
-                    // LOGIKA BARU: MENANGKAP KATA KUNCI PENCARIAN DARI INPUT FORM
-                    // ==========================================================================
                     if (isset($_GET['keyword']) && trim($_GET['keyword']) !== '') {
-                        // Mengamankan string input dari SQL Injection
                         $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
-                        
-                        // Query pencarian: mencari teks yang mirip di kolom 'judul' atau 'isi' berita
                         $sql = "SELECT * FROM berita WHERE status = 'publish' AND (judul LIKE '%$keyword%' OR isi LIKE '%$keyword%') ORDER BY id DESC";
                     } else {
-                        // Query normal: tampilkan berita default jika tidak ada pencarian (dibatasi 6 berita)
                         $sql = "SELECT * FROM berita WHERE status = 'publish' ORDER BY id DESC LIMIT 6";
                     }
                     
-                    // Eksekusi query gabungan di atas
                     $query_berita = mysqli_query($conn, $sql);
-                    // ==========================================================================
                     
                     if(mysqli_num_rows($query_berita) > 0):
+                        $delay = 0;
                         while($b = mysqli_fetch_assoc($query_berita)) : 
-                            
-                            // Ambil kategori dari database
+                            $delay += 100;
                             $kategori = htmlspecialchars($b['kategori']);
                             
-                            // Logika penanganan ikon badge kategori secara dinamis
                             if(strpos(strtolower($kategori), 'agenda') !== false || strpos(strtolower($kategori), 'kegiatan') !== false) {
                                 $badge_kat = "🎨 " . $kategori;
                             } elseif (strtolower($kategori) == 'prestasi') {
@@ -757,11 +779,10 @@ include 'config/koneksi.php';
                                 $badge_kat = "📌 " . $kategori;
                             }
 
-                            // MENYESUAIKAN DATABASE: Menggunakan kolom 'thumbnail' sesuai phpMyAdmin kamu
                             $foto_berita = !empty($b['thumbnail']) ? $b['thumbnail'] : 'default-berita.jpg';
                     ?>
                     
-                    <div class="news-card">
+                    <div class="news-card" data-aos="flip-up" data-aos-duration="700" data-aos-delay="<?= $delay; ?>">
                         <div class="news-img">
                             <img src="assets/berita/<?= $foto_berita; ?>" onerror="this.src='assets/berita/default-berita.jpg'" alt="<?= htmlspecialchars($b['judul']); ?>">
                         </div>
@@ -785,7 +806,7 @@ include 'config/koneksi.php';
                         endwhile; 
                     else: 
                     ?>
-                        <div class="empty-state" style="grid-column: span 2; text-align: center; padding: 40px; color: #9ca3af;">
+                        <div class="empty-state" style="grid-column: span 2; text-align: center; padding: 40px; color: #9ca3af;" data-aos="fade-up" data-aos-duration="600">
                             <i class="fas fa-search" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>
                             <?php if (isset($_GET['keyword'])) : ?>
                                 Berita dengan kata kunci "<strong><?= htmlspecialchars($_GET['keyword']); ?></strong>" tidak ditemukan.<br>
@@ -795,7 +816,8 @@ include 'config/koneksi.php';
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>
-                </div> <div class="pagination">
+                </div>
+                <div class="pagination" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
                     <a href="#">«</a>
                     <a href="#" class="active">1</a>
                     <a href="#">2</a>
@@ -804,49 +826,40 @@ include 'config/koneksi.php';
                 </div>
             </div>
 
-            <aside class="sidebar">
-                <div class="sidebar-widget">
+            <aside class="sidebar" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                <div class="sidebar-widget" data-aos="fade-up" data-aos-duration="600" data-aos-delay="250">
                     <h3>🔥 Berita Populer</h3>
                     <ul class="popular-list">
-                        <li>
-                            <img src="https://picsum.photos/id/1/80/80" alt="Thumb">
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
+                            <img src="img/ppdb.jpg" alt="Thumb">
                             <div>
                                 <a href="#">PPDB 2025/2026 Resmi Dibuka</a>
-                                <span><i class="far fa-calendar-alt"></i> 1 Januari 2025</span>
+                                <span><i class="far fa-calendar-alt"></i> 1 Januari 2026</span>
                             </div>
                         </li>
-                        <li>
-                            <img src="https://picsum.photos/id/2/80/80" alt="Thumb">
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="350">
+                            <img src="img/istana.jpg" alt="Thumb">
                             <div>
-                                <a href="#">Peringatan Isra Mi'raj 1446 H</a>
-                                <span><i class="far fa-calendar-alt"></i> 20 Februari 2025</span>
+                                <a href="#">Kunjungan ke Istana Negara</a>
+                                <span><i class="far fa-calendar-alt"></i> 20 Mei 2026</span>
                             </div>
                         </li>
-                        <li>
-                            <img src="https://picsum.photos/id/3/80/80" alt="Thumb">
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="400">
+                            <img src="img/iduladha.jpg" alt="Thumb">
                             <div>
-                                <a href="#">Juara Umum Lomba MAPSI</a>
-                                <span><i class="far fa-calendar-alt"></i> 15 Januari 2025</span>
+                                <a href="#">Harir Raya Idul Adha</a>
+                                <span><i class="far fa-calendar-alt"></i> 27 Mei 2026</span>
                             </div>
                         </li>
                     </ul>
                 </div>
-                <div class="sidebar-widget">
+                <div class="sidebar-widget" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
                     <h3>📂 Kategori</h3>
                     <ul class="category-list">
-                        <li><a href="#">📢 Pengumuman <span>12</span></a></li>
-                        <li><a href="#">🏆 Prestasi <span>8</span></a></li>
-                        <li><a href="#">🎨 Kegiatan <span>15</span></a></li>
-                        <li><a href="#">📝 Artikel <span>6</span></a></li>
-                    </ul>
-                </div>
-                <div class="sidebar-widget">
-                    <h3>📅 Arsip</h3>
-                    <ul class="archive-list">
-                        <li><a href="#">Januari 2025 <span style="float:right">(4)</span></a></li>
-                        <li><a href="#">Februari 2025 <span style="float:right">(3)</span></a></li>
-                        <li><a href="#">Maret 2025 <span style="float:right">(7)</span></a></li>
-                        <li><a href="#">April 2025 <span style="float:right">(5)</span></a></li>
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="350"><a href="#">📢 Pengumuman <span>12</span></a></li>
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="400"><a href="#">🏆 Prestasi <span>8</span></a></li>
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="450"><a href="#">🎨 Kegiatan <span>15</span></a></li>
+                        <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500"><a href="#">📝 Artikel <span>6</span></a></li>
                     </ul>
                 </div>
             </aside>
@@ -854,18 +867,39 @@ include 'config/koneksi.php';
     </div>
 </section>
 
-<section class="cta-section">
+<section class="cta-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="container">
-        <div class="cta">
-            <h3>📧 Dapatkan informasi terbaru dari MI Al Karomah</h3>
-            <p style="margin-bottom: 28px; opacity: 0.95;">Langganan newsletter kami untuk update kegiatan dan prestasi terbaru</p>
+        <div class="cta" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            <h3>Dapatkan informasi terbaru dari MI Al Karomah? Ikuti kami</h3>
+            <p style="margin-bottom: 28px; opacity: 0.95;">Follow Media sosial kami agar mendapat lebih banyak info dan berita</p>
             <div class="cta-buttons">
-                <a href="#" class="btn-primary"><i class="fas fa-envelope"></i> Berlangganan Newsletter</a>
-                <a href="#" class="btn-outline"><i class="fas fa-headset"></i> Hubungi Kami</a>
+                <a href="https://www.facebook.com/MIALKAROMAH" target="_blank" class="btn-primary" data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
+                    <i class="fab fa-facebook-f"></i> Kunjungi Facebook
+                </a>
+                
+                <a href="https://www.instagram.com/mialkaromah" target="_blank" class="btn-outline" data-aos="fade-left" data-aos-duration="500" data-aos-delay="350">
+                    <i class="fab fa-instagram"></i> Ikuti Instagram
+                </a>
             </div>
         </div>
     </div>
 </section>
+
+<!-- AOS ANIMATION JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 50,
+        delay: 0,
+        easing: 'ease-out-cubic'
+    });
+    
+    window.addEventListener('load', function() {
+        AOS.refresh();
+    });
+</script>
 
 <script>
     const filterBtns = document.querySelectorAll('.filter-btn');

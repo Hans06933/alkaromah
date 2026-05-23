@@ -319,12 +319,6 @@ if (isset($_GET['cari'])) {
                             <p><?= htmlspecialchars(substr($d['deskripsi'], 0, 100)); ?>...</p>
 
                             <div class="action-group">
-                                <a href="../kegiatan_detail.php?slug=<?= $d['slug']; ?>" 
-                                   target="_blank" 
-                                   class="action-btn view-btn">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
                                 <a href="edit_kegiatan.php?id=<?= $d['id']; ?>" 
                                    class="action-btn edit-btn">
                                     <i class="fas fa-pen"></i>

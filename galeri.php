@@ -12,10 +12,10 @@ include 'config/koneksi.php';
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700;800&family=Playfair+Display:ital,wght=1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
+    <!-- AOS ANIMATION CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        /* ==========================================================================
-           1. RESET GLOBAL & VARIABEL TEMA (MI AL KAROMAH)
-           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
@@ -42,9 +42,6 @@ include 'config/koneksi.php';
             color: inherit;
         }
 
-        /* ==========================================================================
-           3. HERO BANNER ATAS
-           ========================================================================== */
         .hero-galeri {
             background: #ffffff;
             padding-bottom: 30px;
@@ -118,9 +115,6 @@ include 'config/koneksi.php';
             margin-top: 5px;
         }
 
-        /* ==========================================================================
-           4. INTRO SECTION
-           ========================================================================== */
         .intro-section {
             text-align: center;
             padding: 40px 0 20px 0;
@@ -139,9 +133,6 @@ include 'config/koneksi.php';
             font-weight: 600;
         }
 
-        /* ==========================================================================
-           5. SUSUNAN GRID UTAMA
-           ========================================================================== */
         .galeri-composite-grid {
             display: grid;
             grid-template-columns: 8fr 4fr; 
@@ -167,7 +158,7 @@ include 'config/koneksi.php';
             display: flex;
             flex-direction: column;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            cursor: pointer; /* Memberikan indikasi bahwa kartu bisa diklik */
+            cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -185,7 +176,7 @@ include 'config/koneksi.php';
             width: 100%;
             height: 100%;
             position: relative;
-            background: #000000; /* Diubah ke hitam agar video statis terlihat rapi */
+            background: #000000;
             flex-grow: 1;
             overflow: hidden;
         }
@@ -199,7 +190,7 @@ include 'config/koneksi.php';
 
         .card-galeri.big-highlight .img-container-galeri img,
         .card-galeri.big-highlight .img-container-galeri video {
-            height: 320px; /* Ukuran khusus untuk elemen besar */
+            height: 320px;
         }
 
         .card-overlay-details {
@@ -211,7 +202,7 @@ include 'config/koneksi.php';
             background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
             color: #ffffff;
             z-index: 5;
-            pointer-events: none; /* Klik tembus ke card utama */
+            pointer-events: none;
         }
 
         .card-overlay-details h3 {
@@ -230,7 +221,133 @@ include 'config/koneksi.php';
             color: #cbd5e0;
         }
 
-        /* Penanda Video di Halaman Utama */
+        .wajah-madrasah-section {
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .card-wajah-madrasah-wrapper {
+            display: flex !important;
+            flex-direction: row;
+            align-items: stretch;
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            width: 100%;
+        }
+
+        .wm-media-block {
+            flex: 0 0 40%;
+            position: relative;
+            min-height: 280px;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .wm-media-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .wm-media-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.2) 80%, transparent 100%);
+            color: #ffffff;
+            z-index: 2;
+        }
+
+        .wm-media-overlay h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+
+        .wm-media-overlay p {
+            font-size: 0.75rem;
+            color: #cbd5e0;
+            margin: 0;
+        }
+
+        .side-description-wajah {
+            flex: 0 0 60%;
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .side-description-wajah h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f6b3b;
+            margin: 0 0 15px 0;
+            border-left: 4px solid #facc15;
+            padding-left: 12px;
+        }
+
+        .side-description-wajah p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #475569;
+            margin: 0 0 12px 0;
+            text-align: justify;
+        }
+
+        .side-description-wajah p:last-of-type {
+            margin-bottom: 20px;
+        }
+
+        .info-sekolah-wajah {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px dashed #cbd5e1;
+        }
+
+        .info-sekolah-wajah span {
+            font-size: 0.75rem;
+            color: #0f6b3b;
+            font-weight: 600;
+            background: #e6f7ec;
+            padding: 6px 12px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .card-wajah-madrasah-wrapper {
+                flex-direction: column;
+            }
+            
+            .wm-media-block, .side-description-wajah {
+                flex: 0 0 100%;
+                width: 100%;
+            }
+            
+            .wm-media-block {
+                min-height: 220px;
+            }
+            
+            .side-description-wajah {
+                padding: 20px 15px;
+            }
+        }
+
         .video-play-badge {
             position: absolute;
             top: 15px;
@@ -249,7 +366,6 @@ include 'config/koneksi.php';
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        /* Right Panel */
         .right-panel-info {
             background: #ffffff;
             border-radius: 18px;
@@ -304,9 +420,6 @@ include 'config/koneksi.php';
             color: #718096;
         }
 
-        /* ==========================================================================
-           6. BOTTOM ROW GALLERY GRID (Dinamis dari Database)
-           ========================================================================== */
         .bottom-row-gallery {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
@@ -315,13 +428,10 @@ include 'config/koneksi.php';
             width: 100%;
         }
 
-        /* ==========================================================================
-           PERBAIKAN: MODAL POP-UP (LIGHTBOX) UTK HALAMAN UTAMA
-           ========================================================================== */
         .main-media-modal {
             display: none;
             position: fixed;
-            z-index: 999999; /* Ditinggikan maksimal agar tidak bentrok dengan navbar menu */
+            z-index: 999999;
             left: 0;
             top: 0;
             width: 100%;
@@ -386,9 +496,6 @@ include 'config/koneksi.php';
             to { transform: scale(1); opacity: 1; }
         }
 
-        /* ==========================================================================
-           8. OPTIMASI RESPONSIVE
-           ========================================================================== */
         @media screen and (max-width: 1024px) {
             .galeri-composite-grid { grid-template-columns: 1fr; }
             .bottom-row-gallery { grid-template-columns: repeat(2, 1fr); }
@@ -412,17 +519,26 @@ include 'config/koneksi.php';
             .bottom-row-gallery { grid-template-columns: 1fr !important; gap: 15px; }
             .main-media-modal .close-main-modal { right: 0px; top: -50px; }
         }
+
+        [data-aos] {
+            opacity: 0;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-aos].aos-animate {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <?php include_once 'layout/header.php'; ?>
 
-    <section class="hero-galeri">
+    <section class="hero-galeri" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
         <div class="container">
             <div class="banner-masque">
                 <div class="banner-bg"></div>
                 <div class="banner-content">
-                    <div class="camera-book-icon">
+                    <div class="camera-book-icon" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="200">
                         <svg viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 65c15-4 30-4 45 0M45 65c15-4 30-4 45 0" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
                             <path d="M10 68c15-4 30-4 45 0M45 68c15-4 30-4 45 0" stroke="#facc15" stroke-width="2" stroke-linecap="round"/>
@@ -431,27 +547,29 @@ include 'config/koneksi.php';
                             <path d="M40 22l3-6h14l3 6" fill="none" stroke="#facc15" stroke-width="3"/>
                         </svg>
                     </div>
-                    <h1>Galeri MI Al Karomah:<span>Momen Pembelajaran & Prestasi</span></h1>
+                    <h1 data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Galeri MI Al Karomah:<span>Momen Pembelajaran & Prestasi</span></h1>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="container">
-        <div class="intro-section">
+        <div class="intro-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             <h2>Telusuri Kehidupan Madrasah Kami</h2>
             <p>Aktivitas Terkini & Prestasi Siswa-Siswi</p>
         </div>
     </section>
 
     <main class="container">
+        
         <div class="galeri-composite-grid">
             
             <div class="left-grid-flow">
                 <div class="card-galeri big-highlight trigger-main-modal" 
-                     data-media-type="gambar" 
-                     data-media-src="assets/galeri/galeri.png" 
-                     data-caption="Momen Akademik Terpilih">
+                    data-media-type="gambar" 
+                    data-media-src="assets/galeri/galeri.png" 
+                    data-caption="Momen Akademik Terpilih"
+                    data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
                     <div class="img-container-galeri">
                         <img src="assets/galeri/galeri.png" alt="Momen Academic Terpilih">
                         <div class="card-overlay-details">
@@ -460,38 +578,25 @@ include 'config/koneksi.php';
                         </div>
                     </div>
                 </div>
-
-                <div class="card-galeri trigger-main-modal" 
-                     data-media-type="gambar" 
-                     data-media-src="assets/galeri/galeri.png" 
-                     data-caption="Wajah Madrasah">
-                    <div class="img-container-galeri">
-                        <img src="assets/galeri/galeri.png" alt="Wajah Madrasah">
-                        <div class="card-overlay-details">
-                            <h3>Wajah Madrasah</h3>
-                            <p>20 Maret 2026</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <aside class="right-panel-info">
+            <aside class="right-panel-info" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                 <h3>Informasi Galeri</h3>
-                <div class="info-list-item">
+                <div class="info-list-item" data-aos="fade-right" data-aos-duration="500" data-aos-delay="250">
                     <div class="info-icon-circle">📷</div>
                     <div class="info-texts">
                         <h4>Galeri Pilihan Hari Ini</h4>
                         <p>Koleksi Foto Terupdate Hari Ini</p>
                     </div>
                 </div>
-                <div class="info-list-item">
+                <div class="info-list-item" data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
                     <div class="info-icon-circle">🏆</div>
                     <div class="info-texts">
                         <h4>Koleksi Prestasi</h4>
                         <p>Koleksi Prestasi Siswa-Siswi</p>
                     </div>
                 </div>
-                <div class="info-list-item">
+                <div class="info-list-item" data-aos="fade-right" data-aos-duration="500" data-aos-delay="350">
                     <div class="info-icon-circle">🎥</div>
                     <div class="info-texts">
                         <h4>Video Terbaru</h4>
@@ -501,6 +606,33 @@ include 'config/koneksi.php';
             </aside>
 
         </div>
+        
+        <section class="wajah-madrasah-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+            <div class="card-wajah-madrasah-wrapper">
+                
+                <div class="wm-media-block" data-aos="fade-right" data-aos-duration="800" data-aos-delay="250">
+                    <img src="img/sejarahmi.jpg" alt="Wajah Madrasah MI Al Karomah">
+                    <div class="wm-media-overlay">
+                        <h3>🏫 Wajah Madrasah</h3>
+                        <p>Gedung Depan | 20 Maret 2026</p>
+                    </div>
+                </div>
+                
+                <div class="side-description-wajah" data-aos="fade-left" data-aos-duration="800" data-aos-delay="350">
+                    <h4><i class="fas fa-history"></i> Sejarah Singkat</h4>
+                    <p>MI Al Karomah berdiri pada tahun 1998 atas dasar kepedulian masyarakat dalam menyediakan pendidikan dasar Islam yang berkualitas bagi anak-anak di lingkungan sekitar.</p>
+                    <p>Sejak berdiri hingga saat ini, MI Al Karomah terus berkomitmen memberikan pendidikan terbaik dengan mengedepankan nilai-nilai Islam, kedisiplinan, kreativitas, dan prestasi.</p>
+                    
+                    <div class="info-sekolah-wajah">
+                        <span data-aos="zoom-in" data-aos-duration="500" data-aos-delay="400"><i class="fas fa-calendar-alt"></i> Berdiri: 1998</span>
+                        <span data-aos="zoom-in" data-aos-duration="500" data-aos-delay="450"><i class="fas fa-map-marker-alt"></i> Kota Tasikmalaya</span>
+                        <span data-aos="zoom-in" data-aos-duration="500" data-aos-delay="500"><i class="fas fa-user-graduate"></i> Terakreditasi A</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </main>
 
     <section class="container">
@@ -509,8 +641,9 @@ include 'config/koneksi.php';
             $query_galeri = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC");
             
             if (mysqli_num_rows($query_galeri) > 0) : 
+                $delay = 0;
                 while ($g = mysqli_fetch_assoc($query_galeri)) : 
-                    
+                    $delay += 100;
                     $file_galeri = $g['gambar']; 
                     $ekstensi = strtolower(pathinfo($file_galeri, PATHINFO_EXTENSION));
                     $ekstensi_video = ['mp4', 'webm', 'ogg', 'mov'];
@@ -523,7 +656,8 @@ include 'config/koneksi.php';
                 <div class="card-galeri trigger-main-modal" 
                      data-media-type="<?= $is_video ? 'video' : 'gambar'; ?>"
                      data-media-src="<?= $path_file; ?>"
-                     data-caption="<?= $judul_clean; ?> (<?= $tanggal_formatted; ?>)">
+                     data-caption="<?= $judul_clean; ?> (<?= $tanggal_formatted; ?>)"
+                     data-aos="flip-up" data-aos-duration="700" data-aos-delay="<?= $delay; ?>">
                      
                     <div class="img-container-galeri">
                         <?php 
@@ -560,7 +694,7 @@ include 'config/koneksi.php';
             <?php 
                 endwhile; 
             else :
-                echo "<p style='grid-column: span 3; text-align:center; color:#666;'>Belum ada data galeri di database.</p>";
+                echo "<p style='grid-column: span 3; text-align:center; color:#666;' data-aos='fade-up' data-aos-duration='600'>Belum ada data galeri di database.</p>";
             endif; 
             ?>
         </div>
@@ -576,6 +710,22 @@ include 'config/koneksi.php';
 
     <?php include_once 'layout/footer.php'; ?>
 
+    <!-- AOS ANIMATION JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            delay: 0,
+            easing: 'ease-out-cubic'
+        });
+        
+        window.addEventListener('load', function() {
+            AOS.refresh();
+        });
+    </script>
+
     <script>
     const mainModal = document.getElementById("mainMediaModal");
     const mainCloseBtn = document.querySelector(".close-main-modal");
@@ -583,27 +733,23 @@ include 'config/koneksi.php';
     const mainCaptionArea = document.getElementById("mainModalCaption");
     const mainCards = document.querySelectorAll('.trigger-main-modal');
 
-    // Fungsi Utama Membuka Modal
     function openMainLightbox(card) {
         const mediaType = card.dataset.mediaType;
         const mediaSrc = card.dataset.mediaSrc;
         const captionText = card.dataset.caption;
 
-        // Reset konten modal sebelumnya
         mainContentArea.innerHTML = "";
         mainCaptionArea.innerText = captionText || "";
 
         if (mediaType === 'video') {
-            // Setup Element Video Full Screen saat di-zoom
             const videoEl = document.createElement('video');
             videoEl.src = mediaSrc;
             videoEl.className = "modal-item";
-            videoEl.controls = true;   // Kontrol play, volume, dsb aktif
-            videoEl.autoplay = true;   // Otomatis berputar saat diklik
+            videoEl.controls = true;
+            videoEl.autoplay = true;
             videoEl.id = "runningMainVideo";
             mainContentArea.appendChild(videoEl);
         } else {
-            // Setup Element Gambar Full Screen
             const imgEl = document.createElement('img');
             imgEl.src = mediaSrc;
             imgEl.className = "modal-item";
@@ -611,36 +757,31 @@ include 'config/koneksi.php';
         }
 
         mainModal.classList.add("open");
-        document.body.style.overflow = "hidden"; // Mencegah scrolling halaman belakang saat pop-up aktif
+        document.body.style.overflow = "hidden";
     }
 
-    // Fungsi Menutup Modal & Mematikan Suara Video
     function closeMainLightbox() {
         const activeVideo = document.getElementById("runningMainVideo");
         if (activeVideo) {
-            activeVideo.pause(); // Stop video agar suaranya mati
-            activeVideo.src = ""; // Flush source data
+            activeVideo.pause();
+            activeVideo.src = "";
         }
         mainModal.classList.remove("open");
-        document.body.style.overflow = ""; // Kembalikan scrollbar halaman utama
+        document.body.style.overflow = "";
     }
 
-    // Pasang Event Listener ke semua card yang bisa diklik
     mainCards.forEach(card => {
         card.addEventListener('click', () => openMainLightbox(card));
     });
 
-    // Close dengan klik tanda silang (X)
     mainCloseBtn.addEventListener('click', closeMainLightbox);
     
-    // Close dengan klik di area luar gambar/video (area gelap)
     mainModal.addEventListener('click', (e) => {
         if (e.target === mainModal) {
             closeMainLightbox();
         }
     });
 
-    // Close dengan menekan tombol keyboard ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === "Escape" && mainModal.classList.contains("open")) {
             closeMainLightbox();

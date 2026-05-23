@@ -22,201 +22,198 @@ $data = mysqli_query($conn, $query_str);
 ?>
 
 <style>
-/* ==========================================
-   WORKSPACE CONTENT (PAS DI BAWAH TOPBAR & PRESISI)
-========================================== */
-.content-body {
-    padding: 30px;
-    flex: 1;
-    background: #f4f6f9;
-}
+    .content-body {
+        padding: 30px;
+        flex: 1;
+        background: #f4f6f9;
+    }
 
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
-.page-title h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #111827;
-    margin: 0 0 4px 0;
-}
+    .page-title h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0 0 4px 0;
+    }
 
-.page-title p {
-    color: #6b7280;
-    font-size: 13px;
-    margin: 0;
-}
+    .page-title p {
+        color: #6b7280;
+        font-size: 13px;
+        margin: 0;
+    }
 
-/* Kumpulan Tombol & Search Bar */
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
+    /* Kumpulan Tombol & Search Bar */
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
 
-/* Desain Kolom Cari */
-.search-form {
-    display: flex;
-    align-items: center;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 0 15px;
-    height: 42px;
-    width: 280px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
+    /* Desain Kolom Cari */
+    .search-form {
+        display: flex;
+        align-items: center;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 0 15px;
+        height: 42px;
+        width: 280px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
 
-.search-form i {
-    color: #9ca3af;
-    font-size: 14px;
-    margin-right: 10px;
-}
+    .search-form i {
+        color: #9ca3af;
+        font-size: 14px;
+        margin-right: 10px;
+    }
 
-.search-form input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 13px;
-    color: #111827;
-}
+    .search-form input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+        color: #111827;
+    }
 
-.btn-search-clear {
-    color: #9ca3af;
-    text-decoration: none;
-    font-size: 13px;
-}
-.btn-search-clear:hover { color: #ef4444; }
+    .btn-search-clear {
+        color: #9ca3af;
+        text-decoration: none;
+        font-size: 13px;
+    }
+    .btn-search-clear:hover { color: #ef4444; }
 
-.btn-add {
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    padding: 0 20px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 42px;
-    transition: 0.2s;
-}
+    .btn-add {
+        background: linear-gradient(135deg, #16a34a, #15803d);
+        padding: 0 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 42px;
+        transition: 0.2s;
+    }
 
-.btn-add:hover {
-    transform: translateY(-1px);
-    opacity: 0.95;
-}
+    .btn-add:hover {
+        transform: translateY(-1px);
+        opacity: 0.95;
+    }
 
-/* ==========================================
-   TABLE SYSTEM STYLE
-========================================== */
-.table-responsive {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-    border: 1px solid #eef2f5;
-}
+    /* ==========================================
+    TABLE SYSTEM STYLE
+    ========================================== */
+    .table-responsive {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        border: 1px solid #eef2f5;
+    }
 
-.news-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+    .news-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-.news-table th {
-    background: #166534;
-    color: white;
-    padding: 14px 18px;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: left;
-}
+    .news-table th {
+        background: #166534;
+        color: white;
+        padding: 14px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        text-align: left;
+    }
 
-.news-table td {
-    padding: 14px 18px;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
-    font-size: 13px;
-}
+    .news-table td {
+        padding: 14px 18px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+        font-size: 13px;
+    }
 
-.news-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+    .news-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
-.news-thumb {
-    width: 80px;
-    height: 55px;
-    object-fit: cover;
-    border-radius: 8px;
-    background: #f3f4f6;
-}
+    .news-thumb {
+        width: 80px;
+        height: 55px;
+        object-fit: cover;
+        border-radius: 8px;
+        background: #f3f4f6;
+    }
 
-.news-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 3px;
-}
+    .news-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 3px;
+    }
 
-.news-desc {
-    font-size: 12px;
-    color: #6b7280;
-}
+    .news-desc {
+        font-size: 12px;
+        color: #6b7280;
+    }
 
-.badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    display: inline-block;
-}
+    .badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
 
-.badge-publish { background: #dcfce7; color: #166534; }
-.badge-draft { background: #fef3c7; color: #92400e; }
+    .badge-publish { background: #dcfce7; color: #166534; }
+    .badge-draft { background: #fef3c7; color: #92400e; }
 
-.action-group {
-    display: flex;
-    gap: 8px;
-}
+    .action-group {
+        display: flex;
+        gap: 8px;
+    }
 
-.action-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: 0.2s;
-    font-size: 13px;
-}
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: 0.2s;
+        font-size: 13px;
+    }
 
-.view-btn { background: #f0fdf4; color: #16a34a; }
-.edit-btn { background: #f0f6ff; color: #2563eb; }
-.delete-btn { background: #fdf2f2; color: #dc2626; }
+    .view-btn { background: #f0fdf4; color: #16a34a; }
+    .edit-btn { background: #f0f6ff; color: #2563eb; }
+    .delete-btn { background: #fdf2f2; color: #dc2626; }
 
-.action-btn:hover { transform: translateY(-1px); }
+    .action-btn:hover { transform: translateY(-1px); }
 
-.empty-state {
-    padding: 40px;
-    text-align: center;
-    color: #6b7280;
-}
+    .empty-state {
+        padding: 40px;
+        text-align: center;
+        color: #6b7280;
+    }
 
-@media(max-width: 991px) {
-    .table-responsive { overflow-x: auto; }
-    .news-table { min-width: 850px; }
-}
+    @media(max-width: 991px) {
+        .table-responsive { overflow-x: auto; }
+        .news-table { min-width: 850px; }
+    }
 </style>
 
 <div class="content-body">
@@ -284,7 +281,6 @@ $data = mysqli_query($conn, $query_str);
                     </td>
                     <td>
                         <div class="action-group">
-                            <a href="../berita_detail.php?slug=<?= $d['slug']; ?>" target="_blank" class="action-btn view-btn"><i class="fas fa-eye"></i></a>
                             <a href="edit_berita.php?id=<?= $d['id']; ?>" class="action-btn edit-btn"><i class="fas fa-pen"></i></a>
                             <a href="hapus_berita.php?id=<?= $d['id']; ?>" onclick="return confirm('Yakin ingin menghapus berita ini?')" class="action-btn delete-btn"><i class="fas fa-trash"></i></a>
                         </div>

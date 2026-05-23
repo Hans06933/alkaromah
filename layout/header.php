@@ -1,6 +1,4 @@
 <?php
-// header.php - Bagian header untuk semua halaman
-// Wajib set $activePage dan $pageTitle sebelum include
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -325,7 +323,7 @@
 <!-- TOPBAR -->
 <div class="topbar">
     <div class="top-left">
-        <a href="#" class="ppdb-btn">PPDB 2024/2025</a>
+        <a href="ppdb.php" class="ppdb-btn">PPDB 2024/2025</a>
     </div>
     <div class="top-right">
         <a href="https://www.facebook.com/MIAL-KAROMAH" target="_blank" class="social-icon">

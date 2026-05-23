@@ -359,6 +359,12 @@
                     <i class="fas fa-calendar-alt"></i> 
                     <span>Agenda / Kegiatan</span>
                 </a>
+                <div class="menu-title">Menu Utama</div>
+
+                <a href="admin_ppdb.php" class="menu-item">
+                    <i class="fas fa-user-plus"></i> 
+                    <span>Data PPDB</span>
+                </a>
 
                 <div class="menu-title">Akun</div>
                 <a href="../index.php" class="menu-item">

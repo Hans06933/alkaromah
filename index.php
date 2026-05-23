@@ -20,14 +20,14 @@ $queryBerita = mysqli_query($conn,
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>MI Al Karomah - Madrasah Hebat Bermartabat</title>
-    
-    <!-- Google Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        /* ---------- RESET & GLOBAL ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -57,7 +57,7 @@ $queryBerita = mysqli_query($conn,
 
         .hero-container {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr; /* proporsi teks : gambar */
+            grid-template-columns: 1.1fr 0.9fr; 
             align-items: center;
             background: #fdfcf7;
             border-radius: 35px;
@@ -67,7 +67,6 @@ $queryBerita = mysqli_query($conn,
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        /* Background Hijau Lengkung di sisi kanan */
         .hero-container::before {
             content: '';
             position: absolute;
@@ -80,7 +79,6 @@ $queryBerita = mysqli_query($conn,
             z-index: 1;
         }
 
-        /* Ornamen kotak/berlian di bawah tengah perbatasan */
         .hero-container::after {
             content: '';
             position: absolute;
@@ -176,23 +174,20 @@ $queryBerita = mysqli_query($conn,
             box-shadow: 0 5px 12px rgba(0,0,0,0.1);
         }
 
-        /* Area gambar – FULL menutupi area hijau */
         .hero-image {
             position: relative;
             z-index: 2;
             width: 100%;
             height: 100%;
             min-height: 480px;
-            overflow: hidden; /* agar masking tidak kelebihan */
+            overflow: hidden; 
         }
 
         .hero-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;      /* MEMENUHI seluruh area tanpa ruang kosong */
-            object-position: center left; /* fokus ke sisi kiri gambar (penting agar gradasi kiri bagus) */
-            
-            /* Efek gradasi dari kiri ke kanan (transparan -> solid) */
+            object-fit: cover;     
+            object-position: center left; 
             -webkit-mask-image: linear-gradient(to right, 
                 transparent 0%, 
                 rgba(0,0,0,0.2) 15%, 
@@ -203,8 +198,7 @@ $queryBerita = mysqli_query($conn,
                 rgba(0,0,0,0.2) 15%, 
                 rgba(0,0,0,1) 45%
             );
-            
-            /* Opsional: sedikit kecerahan agar menyatu */
+
             filter: brightness(0.97) contrast(1.03);
         }
 
@@ -230,93 +224,84 @@ $queryBerita = mysqli_query($conn,
 
         @media (max-width: 768px) {
         .hero {
-            padding: 15px 4% 15px; /* Memperkecil padding luar area hero di HP */
+            padding: 15px 4% 15px;
         }
 
         .hero-container {
-            /* Mengubah sistem grid menjadi baris lurus ke samping tanpa patah ke bawah */
             display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
-            flex-wrap: nowrap !important; /* KUNCI UTAMA: Gambar dilarang keras turun ke bawah */
-            min-height: auto !important; /* Menghapus tinggi statis 500px agar proporsional */
-            height: 260px !important; /* Mengunci tinggi wadah agar seragam di HP */
-            border-radius: 20px !important; /* Menyesuaikan lengkungan box di layar kecil */
+            flex-wrap: nowrap !important;
+            min-height: auto !important;
+            height: 260px !important;
+            border-radius: 20px !important;
         }
 
-        /* Background Hijau Kanan Tetap Dipertahankan & Disesuaikan Skalanya */
         .hero-container::before {
-            width: 45% !important; /* Menyesuaikan porsi area hijau di HP */
+            width: 45% !important;
             clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%) !important;
-            opacity: 1 !important; /* Menjaga warna hijau solid, bukan transparan */
+            opacity: 1 !important;
         }
 
-        /* Ornamen Berlian Tengah Bawah */
         .hero-container::after {
-            left: 55% !important; /* Menggeser posisi berlian mengikuti batas lekukan baru */
+            left: 55% !important; 
             width: 35px !important;
             height: 35px !important;
             bottom: -10px !important;
             border: 3px solid #fdfcf7 !important;
         }
 
-        /* AREA KONTEN TEKS (SISI KIRI) */
         .hero-content {
-            padding: 15px 0 15px 20px !important; /* Merapikan padding teks bagian dalam */
-            flex: 1.3 !important; /* Memberikan porsi ruang lebih dominan untuk teks */
+            padding: 15px 0 15px 20px !important; 
+            flex: 1.3 !important; 
             z-index: 3 !important;
         }
 
         .hero-label {
-            font-size: 9px !important; /* Mengecilkan badge label sekolah */
+            font-size: 9px !important;
             padding: 4px 10px !important;
             margin-bottom: 8px !important;
             border-radius: 5px !important;
         }
 
-        /* Ukuran Judul Utama Dipaksa Lebih Kecil & Rapi */
         .hero-content h2 {
-            font-size: 20px !important; /* Diturunkan ekstrem dari 64px agar pas di layar HP */
+            font-size: 20px !important;
             line-height: 1.1 !important;
             margin-bottom: 4px !important;
             letter-spacing: 0px !important;
         }
 
-        /* Sub-judul */
         .hero-content h3 {
-            font-size: 13px !important; /* Diturunkan dari 32px */
+            font-size: 13px !important; 
             line-height: 1.2 !important;
             margin-bottom: 8px !important;
         }
 
-        /* Paragraf Deskripsi */
         .hero-content p {
-            font-size: 10px !important; /* Ukuran teks deskripsi dibuat presisi dan rapi */
+            font-size: 10px !important; 
             line-height: 1.4 !important;
             margin-bottom: 12px !important;
             max-width: 100% !important;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Membatasi teks maksimal 3 baris di HP agar tidak luber */
+            -webkit-line-clamp: 3; 
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        /* Kelompok Tombol */
         .hero-btns {
-            gap: 8px !important; /* Merapatkan jarak antar tombol */
+            gap: 8px !important; 
         }
 
         .btn-primary, .btn-outline {
-            padding: 6px 14px !important; /* Memperkecil ukuran tombol */
+            padding: 6px 14px !important;
             font-size: 10px !important;
             border-radius: 20px !important;
             gap: 5px !important;
         }
 
-        /* AREA GAMBAR (SISI KANAN - MEMENUHI BG HIJAU) */
         .hero-image {
-            flex: 0.9 !important; /* Porsi ruang gambar di kanan */
+            flex: 0.9 !important; 
             height: 100% !important;
             min-height: auto !important;
             display: block !important;
@@ -325,11 +310,10 @@ $queryBerita = mysqli_query($conn,
         .hero-image img {
             width: 100% !important;
             height: 100% !important;
-            object-fit: cover !important; /* Tetap full memenuhi area hijau */
+            object-fit: cover !important;
             object-position: center left !important;
             max-height: none !important;
 
-            /* Efek Gradasi Lembut Masking Transparan Asli Anda Tetap Terkunci Sempurna */
             -webkit-mask-image: linear-gradient(to right, 
                 transparent 0%, 
                 rgba(0,0,0,0.2) 15%, 
@@ -399,69 +383,61 @@ $queryBerita = mysqli_query($conn,
 
     @media (max-width: 768px) {
         .feature-wrapper {
-            margin-top: -20px !important; /* Kurangi margin minus agar tidak terlalu memotong hero mobile */
-            padding: 0 4% !important; /* Jarak aman tepi layar HP */
+            margin-top: -20px !important;
+            padding: 0 4% !important;
         }
 
         .feature-container {
-            /* KUNCI: Mengubah dari 4 kolom menjadi susunan kotak rapi 2x2 di HP */
             grid-template-columns: repeat(2, 1fr) !important; 
-            overflow: visible !important; /* Diperlukan agar efek bayangan timbul tidak terpotong */
-            background: transparent !important; /* Izinkan latar belakang dikelola oleh masing-masing box */
-            box-shadow: none !important; /* Hapus shadow bawaan container */
+            overflow: visible !important; 
+            background: transparent !important;
+            box-shadow: none !important;
         }
 
         .feature-box {
             background: white !important;
-            padding: 20px 15px !important; /* Perkecil padding dalam kotak agar efisien */
+            padding: 20px 15px !important; 
             display: flex !important;
-            flex-direction: column !important; /* Paksa ikon di atas, teks di bawahnya agar rapi */
-            align-items: center !important; /* Semua konten rata tengah */
+            flex-direction: column !important; 
+            align-items: center !important; 
             text-align: center !important;
             gap: 12px !important;
-            
-            /* Set ulang border agar membentuk grid silang (tengah) yang rapi */
+
             border-right: 1px solid #eee !important;
             border-bottom: 1px solid #eee !important;
             box-sizing: border-box !important;
-            
-            /* Persiapan animasi transisi saat disentuh */
+
             transition: all 0.25s ease-in-out !important;
             position: relative !important;
             z-index: 1 !important;
         }
 
-        /* Merapikan garis border grid agar tidak ganda di tepi luar */
         .feature-box:nth-child(2n) {
-            border-right: none !important; /* Hilangkan border kanan untuk kolom kedua */
+            border-right: none !important; 
         }
         
         .feature-box:nth-child(3), 
         .feature-box:nth-child(4) {
-            border-bottom: none !important; /* Hilangkan border bawah untuk baris terakhir */
+            border-bottom: none !important;
         }
 
-        /* Mengatur kelengkungan sudut (border-radius) box secara individual karena kontainer luar dipecah */
         .feature-box:nth-child(1) { border-top-left-radius: 20px !important; }
         .feature-box:nth-child(2) { border-top-right-radius: 20px !important; }
         .feature-box:nth-child(3) { border-bottom-left-radius: 20px !important; }
         .feature-box:nth-child(4) { border-bottom-right-radius: 20px !important; }
 
-        /* Ukuran Komponen Ikon di HP */
         .feature-icon {
             min-width: 45px !important;
             height: 45px !important;
             font-size: 18px !important;
         }
 
-        /* Ukuran Judul Fitur */
         .feature-box h4 {
             font-size: 14px !important;
             margin-bottom: 4px !important;
             font-weight: 700 !important;
         }
 
-        /* Teks Deskripsi Fitur */
         .feature-box p {
             font-size: 11px !important;
             line-height: 1.5 !important;
@@ -473,235 +449,222 @@ $queryBerita = mysqli_query($conn,
         ========================================================================== */
         .feature-box:active,
         .feature-box:hover {
-            z-index: 5 !important; /* Angkat box ke atas elemen lain agar shadow tidak tertutup */
-            background: #fafdfb !important; /* Efek highlight warna hijau super tipis */
-            
-            /* Merubah border abu-abu kasar menjadi hijau khas sekolah saat ditekan */
+            z-index: 5 !important;
+            background: #fafdfb !important; 
             border-color: #0f6b3b !important; 
-            
-            /* Memberikan kelengkungan penuh pada box yang sedang aktif */
             border-radius: 15px !important; 
-            
-            /* Efek timbul (elevation shadow) yang lembut dan nyata */
             box-shadow: 0 10px 25px rgba(15, 107, 59, 0.15) !important;
-            
-            /* Efek pop-up sedikit membal ke atas */
             transform: translateY(-4px) scale(1.02) !important; 
         }
     }
 
     /* ==========================================================================
-   SECTION PROFIL & INFORMASI TERBARU (HOME)
-   ========================================================================== */
+    SECTION PROFIL & INFORMASI TERBARU (HOME)
+    ========================================================================== */
 
-.profile {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 30px;
-    padding: 60px 4%;
-    background-color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* --- KONTEN PROFIL (KIRI & TENGAH) --- */
-.profile-container {
-    display: flex;
-    flex: 2; /* Mengambil ruang lebih besar (Profil + Gambar) */
-    align-items: center;
-    gap: 40px;
-    background: #ffffff;
-}
-
-.profile-text {
-    flex: 1;
-}
-
-.profile-text h2 {
-    font-size: 28px;
-    color: #064e3b; /* Hijau tua pekat khas MI */
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.profile-line {
-    width: 40px;
-    height: 4px;
-    background-color: #eab308; /* Garis aksen kuning orange */
-    margin-bottom: 25px;
-    border-radius: 2px;
-}
-
-.profile-text p {
-    font-size: 15px;
-    color: #4b5563;
-    line-height: 1.7;
-    margin-bottom: 30px;
-    text-align: justify;
-}
-
-/* Tombol Selengkapnya Oval Hijau */
-.profile-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 28px;
-    background-color: #046a38;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 30px; /* Membuat lonjong sempurna (oval) */
-    font-size: 14px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.profile-btn:hover {
-    background-color: #03522c;
-    transform: translateY(-2px);
-}
-
-/* Komponen Foto Gedung Sekolah */
-.profile-image {
-    flex: 1.2;
-    height: 100%;
-    max-height: 320px;
-    overflow: hidden;
-    border-radius: 24px; /* Sudut melengkung halus sesuai gambar */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* --- KOTAK INFORMASI TERBARU (KANAN) --- */
-.news-box {
-    flex: 1; /* Lebar proporsional di sisi kanan */
-    background-color: #046a38; /* Background hijau penuh */
-    border-radius: 24px; /* Melengkung di setiap sudut */
-    padding: 30px 24px;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    /* Efek siluet masjid samar di latar belakang (opsional jika aset tersedia) */
-    background-image: linear-gradient(rgba(4, 106, 56, 0.95), rgba(4, 106, 56, 0.95)), url('img/mosque-silhouette.png');
-    background-size: bottom right;
-    background-repeat: no-repeat;
-}
-
-.news-box h3 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 6px;
-}
-
-.news-line {
-    width: 35px;
-    height: 3px;
-    background-color: #eab308;
-    margin-bottom: 25px;
-}
-
-/* List Item Berita */
-.news-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Garis pembatas tipis transparan */
-}
-
-.news-item:last-of-type {
-    margin-bottom: 25px;
-    border-bottom: none; /* Hilangkan garis di item terakhir */
-}
-
-.news-item img {
-    width: 75px;
-    height: 55px;
-    object-fit: cover;
-    border-radius: 12px; /* Melengkung kecil pada thumbnail gambar berita */
-    background-color: #ffffff;
-}
-
-.news-content {
-    flex: 1;
-}
-
-.news-content h4 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #fef08a; /* Warna teks judul berita kekuningan lembut agar terbaca jelas */
-    margin-bottom: 4px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden; /* Potong teks jika terlalu panjang */
-}
-
-.news-content p {
-    font-size: 12px;
-    color: #e5e7eb;
-    margin-bottom: 4px;
-    line-height: 1.4;
-}
-
-.news-content span {
-    font-size: 11px;
-    color: #9ca3af; /* Warna tanggal abu-abu terang */
-    display: block;
-}
-
-/* Tombol Lihat Semua Berita Kuning Orange */
-.news-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 12px;
-    background-color: #f59e0b; /* Warna tombol kuning oranye kontras */
-    color: #1e293b; /* Teks gelap */
-    text-decoration: none;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 700;
-    text-align: center;
-    margin-top: auto; /* Memaksa tombol selalu berada di paling bawah kotak */
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.news-btn:hover {
-    background-color: #d97706;
-    transform: scale(1.02);
-}
-
-/* --- RESPONSIVE LAYOUT (SMARTPHONE & TABLET) --- */
-@media (max-width: 1024px) {
     .profile {
-        flex-direction: column; /* Berubah susunan ke bawah saat layar mengecil */
-        padding: 40px 20px;
-        gap: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 30px;
+        padding: 60px 4%;
+        background-color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    
+
+    /* --- KONTEN PROFIL --- */
     .profile-container {
-        flex-direction: column-reverse; /* Gambar pindah ke atas teks pada mobile */
-        gap: 25px;
+        display: flex;
+        flex: 2;
+        align-items: center;
+        gap: 40px;
+        background: #ffffff;
     }
-    
+
+    .profile-text {
+        flex: 1;
+    }
+
+    .profile-text h2 {
+        font-size: 28px;
+        color: #064e3b;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .profile-line {
+        width: 40px;
+        height: 4px;
+        background-color: #eab308; 
+        margin-bottom: 25px;
+        border-radius: 2px;
+    }
+
+    .profile-text p {
+        font-size: 15px;
+        color: #4b5563;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        text-align: justify;
+    }
+
+    .profile-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 28px;
+        background-color: #046a38;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .profile-btn:hover {
+        background-color: #03522c;
+        transform: translateY(-2px);
+    }
+
     .profile-image {
-        width: 100%;
-        max-height: 250px;
+        flex: 1.2;
+        height: 100%;
+        max-height: 320px;
+        overflow: hidden;
+        border-radius: 24px; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
-}
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* --- KOTAK INFORMASI TERBARU */
+    .news-box {
+        flex: 1; 
+        background-color: #046a38; 
+        border-radius: 24px; 
+        padding: 30px 24px;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        background-image: linear-gradient(rgba(4, 106, 56, 0.95), rgba(4, 106, 56, 0.95)), url('img/mosque-silhouette.png');
+        background-size: bottom right;
+        background-repeat: no-repeat;
+    }
+
+    .news-box h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 6px;
+    }
+
+    .news-line {
+        width: 35px;
+        height: 3px;
+        background-color: #eab308;
+        margin-bottom: 25px;
+    }
+
+    .news-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    }
+
+    .news-item:last-of-type {
+        margin-bottom: 25px;
+        border-bottom: none; 
+    }
+
+    .news-item img {
+        width: 75px;
+        height: 55px;
+        object-fit: cover;
+        border-radius: 12px; 
+        background-color: #ffffff;
+    }
+
+    .news-content {
+        flex: 1;
+    }
+
+    .news-content h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fef08a; 
+        margin-bottom: 4px;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden; 
+    }
+
+    .news-content p {
+        font-size: 12px;
+        color: #e5e7eb;
+        margin-bottom: 4px;
+        line-height: 1.4;
+    }
+
+    .news-content span {
+        font-size: 11px;
+        color: #9ca3af; 
+        display: block;
+    }
+
+    .news-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 12px;
+        background-color: #f59e0b; 
+        color: #1e293b; 
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        margin-top: auto;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .news-btn:hover {
+        background-color: #d97706;
+        transform: scale(1.02);
+    }
+
+    /* --- RESPONSIVE LAYOUT (SMARTPHONE & TABLET) --- */
+    @media (max-width: 1024px) {
+        .profile {
+            flex-direction: column; /* Berubah susunan ke bawah saat layar mengecil */
+            padding: 40px 20px;
+            gap: 40px;
+        }
+        
+        .profile-container {
+            flex-direction: column-reverse; /* Gambar pindah ke atas teks pada mobile */
+            gap: 25px;
+        }
+        
+        .profile-image {
+            width: 100%;
+            max-height: 250px;
+        }
+    }
     
 
-        /* ==========================================================================
+    /* ==========================================================================
     FASILITAS SEKOLAH
     ========================================================================== */
 
@@ -830,7 +793,7 @@ $queryBerita = mysqli_query($conn,
 
     .empty-facility i {
         font-size: 55px;
-        color: #cbd5e1; /* Warna abu-abu halus agar lebih pas untuk ikon "kosong" */
+        color: #cbd5e1;
         margin-bottom: 20px;
         display: inline-block;
     }
@@ -857,23 +820,19 @@ $queryBerita = mysqli_query($conn,
             font-size: 30px;
         }
 
-        /* Mengubah jarak antar kartu agar tidak terlalu sempit di layar HP */
         .facilities-grid {
-            grid-template-columns: repeat(2, 1fr); /* Memaksa grid menjadi 2 kolom ke samping */
-            gap: 15px; /* Memperkecil jarak antar komponen agar muat */
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
         }
 
-        /* Menyesuaikan tinggi gambar agar kartu tidak terlalu panjang ke bawah */
         .facility-image {
             height: 140px; 
         }
 
-        /* Mengurangi padding dalam kartu agar teks tidak berdesakan */
         .facility-content {
             padding: 12px;
         }
 
-        /* Memperkecil ukuran teks agar pas dengan ukuran kartu yang mengecil */
         .facility-category {
             padding: 4px 10px;
             font-size: 10px;
@@ -889,8 +848,7 @@ $queryBerita = mysqli_query($conn,
             font-size: 11px;
             line-height: 1.5;
         }
-        
-        /* Ukuran overlay ikon di pojok gambar juga disesuaikan */
+
         .facility-overlay {
             width: 35px;
             height: 35px;
@@ -908,14 +866,30 @@ $queryBerita = mysqli_query($conn,
             font-size: 24px;
         }
     }
+
+    /* ==========================================================================
+       ANIMASI SCROLL - FADE IN UP EFFECT
+    ========================================================================== */
+    [data-aos] {
+        opacity: 0;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-aos].aos-animate {
+        opacity: 1;
+    }
+
+    .hero, .feature-wrapper, .profile, .facilities {
+        transition: all 0.3s ease;
+    }
     </style>
 </head>
 <body>
 
 <!-- HERO SECTION -->
-<section class="hero">
+<section class="hero" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
     <div class="hero-container">
-        <div class="hero-content">
+        <div class="hero-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
             <div class="hero-label">Selamat Datang di</div>
             <h2>MI AL KAROMAH</h2>
             <h3>Madrasah Hebat, Bermartabat</h3>
@@ -925,37 +899,37 @@ $queryBerita = mysqli_query($conn,
                 <a href="profil.php" class="btn-outline">Profil Sekolah</a>
             </div>
         </div>
-        <div class="hero-image">
+        <div class="hero-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
             <img src="img/hero1.jpg" alt="Suasana Madrasah">
         </div>
     </div>
 </section>
 
 <!-- KEUNGGULAN (4 fitur) -->
-<section class="feature-wrapper">
+<section class="feature-wrapper" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="feature-container">
-        <div class="feature-box">
+        <div class="feature-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
             <div class="feature-icon">📖</div>
             <div>
                 <h4>Pendidikan Berkualitas</h4>
                 <p>Mengintegrasikan ilmu pengetahuan dan nilai keislaman.</p>
             </div>
         </div>
-        <div class="feature-box">
+        <div class="feature-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="250">
             <div class="feature-icon">👤</div>
             <div>
                 <h4>Akhlak Mulia</h4>
                 <p>Membentuk karakter islami yang santun dan disiplin.</p>
             </div>
         </div>
-        <div class="feature-box">
+        <div class="feature-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="350">
             <div class="feature-icon">🏆</div>
             <div>
                 <h4>Berprestasi</h4>
                 <p>Mendorong siswa aktif dan berprestasi akademik.</p>
             </div>
         </div>
-        <div class="feature-box">
+        <div class="feature-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="450">
             <div class="feature-icon">🕌</div>
             <div>
                 <h4>Lingkungan Islami</h4>
@@ -966,9 +940,9 @@ $queryBerita = mysqli_query($conn,
 </section>
 
 <!-- PROFIL & INFORMASI TERBARU -->
-<section class="profile">
+<section class="profile" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="profile-container">
-        <div class="profile-text">
+        <div class="profile-text" data-aos="fade-right" data-aos-duration="800" data-aos-delay="200">
             <h2>Profil MI Al Karomah</h2>
             <div class="profile-line"></div>
             <p>
@@ -977,22 +951,20 @@ $queryBerita = mysqli_query($conn,
             </p>
             <a href="profil.php" class="profile-btn">Selengkapnya →</a>
         </div>
-        <div class="profile-image">
-            <img src="img/sekolah.png" alt="Gedung MI Al Karomah">
+        <div class="profile-image" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+            <img src="img/sejarahmi.jpg" alt="Gedung MI Al Karomah">
         </div>
     </div>
 
-    <div class="news-box">
-
+    <div class="news-box" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
         <h3>Informasi Terbaru</h3>
         <div class="news-line"></div>
 
         <?php if (mysqli_num_rows($queryBerita) > 0) : ?>
             <?php while ($berita = mysqli_fetch_assoc($queryBerita)) : ?>
                 
-                <div class="news-item">
+                <div class="news-item" data-aos="fade-left" data-aos-duration="500" data-aos-delay="300">
                     <?php 
-                        // FIX: Mengubah dari ['gambar'] menjadi ['thumbnail'] sesuai struktur database kamu
                         $namaGambar = !empty($berita['thumbnail']) ? $berita['thumbnail'] : 'default-berita.jpg';
                     ?>
                     
@@ -1020,17 +992,17 @@ $queryBerita = mysqli_query($conn,
             </p>
         <?php endif; ?>
 
-        <a href="berita.php" class="news-btn">
+        <a href="berita.php" class="news-btn" data-aos="fade-up" data-aos-duration="500" data-aos-delay="400">
             Lihat Semua Berita →
         </a>
 
     </div>
 </section>
 
-<section class="facilities">
+<section class="facilities" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
     <div class="container">
 
-        <div class="section-title">
+        <div class="section-title" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">
             <h2>Fasilitas Sekolah</h2>
             <p>Sarana dan prasarana terbaik untuk mendukung kegiatan belajar siswa.</p>
         </div>
@@ -1038,8 +1010,8 @@ $queryBerita = mysqli_query($conn,
         <div class="facilities-grid">
             <?php if (mysqli_num_rows($queryFasilitas) > 0) : ?>
 
-                <?php while ($f = mysqli_fetch_assoc($queryFasilitas)) : ?>
-                    <div class="facility-card">
+                <?php $delay = 0; while ($f = mysqli_fetch_assoc($queryFasilitas)) : $delay += 100; ?>
+                    <div class="facility-card" data-aos="flip-up" data-aos-duration="700" data-aos-delay="<?= $delay; ?>">
 
                         <div class="facility-image">
                             <img src="assets/fasilitas/<?= $f['gambar']; ?>" 
@@ -1068,8 +1040,7 @@ $queryBerita = mysqli_query($conn,
 
             <?php else : ?>
 
-                <!-- Diberi pembungkus full-width agar layout grid tidak merusak tampilan teks kosong -->
-                <div class="empty-facility-wrapper" style="grid-column: 1 / -1; text-align: center; width: 100%;">
+                <div class="empty-facility-wrapper" style="grid-column: 1 / -1; text-align: center; width: 100%;" data-aos="fade-up" data-aos-duration="600">
                     <div class="empty-facility">
                         <i class="fas fa-school" style="font-size: 48px; color: #cbd5e1; margin-bottom: 15px; display: inline-block;"></i>
                         <h3>Belum Ada Fasilitas</h3>
@@ -1093,6 +1064,22 @@ document.querySelectorAll('.footer-socials a').forEach(function(elem) {
     });
 });
 </script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800, 
+        once: true,    
+        offset: 50,     
+        delay: 0,           
+        easing: 'ease-out-cubic', 
+    });
+
+    window.addEventListener('load', function() {
+        AOS.refresh();
+    });
+</script>
+
 <?php
 include 'layout/footer.php';
 ?>

@@ -16,10 +16,10 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
     
+    <!-- AOS ANIMATION CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        /* ==========================================================================
-           RESET & UTILITIES
-           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
@@ -40,9 +40,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             padding: 0 20px;
         }
 
-        /* ==========================================================================
-        1. HERO SECTION & STATS COUNTER (BASE STYLE LAPTOP)
-        ========================================================================== */
         .hero-kegiatan {
             padding: 60px 0 40px 0;
             background: #fcfbf7;
@@ -125,9 +122,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             border-radius: 200px 200px 0 200px;
         }
 
-        /* ==========================================================================
-        2. MINI STATS - LAPTOP PREMIUM STYLE
-        ========================================================================== */
         .hero-stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -191,7 +185,7 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             color: #6b7280;
             font-weight: 500;
             margin: 0;
-            white-space: nowrap; /* Di laptop aman menggunakan satu baris panjang */
+            white-space: nowrap;
         }
 
         .stat-mini-box:hover {
@@ -202,13 +196,10 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             transform: scale(1.05);
         }
 
-        /* ==========================================================================
-        3. PERBAIKAN TOTAL MOBILE OPTIMIZATION (max-width: 768px)
-        ========================================================================== */
         @media screen and (max-width: 768px) {
             .hero-kegiatan {
                 padding: 0 0 25px 0 !important;
-                overflow-x: hidden !important; /* Kunci pelindung kontainer luar */
+                overflow-x: hidden !important;
             }
 
             .hero-grid {
@@ -218,10 +209,9 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 width: 100% !important;
             }
 
-            /* --- HERO IMAGE (ATAS FULL-WIDTH) --- */
             .hero-right {
                 order: 1 !important;
-                width: calc(100% + 40px) !important; /* Menutup padding kanan-kiri container asli */
+                width: calc(100% + 40px) !important;
                 margin-left: -20px !important;
                 margin-right: -20px !important;
                 position: relative !important;
@@ -235,10 +225,9 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 width: 100% !important;
                 height: 220px !important;
                 object-fit: cover !important;
-                border-radius: 0 0 100px 100px / 0 0 30px 30px !important; /* Efek lengkung halus presisi */
+                border-radius: 0 0 100px 100px / 0 0 30px 30px !important;
             }
 
-            /* --- HERO TEXT (TENGAH) --- */
             .hero-left {
                 order: 2 !important;
                 width: 100% !important;
@@ -267,10 +256,9 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 font-size: 0.8rem !important;
             }
 
-            /* --- FIXING ANTI-BREAK: GRID STATS BOX (BAWAH) --- */
             .hero-stats-row {
-                grid-template-columns: repeat(2, 1fr) !important; /* Menggunakan grid 2x2 */
-                gap: 12px 8px !important; /* Margin celah antar boks diminimalkan */
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px 8px !important;
                 padding: 15px 10px !important;
                 border-radius: 16px !important;
                 margin-top: 20px !important;
@@ -280,17 +268,17 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
 
             .stat-mini-box {
                 padding: 0 4px !important;
-                gap: 8px !important; /* Merapatkan jarak ikon dan teks di HP */
+                gap: 8px !important;
                 width: 100% !important;
                 overflow: hidden !important;
             }
 
             .stat-mini-box:not(:last-child)::after {
-                display: none !important; /* Matikan pseudo-border laptop */
+                display: none !important;
             }
 
             .stat-mini-box .icon-container {
-                width: 36px !important; /* Mengecilkan box icon */
+                width: 36px !important;
                 height: 36px !important;
                 border-radius: 10px !important;
                 font-size: 1rem !important;
@@ -301,23 +289,18 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 margin-bottom: 1px !important;
             }
 
-            /* SOLUSI KUNCI: Matikan paksaan satu baris agar teks bisa melipat ke bawah saat layar sempit */
             .stat-mini-box p {
                 font-size: 0.68rem !important;
-                white-space: normal !important; /* Memperbolehkan teks turun baris di HP */
+                white-space: normal !important;
                 line-height: 1.2 !important;
                 word-break: break-word !important;
             }
         }
 
-        /* ==========================================================================
-        2. KEGIATAN UNGGULAN (GRID CARD GAMBAR)
-        ========================================================================== */
         .kegiatan-unggulan {
             padding: 30px 0;
         }
 
-        /* Section Header dengan Flex untuk Judul + Link Lihat Semua */
         .section-header-flex {
             display: flex;
             justify-content: space-between;
@@ -357,7 +340,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             text-decoration: underline;
         }
 
-        /* Grid Card Kegiatan */
         .kegiatan-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -450,7 +432,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             border-color: #0f6b3b;
         }
 
-        /* Responsive Grid */
         @media (max-width: 992px) {
             .kegiatan-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -469,9 +450,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             }
         }
 
-        /* ==========================================================================
-           4. MANFAAT KEGIATAN & CTA BOX
-           ========================================================================== */
         .manfaat-cta-section {
             padding: 50px 0;
         }
@@ -523,7 +501,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             line-height: 1.4;
         }
 
-        /* CTA Card Box Terakhir di gambar */
         .cta-join-card {
             background: #f5f8f2;
             border-radius: 20px;
@@ -568,7 +545,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             background: #0f6b3b;
         }
 
-        /* Ilustrasi Trofi & Bola kaki pojok kanan bawah boks CTA */
         .cta-illustration {
             position: absolute;
             bottom: -10px;
@@ -578,72 +554,6 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
             opacity: 0.95;
         }
 
-        /* ==========================================================================
-           5. MOMEN KEGIATAN (GALLERY ROW)
-           ========================================================================== */
-        .momen-section {
-            padding: 40px 0 60px 0;
-        }
-
-        .momen-slider-wrapper {
-            position: relative;
-        }
-
-        .momen-grid-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .momen-img-card {
-            width: 100%;
-            height: 180px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-        }
-
-        .momen-img-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .momen-img-card:hover img {
-            transform: scale(1.06);
-        }
-
-        /* Panah Navigasi Mini Slider Bulat */
-        .nav-arrows-container {
-            display: flex;
-            gap: 8px;
-        }
-
-        .arrow-mini-btn {
-            width: 32px;
-            height: 32px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: #666;
-            transition: all 0.3s;
-        }
-
-        .arrow-mini-btn:hover {
-            background: #0f6b3b;
-            color: white;
-            border-color: #0f6b3b;
-        }
-
-        /* ==========================================================================
-           OPTIMASI RESPONSIVE SMARTPHONE (max-width: 768px)
-           ========================================================================== */
         @media screen and (max-width: 768px) {
             .hero-grid {
                 grid-template-columns: 1fr !important;
@@ -663,20 +573,12 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 border-radius: 120px 120px 0 120px !important;
             }
 
-            .floating-char-card {
-                right: 10px !important;
-                bottom: 10px !important;
-                padding: 12px !important;
-                max-width: 220px !important;
-            }
-
             .hero-stats-row {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 15px !important;
                 padding: 15px !important;
             }
 
-            /* Kegiatan Unggulan 4 kolom laptop diubah menjadi 2 kolom di HP */
             .kegiatan-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 12px !important;
@@ -707,62 +609,60 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 font-size: 0.7rem !important;
             }
 
-            /* Manfaat & Kotak CTA diatur menumpuk vertikal lurus */
             .manfaat-grid-layout {
                 grid-template-columns: 1fr !important;
                 gap: 25px !important;
             }
 
             .manfaat-subgrid {
-                grid-template-columns: 1fr !important; /* Satu Kolom penuh di HP agar teks aman */
+                grid-template-columns: 1fr !important;
             }
+        }
 
-            /* Momen Foto Kegiatan diatur 2x2 grid */
-            .momen-grid-row {
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
-            }
-
-            .momen-img-card {
-                height: 110px !important;
-            }
+        [data-aos] {
+            opacity: 0;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        [data-aos].aos-animate {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <?php include 'layout/header.php'; ?>
 
-    <section class="hero-kegiatan">
+    <section class="hero-kegiatan" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
         <div class="container">
             <div class="hero-grid">
-                <div class="hero-left">
+                <div class="hero-left" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
                     <span class="tag">| Kegiatan</span>
                     <h1>Aktif Berkarya,<br><span>Berekspresi Bersama</span></h1>
                     <p>Kami menghadirkan berbagai kegiatan belajar, pengembangan diri, dan program sekolah yang membentuk karakter, kreativitas, dan kepemimpinan siswa.</p>
                     <a href="#kegiatan-utama" class="btn-jelajah">Jelajahi Kegiatan ➔</a>
                 </div>
                 
-                <div class="hero-right">
+                <div class="hero-right" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
                     <div class="image-mask-wrapper">
                         <img src="img/kegiatan.png" alt="Siswa MI Al Karomah Aktif">
                     </div>
                 </div>
             </div>
 
-            <div class="hero-stats-row">
-                <div class="stat-mini-box">
+            <div class="hero-stats-row" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="stat-mini-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
                     <div class="icon-container">🌿</div>
                     <div><h3>25+</h3><p>Program Kegiatan</p></div>
                 </div>
-                <div class="stat-mini-box">
+                <div class="stat-mini-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="250">
                     <div class="icon-container">👦</div>
                     <div><h3>250+</h3><p>Siswa Aktif</p></div>
                 </div>
-                <div class="stat-mini-box">
+                <div class="stat-mini-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="350">
                     <div class="icon-container">👩‍🏫</div>
                     <div><h3>30+</h3><p>Guru Pembina</p></div>
                 </div>
-                <div class="stat-mini-box">
+                <div class="stat-mini-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="450">
                     <div class="icon-container">🏆</div>
                     <div><h3>5</h3><p>Bidang Kegiatan</p></div>
                 </div>
@@ -770,83 +670,83 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
         </div>
     </section>
 
-    <section id="kegiatan-utama" class="kegiatan-unggulan">
-    <div class="container">
-        
-        <div class="section-header-flex">
-            <h3 class="main-title-decorated">Kegiatan Utama</h3>
-            <a href="kegiatan.php" class="link-lihat-semua">Lihat Semua Kegiatan ➔</a>
-        </div>
+    <section id="kegiatan-utama" class="kegiatan-unggulan" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+        <div class="container">
+            
+            <div class="section-header-flex" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">
+                <h3 class="main-title-decorated">Kegiatan Utama</h3>
+                <a href="kegiatan.php" class="link-lihat-semua">Lihat Semua Kegiatan ➔</a>
+            </div>
 
-        <div class="kegiatan-grid">
-            <?php if (mysqli_num_rows($queryKegiatan) > 0): ?>
-                <?php while ($kg = mysqli_fetch_assoc($queryKegiatan)): ?>
-                    
-                    <div class="kegiatan-card">
-                        <div class="kg-img-box">
-                            <img src="assets/kegiatan/<?= $kg['gambar']; ?>" 
-                                 alt="<?= htmlspecialchars($kg['judul']); ?>" 
-                                 onerror="this.src='upload/default.jpg'">
-                            
-                            <span class="badge-tag-kg">
-                                <?= htmlspecialchars($kg['kategori']); ?>
-                            </span>
-                        </div>
+            <div class="kegiatan-grid">
+                <?php if (mysqli_num_rows($queryKegiatan) > 0): ?>
+                    <?php $delay = 0; while ($kg = mysqli_fetch_assoc($queryKegiatan)): $delay += 100; ?>
                         
-                        <div class="kg-body">
-                            <h4><?= htmlspecialchars($kg['judul']); ?></h4>
+                        <div class="kegiatan-card" data-aos="flip-up" data-aos-duration="700" data-aos-delay="<?= $delay; ?>">
+                            <div class="kg-img-box">
+                                <img src="assets/kegiatan/<?= $kg['gambar']; ?>" 
+                                     alt="<?= htmlspecialchars($kg['judul']); ?>" 
+                                     onerror="this.src='upload/default.jpg'">
+                                
+                                <span class="badge-tag-kg">
+                                    <?= htmlspecialchars($kg['kategori']); ?>
+                                </span>
+                            </div>
                             
-                            <p><?= htmlspecialchars(substr($kg['deskripsi'], 0, 100)); ?>...</p>
-                            
-                            <a href="kegiatan_detail.php?slug=<?= $kg['slug']; ?>" class="btn-arrow-circle">➔</a>
+                            <div class="kg-body">
+                                <h4><?= htmlspecialchars($kg['judul']); ?></h4>
+                                
+                                <p><?= htmlspecialchars(substr($kg['deskripsi'], 0, 100)); ?>...</p>
+                                
+                                <a href="kegiatan_detail.php?slug=<?= $kg['slug']; ?>" class="btn-arrow-circle">➔</a>
+                            </div>
                         </div>
+
+                    <?php endwhile; ?>
+                <?php else: ?>
+
+                    <div class="empty-kegiatan" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6b7280;" data-aos="fade-up" data-aos-duration="600">
+                        <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <h3>Belum Ada Kegiatan</h3>
+                        <p>Data kegiatan saat ini belum tersedia.</p>
                     </div>
 
-                <?php endwhile; ?>
-            <?php else: ?>
+                <?php endif; ?>
+            </div>
 
-                <div class="empty-kegiatan" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6b7280;">
-                    <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: 10px;"></i>
-                    <h3>Belum Ada Kegiatan</h3>
-                    <p>Data kegiatan saat ini belum tersedia.</p>
-                </div>
-
-            <?php endif; ?>
         </div>
+    </section>
 
-    </div>
-</section>
-
-    <section class="manfaat-cta-section">
+    <section class="manfaat-cta-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
         <div class="container">
             <div class="manfaat-grid-layout">
                 <div>
-                    <div class="section-header-flex" style="margin-bottom: 20px;">
+                    <div class="section-header-flex" style="margin-bottom: 20px;" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">
                         <h3 class="main-title-decorated">Manfaat Kegiatan</h3>
                     </div>
                     <div class="manfaat-subgrid">
-                        <div class="manfaat-box">
+                        <div class="manfaat-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="200">
                             <div class="m-icon-square">🚀</div>
                             <div class="m-text-info">
                                 <h4>Pengembangan Diri</h4>
                                 <p>Meningkatkan potensi, bakat, dan rasa percaya diri siswa.</p>
                             </div>
                         </div>
-                        <div class="manfaat-box">
+                        <div class="manfaat-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="250">
                             <div class="m-icon-square">🛡️</div>
                             <div class="m-text-info">
                                 <h4>Karakter Positif</h4>
                                 <p>Menumbuhkan akhlak mulia dan rasa tanggung jawab.</p>
                             </div>
                         </div>
-                        <div class="manfaat-box">
+                        <div class="manfaat-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="300">
                             <div class="m-icon-square">🏆</div>
                             <div class="m-text-info">
                                 <h4>Prestasi Siswa</h4>
                                 <p>Mendukung siswa meraih prestasi di berbagai bidang pilihan.</p>
                             </div>
                         </div>
-                        <div class="manfaat-box">
+                        <div class="manfaat-box" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="350">
                             <div class="m-icon-square">🤝</div>
                             <div class="m-text-info">
                                 <h4>Kepedulian Sosial</h4>
@@ -856,7 +756,7 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                     </div>
                 </div>
 
-                <div class="cta-join-card">
+                <div class="cta-join-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                     <div>
                         <h3>Jadilah Bagian dari<br>Kegiatan Kami!</h3>
                         <p>Temukan kegiatan yang sesuai dengan minat dan bakat Anda.</p>
@@ -873,24 +773,21 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
         </div>
     </section>
 
-    <section class="momen-section">
-        <div class="container">
-            <div class="section-header-flex">
-                <h3 class="main-title-decorated">Momen Kegiatan</h3>
-                <div class="nav-arrows-container">
-                    <div class="arrow-mini-btn">❮</div>
-                    <div class="arrow-mini-btn">❯</div>
-                </div>
-            </div>
-
-            <div class="momen-grid-row">
-                <div class="momen-img-card"><img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=300&q=80" alt="Momen 1"></div>
-                <div class="momen-img-card"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&q=80" alt="Momen 2"></div>
-                <div class="momen-img-card"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&q=80" alt="Momen 3"></div>
-                <div class="momen-img-card"><img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=300&q=80" alt="Momen 4"></div>
-            </div>
-        </div>
-    </section>
+    <!-- AOS ANIMATION JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50,
+            delay: 0,
+            easing: 'ease-out-cubic'
+        });
+        
+        window.addEventListener('load', function() {
+            AOS.refresh();
+        });
+    </script>
 
 <?php include_once 'layout/footer.php'; ?>
 </body>

@@ -502,7 +502,7 @@ include 'config/koneksi.php';
                 
                 <div class="hero-right">
                     <div class="image-mask-wrapper">
-                        <img src="img/hero.png" alt="Guru MI Al Karomah">
+                        <img src="img/guru.png" alt="Guru MI Al Karomah">
                     </div>
                     <div class="floating-char-card">
                         <div class="icon-round">

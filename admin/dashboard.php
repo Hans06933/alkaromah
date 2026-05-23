@@ -19,16 +19,16 @@ $total_kegiatan = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM kegiatan")
 // Mengambil 5 data terbaru untuk masing-masing bagian
 $berita_terbaru = mysqli_query($conn, "SELECT * FROM berita ORDER BY created_at DESC LIMIT 5");
 
-// Mengambil 5 guru terbaru (jika tidak ada created_at di tabel guru, silakan ganti menjadi ORDER BY id DESC)
+// Mengambil 5 guru terbaru
 $guru_terbaru   = mysqli_query($conn, "SELECT * FROM guru ORDER BY id DESC LIMIT 5");
 
-// Mengambil 5 galeri terbaru (jika tidak ada created_at di tabel galeri, silakan ganti menjadi ORDER BY id DESC)
+// Mengambil 5 galeri terbaru
 $galeri_terbaru = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC LIMIT 5");
 ?>
 
 <style>
 /* ==========================================
-   WORKSPACE CONTENT (MENEMPEL PAS DI BAWAH TOPBAR)
+    WORKSPACE CONTENT (MENEMPEL PAS DI BAWAH TOPBAR)
 ========================================== */
 .content-body {
     padding: 30px;
@@ -37,7 +37,7 @@ $galeri_terbaru = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC LIM
 }
 
 /* =========================
-   HERO BANNER
+    HERO BANNER
 ========================= */
 .hero-banner {
     width: 100%;
@@ -75,7 +75,7 @@ $galeri_terbaru = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC LIM
 }
 
 /* =========================
-   CARD STATS
+    CARD STATS
 ========================= */
 .stats-grid {
     display: grid;
@@ -150,7 +150,7 @@ $galeri_terbaru = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC LIM
 .stats-footer i { color: #16a34a; font-size: 11px; }
 
 /* =========================
-   CONTENT LAYOUT (GRID)
+    CONTENT LAYOUT (GRID)
 ========================= */
 .main-layout {
     display: grid;
@@ -165,7 +165,7 @@ $galeri_terbaru = mysqli_query($conn, "SELECT * FROM galeri ORDER BY id DESC LIM
 }
 
 /* =========================
-   TABLE CARD
+    TABLE CARD
 ========================= */
 .card {
     background: white;
@@ -313,7 +313,7 @@ table td {
 .action-group-btn a:hover { opacity: 0.85; }
 
 /* =========================
-   SIDEBAR RIGHT
+    SIDEBAR RIGHT
 ========================= */
 .side-card {
     background: white;
@@ -391,6 +391,62 @@ table td {
     white-space: nowrap;
 }
 
+/* =========================
+    COMPACT REALTIME CALENDAR STYLE
+========================= */
+.calendar-header-realtime {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.calendar-header-realtime h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.calendar-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+}
+
+.day-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    padding-bottom: 5px;
+}
+
+.day-number {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4b5563;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.day-number.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.day-number.current-day {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.3);
+}
+
 /* STORAGE STYLE */
 .storage-info { margin-bottom: 10px; }
 .storage-info p { font-size: 13px; color: #374151; margin: 0; }
@@ -399,7 +455,7 @@ table td {
 .storage-fill { width: 24.5%; height: 100%; background: linear-gradient(135deg, #16a34a, #15803d); border-radius: 10px; }
 
 /* =========================
-   RESPONSIVE MEDIA SYSTEM
+    RESPONSIVE MEDIA SYSTEM
 ========================= */
 @media (max-width: 1200px) {
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -664,7 +720,9 @@ table td {
                 </div>
             </div>
 
-        </div> <div>
+        </div> 
+        
+        <div>
             <div class="side-card">
                 <h3><i class="fas fa-bolt"></i> Aktivitas Terbaru</h3>
                 <div class="activity-item">
@@ -700,6 +758,23 @@ table td {
             </div>
 
             <div class="side-card">
+                <h3><i class="fas fa-calendar-alt"></i> Kalender Kerja</h3>
+                <div class="calendar-header-realtime">
+                    <h4 id="calendar-month-year">Mei 2026</h4>
+                </div>
+                <div class="calendar-days-grid">
+                    <div class="day-name">M</div>
+                    <div class="day-name">S</div>
+                    <div class="day-name">S</div>
+                    <div class="day-name">R</div>
+                    <div class="day-name">K</div>
+                    <div class="day-name">J</div>
+                    <div class="day-name">S</div>
+                    
+                    </div>
+            </div>
+
+            <div class="side-card">
                 <h3><i class="fas fa-database"></i> Penyimpanan Hosting</h3>
                 <div class="storage-info">
                     <p><strong>2.45 GB</strong> / 10 GB digunakan</p>
@@ -713,5 +788,56 @@ table td {
             </div>
         </div>
 
-    </div> </div> ```
+    </div> 
+</div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const monthYearText = document.getElementById("calendar-month-year");
+    const gridContainer = document.querySelector(".calendar-days-grid");
+
+    const date = new Date();
+    const currentDay = date.getDate();
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
+
+    const monthsArr = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    // Set Text Bulan dan Tahun saat ini
+    monthYearText.innerText = monthsArr[currentMonth] + " " + currentYear;
+
+    // Mendapatkan hari pertama jatuh pada hari apa di bulan ini (0 = Minggu, 1 = Senin, dst)
+    const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+
+    // Mendapatkan total hari dalam bulan ini
+    const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Mengisi slot kosong sebelum tanggal 1
+    for (let i = 0; i < firstDayIndex; i++) {
+        const emptyDiv = document.createElement("div");
+        emptyDiv.classList.add("day-number", "empty");
+        gridContainer.appendChild(emptyDiv);
+    }
+
+    // Mengisi angka tanggal asli
+    for (let day = 1; day <= totalDays; day++) {
+        const dayDiv = document.createElement("div");
+        dayDiv.classList.add("day-number");
+        dayDiv.innerText = day;
+
+        // Tandai class jika ini hari ini (realtime)
+        if (day === currentDay) {
+            dayDiv.classList.add("current-day");
+        }
+
+        gridContainer.appendChild(dayDiv);
+    }
+});
+</script>
+
+</div> 
+</body>
+</html>

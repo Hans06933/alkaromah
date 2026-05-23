@@ -451,14 +451,6 @@ $data = mysqli_query($conn, $query_str);
                 </p>
 
                 <div class="action-group">
-                    <button type="button" 
-                            class="action-btn view-btn trigger-modal" 
-                            title="Perbesar Media"
-                            data-media-type="<?= $is_video ? 'video' : 'gambar'; ?>"
-                            data-media-src="<?= $path_file; ?>">
-                        <i class="fas fa-eye"></i>
-                    </button>
-
                     <a href="edit_galeri.php?id=<?= $d['id']; ?>" class="action-btn edit-btn" title="Ubah Data">
                         <i class="fas fa-pen"></i>
                     </a>
