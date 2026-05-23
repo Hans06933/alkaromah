@@ -8,6 +8,11 @@ WHERE status='aktif'
 ORDER BY id DESC
 LIMIT 8
 ");
+
+$queryBerita = mysqli_query($conn,
+"SELECT * FROM berita
+ ORDER BY id DESC 
+ LIMIT 3");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -485,144 +490,216 @@ LIMIT 8
         }
     }
 
-    /* ---------- PROFILE SECTION ---------- */
-    .profile {
-        padding: 80px 7%;
-    }
-
-    .profile-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 350px;
-        gap: 30px;
-        align-items: start;
-    }
-
-    .profile-text h2 {
-        font-size: 45px;
-        color: #0f6b3b;
-        margin-bottom: 20px;
-    }
-
-    .profile-line {
-        width: 120px;
-        height: 5px;
-        background: #facc15;
-        border-radius: 10px;
-        margin-bottom: 25px;
-    }
-
-    .profile-text p {
-        line-height: 2;
-        color: #666;
-        margin-bottom: 30px;
-    }
-
-    .profile-btn {
-        background: #0f6b3b;
-        color: white;
-        padding: 15px 30px;
-        border-radius: 40px;
-        display: inline-block;
-        transition: 0.2s;
-    }
-
-    .profile-btn:hover {
-        background: #0a532e;
-        transform: translateX(5px);
-    }
-
-    .profile-image img {
-        width: 100%;
-        border-radius: 25px;
-        height: 100%;
-        object-fit: cover;
-        background: #b9ad8a;
-        min-height: 280px;
-    }
-
     /* ==========================================================================
-   KODE UNTUK LAPTOP & DESKTOP (TIDAK BERUBAH - BIARKAN DI ATAS)
+   SECTION PROFIL & INFORMASI TERBARU (HOME)
    ========================================================================== */
-    /* ... (Pertahankan semua kode .profile, .profile-container, dsb asli Anda) ... */
 
+.profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 30px;
+    padding: 60px 4%;
+    background-color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    /* ==========================================================================
-    PERBAIKAN RESPONSIF KHUSUS SMARTPHONE (max-width: 768px)
-    ========================================================================== */
-    @media (max-width: 768px) {
-        .profile {
-            padding: 30px 4% !important; /* Memperkecil padding luar agar muat di layar HP */
-        }
+/* --- KONTEN PROFIL (KIRI & TENGAH) --- */
+.profile-container {
+    display: flex;
+    flex: 2; /* Mengambil ruang lebih besar (Profil + Gambar) */
+    align-items: center;
+    gap: 40px;
+    background: #ffffff;
+}
 
-        .profile-container {
-            /* KUNCI UTAMA: Mengubah grid 3 kolom menjadi flex baris lurus kesamping */
-            display: flex !important;
-            flex-direction: row !important; 
-            align-items: center !important; /* Menyeimbangkan posisi teks dan gambar agar sejajar vertikal */
-            justify-content: space-between !important;
-            flex-wrap: nowrap !important; /* Melarang keras gambar jatuh atau patah ke bawah */
-            gap: 15px !important; /* Mempersempit sela jarak antar elemen */
-            width: 100% !important;
-        }
+.profile-text {
+    flex: 1;
+}
 
-        /* SISI KIRI: AREA KONTEN TEKS PROFIL */
-        .profile-text {
-            flex: 1.4 !important; /* Memberikan porsi ruang lebih dominan untuk teks */
-            text-align: left !important; /* Memastikan tulisan rata kiri penuh */
-        }
+.profile-text h2 {
+    font-size: 28px;
+    color: #064e3b; /* Hijau tua pekat khas MI */
+    font-weight: 700;
+    margin-bottom: 8px;
+}
 
-        .profile-text h2 {
-            font-size: 20px !important; /* Menurunkan font h2 dari 45px agar pas di layar HP */
-            margin-bottom: 8px !important;
-            line-height: 1.2 !important;
-        }
+.profile-line {
+    width: 40px;
+    height: 4px;
+    background-color: #eab308; /* Garis aksen kuning orange */
+    margin-bottom: 25px;
+    border-radius: 2px;
+}
 
-        /* Garis dekorasi kuning di bawah judul */
-        .profile-line {
-            width: 60px !important; /* Memperpendek garis hiasan agar serasi dengan judul kecil */
-            height: 3px !important;
-            margin-bottom: 12px !important;
-        }
+.profile-text p {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    text-align: justify;
+}
 
-        .profile-text p {
-            font-size: 11px !important; /* Mengecilkan ukuran paragraf agar rapi */
-            line-height: 1.5 !important; /* Menyesuaikan tinggi spasi teks di mobile */
-            margin-bottom: 15px !important;
-            color: #555 !important;
-            
-            /* Opsional: Membatasi agar teks deskripsi tidak terlalu panjang ke bawah di HP */
-            display: -webkit-box;
-            -webkit-line-clamp: 5; 
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+/* Tombol Selengkapnya Oval Hijau */
+.profile-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 28px;
+    background-color: #046a38;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 30px; /* Membuat lonjong sempurna (oval) */
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
 
-        /* Tombol Selengkapnya */
-        .profile-btn {
-            padding: 8px 18px !important; /* Memperkecil ukuran tombol di mobile */
-            font-size: 11px !important;
-            border-radius: 20px !important;
-        }
+.profile-btn:hover {
+    background-color: #03522c;
+    transform: translateY(-2px);
+}
 
-        /* SISI KANAN: AREA GAMBAR PROFIL */
-        .profile-image {
-            flex: 0.9 !important; /* Porsi ruang gambar di sebelah kanan */
-            display: flex !important;
-            justify-content: flex-end !important;
-            height: 100% !important;
-        }
+/* Komponen Foto Gedung Sekolah */
+.profile-image {
+    flex: 1.2;
+    height: 100%;
+    max-height: 320px;
+    overflow: hidden;
+    border-radius: 24px; /* Sudut melengkung halus sesuai gambar */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
 
-        .profile-image img {
-            width: 110px !important; /* KUNCI UTAMA: Memaksa ukuran gambar mengecil statis agar pas bersanding */
-            max-width: 100% !important;
-            height: 140px !important; /* Memberikan tinggi statis yang seimbang dengan teks di kirinya */
-            min-height: auto !important; /* Menghapus aturan min-height 280px bawaan laptop */
-            border-radius: 15px !important; /* Menyesuaikan radius lengkungan dengan skala gambar baru */
-            object-fit: cover !important; /* Gambar tetap dipotong rapi tanpa merusak rasionya */
-            flex-shrink: 0 !important; /* Mencegah gambar ringsek atau gepeng akibat tekanan teks */
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06) !important;
-        }
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- KOTAK INFORMASI TERBARU (KANAN) --- */
+.news-box {
+    flex: 1; /* Lebar proporsional di sisi kanan */
+    background-color: #046a38; /* Background hijau penuh */
+    border-radius: 24px; /* Melengkung di setiap sudut */
+    padding: 30px 24px;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    /* Efek siluet masjid samar di latar belakang (opsional jika aset tersedia) */
+    background-image: linear-gradient(rgba(4, 106, 56, 0.95), rgba(4, 106, 56, 0.95)), url('img/mosque-silhouette.png');
+    background-size: bottom right;
+    background-repeat: no-repeat;
+}
+
+.news-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.news-line {
+    width: 35px;
+    height: 3px;
+    background-color: #eab308;
+    margin-bottom: 25px;
+}
+
+/* List Item Berita */
+.news-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Garis pembatas tipis transparan */
+}
+
+.news-item:last-of-type {
+    margin-bottom: 25px;
+    border-bottom: none; /* Hilangkan garis di item terakhir */
+}
+
+.news-item img {
+    width: 75px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 12px; /* Melengkung kecil pada thumbnail gambar berita */
+    background-color: #ffffff;
+}
+
+.news-content {
+    flex: 1;
+}
+
+.news-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fef08a; /* Warna teks judul berita kekuningan lembut agar terbaca jelas */
+    margin-bottom: 4px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden; /* Potong teks jika terlalu panjang */
+}
+
+.news-content p {
+    font-size: 12px;
+    color: #e5e7eb;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.news-content span {
+    font-size: 11px;
+    color: #9ca3af; /* Warna tanggal abu-abu terang */
+    display: block;
+}
+
+/* Tombol Lihat Semua Berita Kuning Orange */
+.news-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background-color: #f59e0b; /* Warna tombol kuning oranye kontras */
+    color: #1e293b; /* Teks gelap */
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: auto; /* Memaksa tombol selalu berada di paling bawah kotak */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.news-btn:hover {
+    background-color: #d97706;
+    transform: scale(1.02);
+}
+
+/* --- RESPONSIVE LAYOUT (SMARTPHONE & TABLET) --- */
+@media (max-width: 1024px) {
+    .profile {
+        flex-direction: column; /* Berubah susunan ke bawah saat layar mengecil */
+        padding: 40px 20px;
+        gap: 40px;
     }
+    
+    .profile-container {
+        flex-direction: column-reverse; /* Gambar pindah ke atas teks pada mobile */
+        gap: 25px;
+    }
+    
+    .profile-image {
+        width: 100%;
+        max-height: 250px;
+    }
+}
+    
 
         /* ==========================================================================
     FASILITAS SEKOLAH
@@ -903,6 +980,50 @@ LIMIT 8
         <div class="profile-image">
             <img src="img/sekolah.png" alt="Gedung MI Al Karomah">
         </div>
+    </div>
+
+    <div class="news-box">
+
+        <h3>Informasi Terbaru</h3>
+        <div class="news-line"></div>
+
+        <?php if (mysqli_num_rows($queryBerita) > 0) : ?>
+            <?php while ($berita = mysqli_fetch_assoc($queryBerita)) : ?>
+                
+                <div class="news-item">
+                    <?php 
+                        // FIX: Mengubah dari ['gambar'] menjadi ['thumbnail'] sesuai struktur database kamu
+                        $namaGambar = !empty($berita['thumbnail']) ? $berita['thumbnail'] : 'default-berita.jpg';
+                    ?>
+                    
+                    <img src="assets/berita/<?= $namaGambar; ?>" 
+                         alt="<?= htmlspecialchars($berita['judul']); ?>"
+                         onerror="this.onerror=null; this.src='assets/berita/default-berita.jpg';">
+
+                    <div class="news-content">
+                        <h4>
+                            <?= htmlspecialchars($berita['judul']); ?>
+                        </h4>
+                        <p>
+                            <?= htmlspecialchars(substr($berita['isi'], 0, 55)); ?>...
+                        </p>
+                        <span>
+                            <?= date('d F Y', strtotime($berita['created_at'])); ?>
+                        </span>
+                    </div>
+                </div>
+
+            <?php endwhile; ?>
+        <?php else : ?>
+            <p style="color: rgba(255,255,255,0.7); font-size: 13px; text-align: center; margin: 30px 0;">
+                Belum ada informasi terbaru yang diterbitkan.
+            </p>
+        <?php endif; ?>
+
+        <a href="berita.php" class="news-btn">
+            Lihat Semua Berita →
+        </a>
+
     </div>
 </section>
 

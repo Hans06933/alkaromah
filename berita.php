@@ -686,13 +686,13 @@ include 'config/koneksi.php';
         <div class="hero-news-container">
             <div class="hero-news-content">
                 <span class="hero-news-category">🎉 Pengumuman</span>
-                <h2>PPDB MI Al Karomah Tahun Ajaran 2025/2026 Dibuka</h2>
+                <h2>PPDB MI Al Karomah Tahun Ajaran 2026/2027 Dibuka</h2>
                 <div class="hero-news-meta">
-                    <span><i class="far fa-calendar-alt"></i> 1 Januari 2025</span>
+                    <span><i class="far fa-calendar-alt"></i> 30 Mei 2026</span>
                     <span><i class="far fa-user"></i> Admin MI</span>
                     <span><i class="far fa-eye"></i> 1.234 dilihat</span>
                 </div>
-                <p>Pendaftaran peserta didik baru telah dibuka mulai 1 Januari hingga 30 Juni 2025. Informasi lengkap dapat diakses melalui website atau datang langsung ke madrasah. Dapatkan potongan biaya pendaftaran untuk 100 pendaftar pertama!</p>
+                <p>Pendaftaran peserta didik baru telah dibuka mulai 30 Mei 2026 hingga 25 Mei 2027. Informasi lengkap dapat diakses melalui website atau datang langsung ke madrasah. Dapatkan potongan biaya pendaftaran untuk 100 pendaftar pertama!</p>
                 <a href="#" class="read-more-btn">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="hero-news-image">

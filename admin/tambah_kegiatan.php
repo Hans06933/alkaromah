@@ -64,92 +64,126 @@ if (isset($_POST['submit'])) {
 ?>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+/* Kontainer bagian dalam isi konten - Menempel pas di bawah topbar tanpa bentrok */
+.content-body {
+    padding: 30px 40px;
+    background: #f4f6f9;
+    box-sizing: border-box;
+}
 
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h1 {
+    font-size: 32px;
+    color: #111827;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.page-title p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+.form-card {
+    background: white;
+    padding: 35px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    /* FIX: Mengisi area kosong dengan width 100% */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #111827;
+}
+
+.form-control {
+    width: 100%;
+    height: 55px;
+    border: 1px solid #d1d5db;
+    border-radius: 14px;
+    padding: 0 18px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+}
+
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 16px;
+}
+
+textarea.form-control {
+    height: 140px;
+    padding: 18px;
+    resize: vertical;
+}
+
+.btn-submit {
+    height: 55px;
+    padding: 0 35px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+
+/* --- RESPONSIVE MOBILE VIEW --- */
+@media(max-width: 992px) {
     .content-body {
-        margin-left: 260px;
-        padding: 95px 25px 25px;
-        background: #f4f6f9;
-        min-height: 100vh;
+        padding: 20px 15px;
     }
 
     .form-card {
-        background: white;
-        padding: 30px;
-        border-radius: 24px;
-        max-width: 1000px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: 600;
-        font-size: 14px;
-        color: #374151;
+        padding: 20px;
+        border-radius: 16px;
     }
 
     .form-control {
-        width: 100%;
-        height: 52px;
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 0 18px;
-        outline: none;
-        font-size: 14px;
-        transition: border-color 0.2s;
+        height: 50px;
+        border-radius: 10px;
     }
-
-    .form-control:focus {
-        border-color: #16a34a;
-    }
-
-    select.form-control {
-        appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-        background-repeat: no-repeat;
-        background-position: right 18px center;
-        background-size: 16px;
-    }
-
-    textarea.form-control {
-        height: 140px;
-        padding: 18px;
-        resize: vertical; /* Diubah agar admin bisa menyesuaikan ukuran tinggi kolom ketik */
-    }
-
-    .btn-submit {
-        height: 52px;
-        padding: 0 32px;
-        border: none;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #16a34a, #15803d);
-        color: white;
-        font-weight: 600;
-        font-size: 14px;
-        cursor: pointer;
-        transition: opacity 0.2s;
-    }
-
-    .btn-submit:hover {
-        opacity: 0.9;
-    }
-
-    @media(max-width: 991px) {
-        .content-body {
-            margin-left: 0;
-            padding: 90px 20px 20px;
-        }
-    }
+}
 </style>
 
 <div class="content-body">
+
+    <div class="page-title">
+        <h1>Tambah Agenda / Kegiatan</h1>
+        <p>Tambahkan agenda kegiatan sekolah terbaru MI Al Karomah</p>
+    </div>
+
     <div class="form-card">
         <form method="POST" enctype="multipart/form-data">
 
@@ -198,3 +232,7 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 </div>
+
+</div> 
+</body>
+</html>

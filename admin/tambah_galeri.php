@@ -2,6 +2,11 @@
 
 session_start();
 
+if(!isset($_SESSION['login'])){
+    header("Location: login.php");
+    exit;
+}
+
 include '../layout/admin_header.php';
 include '../config/koneksi.php';
 
@@ -60,7 +65,6 @@ if(isset($_POST['submit'])){
                 window.location='galeri.php';
             </script>";
         } else {
-            // Memunculkan detail jika ada error database sewaktu testing
             echo "Gagal menyimpan ke database karena: " . mysqli_error($conn);
             exit;
         }
@@ -75,52 +79,69 @@ if(isset($_POST['submit'])){
 ?>
 
 <style>
-/* --- STYLING DESKTOP --- */
-.main-content{
-    margin-left: 260px;
-    padding: 30px 25px 30px; 
+/* Kontainer bagian dalam isi konten - Menempel pas di bawah topbar */
+.content-body {
+    padding: 30px 40px;
     background: #f4f6f9;
-    min-height: 100vh;
-    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
-.form-card{
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h1 {
+    font-size: 32px;
+    color: #111827;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.page-title p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+}
+
+.form-card {
     background: white;
-    padding: 30px;
+    padding: 35px;
     border-radius: 24px;
-    max-width: 900px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    margin: 0 auto; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    /* FIX: Mengisi ruang kosong dengan width 100% */
+    width: 100%;
+    box-sizing: border-box; 
 }
 
-.form-group{
-    margin-bottom: 20px;
+.form-group {
+    margin-bottom: 22px;
 }
 
-.form-group label{
+.form-group label {
     display: block;
     margin-bottom: 10px;
     font-weight: 600;
-    color: #333;
+    color: #111827;
 }
 
-.form-control{
+.form-control {
     width: 100%;
     height: 55px;
-    border: 1px solid #ddd;
+    border: 1px solid #d1d5db;
     border-radius: 14px;
     padding: 0 18px;
     font-size: 14px;
     outline: none;
+    transition: 0.3s;
     box-sizing: border-box; 
-    transition: border-color 0.2s;
 }
 
 .form-control:focus {
     border-color: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
 }
 
-textarea.form-control{
+textarea.form-control {
     height: 150px;
     padding: 18px;
     resize: none;
@@ -130,65 +151,71 @@ input[type="file"].form-control {
     padding-top: 14px;
 }
 
-.btn-submit{
+.btn-submit {
     width: 100%; 
-    max-width: 200px;
+    max-width: 220px;
     height: 55px;
     border: none;
     border-radius: 14px;
-    background: #16a34a;
+    background: linear-gradient(135deg, #16a34a, #15803d);
     color: white;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: 0.3s;
 }
 
 .btn-submit:hover {
-    background: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
 }
 
 .file-hint {
     display: block;
     margin-top: 5px;
     font-size: 12px;
-    color: #666;
+    color: #64748b;
 }
 
 /* --- RESPONSIVE MOBILE VIEW --- */
-@media screen and (max-width: 768px) {
-    .main-content {
-        margin-left: 0 !important;
-        padding: 20px 15px 30px !important; 
+@media screen and (max-width: 992px) {
+    .content-body {
+        padding: 20px 15px; 
     }
 
     .form-card {
-        padding: 20px !important;
-        border-radius: 16px !important;
+        padding: 20px;
+        border-radius: 16px;
     }
 
     .form-control {
-        height: 50px !important; 
-        font-size: 14px !important;
-        border-radius: 10px !important;
+        height: 50px; 
+        border-radius: 10px;
     }
 
     textarea.form-control {
-        height: 120px !important; 
+        height: 120px; 
     }
 
     input[type="file"].form-control {
-        padding-top: 12px !important;
+        padding-top: 12px;
     }
 
     .btn-submit {
-        max-width: 100% !important; 
-        height: 50px !important;
-        border-radius: 10px !important;
+        max-width: 100%; 
+        height: 50px;
+        border-radius: 10px;
     }
 }
 </style>
 
-<div class="main-content">
+<div class="content-body">
+
+    <div class="page-title">
+        <h1>Tambah Galeri</h1>
+        <p>Tambahkan file dokumentasi foto atau video kegiatan MI Al Karomah</p>
+    </div>
+
     <div class="form-card">
         <form method="POST" enctype="multipart/form-data">
 
@@ -249,3 +276,7 @@ document.getElementById('file-galeri').addEventListener('change', function() {
     }
 });
 </script>
+
+</div> 
+</body>
+</html>
