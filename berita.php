@@ -726,7 +726,7 @@ include 'config/koneksi.php';
                     <span><i class="far fa-eye"></i> 1.234 dilihat</span>
                 </div>
                 <p>Pendaftaran peserta didik baru telah dibuka mulai 30 Mei 2026 hingga 25 Mei 2027. Informasi lengkap dapat diakses melalui website atau datang langsung ke madrasah. Dapatkan potongan biaya pendaftaran untuk 100 pendaftar pertama!</p>
-                <a href="#" class="read-more-btn">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
+                <a href="ppdb.php" class="read-more-btn">Baca Selengkapnya <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="hero-news-image" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
                 <img src="img/ppdb.jpg" alt="PPDB MI Al Karomah">

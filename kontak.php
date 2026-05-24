@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2 family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- AOS ANIMATION CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
@@ -52,7 +50,10 @@
         .hero-premium-section::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
             z-index: 1;
         }
@@ -189,7 +190,7 @@
             color: #0f6b3b;
             padding: 15px 20px;
             border-radius: 18px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -258,7 +259,7 @@
             border-radius: 20px;
             padding: 25px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
             display: flex;
             gap: 20px;
             align-items: flex-start;
@@ -317,7 +318,7 @@
             border-radius: 24px;
             padding: 40px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02);
         }
 
         .contact-form-container h2 {
@@ -358,7 +359,8 @@
             letter-spacing: 0.5px;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             background: #f8fafc;
             border: 1px solid #cbd5e1;
@@ -369,7 +371,8 @@
             transition: all 0.2s ease;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             background: #ffffff;
             border-color: #0f6b3b;
@@ -409,7 +412,7 @@
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
 
         .map-wrapper iframe {
@@ -419,27 +422,79 @@
         }
 
         @media screen and (max-width: 1024px) {
-            .hero-split-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-            .hero-left-content { align-items: center; }
-            .hero-left-content p.hero-desc { max-width: 100%; }
-            .hero-stats-row { justify-content: center; width: 100%; }
-            .main-banner-frame { height: 280px; max-width: 500px; border-radius: 24px 60px 24px 24px; }
-            .floating-badge-teachers { left: 50%; transform: translateX(-50%); bottom: -15px; width: max-content; }
-            .contact-main-grid { grid-template-columns: 1fr; gap: 30px; }
+            .hero-split-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-left-content {
+                align-items: center;
+            }
+            .hero-left-content p.hero-desc {
+                max-width: 100%;
+            }
+            .hero-stats-row {
+                justify-content: center;
+                width: 100%;
+            }
+            .main-banner-frame {
+                height: 280px;
+                max-width: 500px;
+                border-radius: 24px 60px 24px 24px;
+            }
+            .floating-badge-teachers {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: -15px;
+                width: max-content;
+            }
+            .contact-main-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
 
         @media screen and (max-width: 768px) {
-            .hero-premium-section { padding: 50px 0 70px 0; border-radius: 0 0 40px 40px; }
-            .hero-left-content h1 { font-size: 2rem; }
-            .hero-left-content p.hero-desc { font-size: 0.92rem; }
-            .hero-action-buttons { flex-direction: column; width: 100%; gap: 10px; }
-            .btn-hero-wa { width: 100%; justify-content: center; }
-            .intro-section { padding: 40px 0 20px 0; }
-            .intro-section h2 { font-size: 1.5rem; }
-            .contact-form-container { padding: 30px 20px; border-radius: 20px; }
-            .form-grid-2 { grid-template-columns: 1fr !important; gap: 0; }
-            .form-group.full-width { grid-column: span 1; }
-            .map-wrapper { height: 280px; border-radius: 16px; }
+            .hero-premium-section {
+                padding: 50px 0 70px 0;
+                border-radius: 0 0 40px 40px;
+            }
+            .hero-left-content h1 {
+                font-size: 2rem;
+            }
+            .hero-left-content p.hero-desc {
+                font-size: 0.92rem;
+            }
+            .hero-action-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+            .btn-hero-wa {
+                width: 100%;
+                justify-content: center;
+            }
+            .intro-section {
+                padding: 40px 0 20px 0;
+            }
+            .intro-section h2 {
+                font-size: 1.5rem;
+            }
+            .contact-form-container {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+            .form-grid-2 {
+                grid-template-columns: 1fr !important;
+                gap: 0;
+            }
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            .map-wrapper {
+                height: 280px;
+                border-radius: 16px;
+            }
         }
 
         [data-aos] {
@@ -455,152 +510,171 @@
 <body>
 <?php include_once 'layout/header.php'; ?>
 
-    <section class="hero-premium-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
-        <div class="container">
-            <div class="hero-split-grid">
+<section class="hero-premium-section" data-aos="fade-up" data-aos-duration="800" data-aos-delay="0">
+    <div class="container">
+        <div class="hero-split-grid">
+            <div class="hero-left-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
+                <div class="badge-connect" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
+                    <i class="fas fa-circle-check"></i> Layanan Respons Cepat
+                </div>
+                <h1>Hubungi Kami <span>MI Al Karomah</span></h1>
+                <p class="hero-desc">Pintu komunikasi kami selalu terbuka untuk Anda. Dapatkan informasi pendaftaran (PPDB), administrasi, hingga sistem pembelajaran madrasah secara transparan.</p>
                 
-                <div class="hero-left-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                    <div class="badge-connect" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
-                        <i class="fas fa-circle-check"></i> Layanan Respons Cepat
-                    </div>
-                    <h1>Hubungi Kami <span>MI Al Karomah</span></h1>
-                    <p class="hero-desc">Pintu komunikasi kami selalu terbuka untuk Anda. Dapatkan informasi pendaftaran (PPDB), administrasi, hingga sistem pembelajaran madrasah secara transparan.</p>
-                    
-                    <div class="hero-action-buttons" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
-                        <a href="https://wa.me/6281234567890" target="_blank" class="btn-hero-wa">
-                            <i class="fab fa-whatsapp"></i> Chat Admin PPDB
-                        </a>
-                    </div>
-
-                    <div class="hero-stats-row">
-                        <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="350">
-                            <h4>A</h4>
-                            <p>Akreditasi Resmi</p>
-                        </div>
-                        <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="400">
-                            <h4>100%</h4>
-                            <p>Guru Berdedikasi</p>
-                        </div>
-                        <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="450">
-                            <h4>24/7</h4>
-                            <p>Formulir Online</p>
-                        </div>
-                    </div>
+                <div class="hero-action-buttons" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                    <a href="https://wa.me/6281317908079" target="_blank" class="btn-hero-wa">
+                        <i class="fab fa-whatsapp"></i> Chat Admin PPDB
+                    </a>
                 </div>
 
-                <div class="hero-right-image-wrapper" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="250">
-                    <div class="main-banner-frame" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
-                        <img src="assets/berita/default-berita.jpg" onerror="this.src='https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=cover'" alt="Tenaga Pendidik MI Al Karomah">
+                <div class="hero-stats-row">
+                    <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="350">
+                        <h4>A</h4>
+                        <p>Akreditasi Resmi</p>
                     </div>
-                    <div class="floating-badge-teachers" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
-                        <i class="fas fa-users-rectangle"></i>
-                        <div class="floating-badge-text">
-                            <h5>Tenaga Pendidik</h5>
-                            <p>Kompeten & Berdedikasi</p>
-                        </div>
+                    <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="400">
+                        <h4>100%</h4>
+                        <p>Guru Berdedikasi</p>
+                    </div>
+                    <div class="stat-box-mini" data-aos="zoom-in" data-aos-duration="500" data-aos-delay="450">
+                        <h4>24/7</h4>
+                        <p>Formulir Online</p>
                     </div>
                 </div>
+            </div>
 
+            <div class="hero-right-image-wrapper" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="250">
+                <div class="main-banner-frame" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
+                    <img src="img/kontak.png" onerror="this.src='img/kontak.png'" alt="Kontak kami">
+                </div>
+                <div class="floating-badge-teachers" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
+                    <i class="fas fa-users-rectangle"></i>
+                    <div class="floating-badge-text">
+                        <h5>Kontak Kami</h5>
+                        <p>Respon Cepat</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <div class="intro-section" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">
-            <h2>Pusat Informasi & Pengaduan</h2>
-            <p>Silakan hubungi kami atau kirim pesan secara instan melalui kanal di bawah ini</p>
+<section class="container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+    <div class="intro-section" data-aos="fade-down" data-aos-duration="600" data-aos-delay="150">
+        <h2>Pusat Informasi & Pengaduan</h2>
+        <p>Silakan hubungi kami atau kirim pesan secara instan melalui kanal di bawah ini</p>
+    </div>
+</section>
+
+<main class="container">
+    <div class="contact-main-grid">
+        <div class="contact-info-sidebar">
+            <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="200">
+                <div class="info-card-icon"><i class="fas fa-map-location-dot"></i></div>
+                <div class="info-card-details">
+                    <h3>Alamat Lengkap</h3>
+                    <p>Jl. Raya Cikande-Rangkasbitung, KM 2, Kecamatan Cikande, Kabupaten Serang, Provinsi Banten.</p>
+                    <a href="#maps-location">Lihat Rute Google Maps ↓</a>
+                </div>
+            </div>
+
+            <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="250">
+                <div class="info-card-icon"><i class="fab fa-whatsapp"></i></div>
+                <div class="info-card-details">
+                    <h3>WhatsApp Hotline</h3>
+                    <p>Layanan operasional tata usaha aktif pada jam kerja sekolah (Senin - Sabtu, jam 07.00 - 13.00 WIB).</p>
+                    <a href="https://wa.me/6281317908079" target="_blank">Mulai Obrolan Sekarang →</a>
+                </div>
+            </div>
+
+            <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="300">
+                <div class="info-card-icon"><i class="far fa-envelope"></i></div>
+                <div class="info-card-details">
+                    <h3>Korespondensi Email</h3>
+                    <p>Gunakan jalur email untuk pengiriman berkas kerjasama instansi atau surat kedinasan formal.</p>
+                    <a href="mailto:mialkaromah@gmail.com">mialkaromah@gmail.com</a>
+                </div>
+            </div>
         </div>
-    </section>
 
-    <main class="container">
-        <div class="contact-main-grid">
+        <div class="contact-form-container" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+            <h2 data-aos="fade-down" data-aos-duration="500" data-aos-delay="250">Kirim Pesan Elektronik</h2>
+            <p data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">Mempunyai pertanyaan spesifik mengenai pendaftaran? Kirimkan pesan Anda langsung ke sistem berkas madrasah.</p>
             
-            <div class="contact-info-sidebar">
-                <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="200">
-                    <div class="info-card-icon"><i class="fas fa-map-location-dot"></i></div>
-                    <div class="info-card-details">
-                        <h3>Alamat Lengkap</h3>
-                        <p>Jl. Raya Cikande-Rangkasbitung, KM 2, Kecamatan Cikande, Kabupaten Serang, Provinsi Banten.</p>
-                        <a href="#maps-location">Lihat Rute Google Maps ↓</a>
+            <form action="#" method="POST">
+                <div class="form-grid-2">
+                    <div class="form-group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="350">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" placeholder="Contoh: Ahmad Subagja" required>
+                    </div>
+                    <div class="form-group" data-aos="fade-left" data-aos-duration="500" data-aos-delay="400">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" name="email" placeholder="nama@email.com" required>
                     </div>
                 </div>
 
-                <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="250">
-                    <div class="info-card-icon"><i class="fab fa-whatsapp"></i></div>
-                    <div class="info-card-details">
-                        <h3>WhatsApp Hotline</h3>
-                        <p>Layanan operasional tata usaha aktif pada jam kerja sekolah (Senin - Sabtu, jam 07.00 - 14.00 WIB).</p>
-                        <a href="https://wa.me/6281234567890" target="_blank">Mulai Obrolan Sekarang →</a>
-                    </div>
+                <div class="form-group full-width" data-aos="fade-up" data-aos-duration="500" data-aos-delay="450">
+                    <label for="subjek">Subjek / Perihal</label>
+                    <input type="text" id="subjek" name="subjek" placeholder="Contoh: Pertanyaan Syarat PPDB 2026" required>
                 </div>
 
-                <div class="info-card-premium" data-aos="fade-right" data-aos-duration="600" data-aos-delay="300">
-                    <div class="info-card-icon"><i class="far fa-envelope"></i></div>
-                    <div class="info-card-details">
-                        <h3>Korespondensi Email</h3>
-                        <p>Gunakan jalur email untuk pengiriman berkas kerjasama instansi atau surat kedinasan formal.</p>
-                        <a href="mailto:info@mialkaromah.sch.id">info@mialkaromah.sch.id</a>
-                    </div>
+                <div class="form-group full-width" data-aos="fade-up" data-aos-duration="500" data-aos-delay="500">
+                    <label for="pesan">Isi Pesan Anda</label>
+                    <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan detail pertanyaan Anda secara jelas..." required></textarea>
                 </div>
-            </div>
 
-            <div class="contact-form-container" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                <h2 data-aos="fade-down" data-aos-duration="500" data-aos-delay="250">Kirim Pesan Elektronik</h2>
-                <p data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">Mempunyai pertanyaan spesifik mengenai pendaftaran? Kirimkan pesan Anda langsung ke sistem berkas madrasah.</p>
-                
-                <form action="#" method="POST">
-                    <div class="form-grid-2">
-                        <div class="form-group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="350">
-                            <label for="nama">Nama Lengkap</label>
-                            <input type="text" id="nama" name="nama" placeholder="Contoh: Ahmad Subagja" required>
-                        </div>
-                        <div class="form-group" data-aos="fade-left" data-aos-duration="500" data-aos-delay="400">
-                            <label for="email">Alamat Email</label>
-                            <input type="email" id="email" name="email" placeholder="nama@email.com" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group full-width" data-aos="fade-up" data-aos-duration="500" data-aos-delay="450">
-                        <label for="subjek">Subjek / Perihal</label>
-                        <input type="text" id="subjek" name="subjek" placeholder="Contoh: Pertanyaan Syarat PPDB 2026" required>
-                    </div>
-
-                    <div class="form-group full-width" data-aos="fade-up" data-aos-duration="500" data-aos-delay="500">
-                        <label for="pesan">Isi Pesan Anda</label>
-                        <textarea id="pesan" name="pesan" rows="4" placeholder="Tuliskan detail pertanyaan Anda secara jelas..." required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn-submit-premium" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="550">
-                        <i class="far fa-paper-plane"></i> <span>Kirim Pesan Sekarang</span> 
-                    </button>
-                </form>
-            </div>
-
+                <button type="button" onclick="kirimKeWA()" class="btn-submit-premium" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="550">
+                    <i class="fab fa-whatsapp"></i> <span>Kirim Via WhatsApp</span> 
+                </button>
+            </form>
         </div>
-    </main>
+    </div>
+</main>
 
-    <section class="container map-section" id="maps-location" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <div class="map-wrapper" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.2411910609!2d106.275811!3d-6.229388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTMinDQ1LjgiUyAxMDbCsDE2JzMyLjkiRQ!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </section>
+<section class="container map-section" id="maps-location" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+    <div class="map-wrapper" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.2411910609!2d106.275811!3d-6.229388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTMinDQ1LjgiUyAxMDbCsDE2JzMyLjkiRQ!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
 
-    <!-- AOS ANIMATION JS -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 50,
-            delay: 0,
-            easing: 'ease-out-cubic'
-        });
-        
-        window.addEventListener('load', function() {
-            AOS.refresh();
-        });
-    </script>
+<script>
+function kirimKeWA() {
+    const nama = document.getElementById('nama').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subjek = document.getElementById('subjek').value.trim();
+    const pesan = document.getElementById('pesan').value.trim();
 
-    <?php include_once 'layout/footer.php'; ?>
+    if (nama === "" || pesan === "") {
+        alert("Mohon isi Nama dan Pesan Anda terlebih dahulu.");
+        return;
+    }
+
+    const nomorWA = "6281317908079";
+    const teksPesan = `Halo Admin MI Al Karomah,%0A%0A` +
+                      `*Nama:* ${encodeURIComponent(nama)}%0A` +
+                      `*Email:* ${encodeURIComponent(email)}%0A` +
+                      `*Subjek:* ${encodeURIComponent(subjek)}%0A` +
+                      `*Pesan:* %0A${encodeURIComponent(pesan)}`;
+
+    const urlWA = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${teksPesan}`;
+    window.open(urlWA, '_blank');
+}
+</script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 50,
+        delay: 0,
+        easing: 'ease-out-cubic'
+    });
+    
+    window.addEventListener('load', function() {
+        AOS.refresh();
+    });
+</script>
+
+<?php include_once 'layout/footer.php'; ?>
 </body>
 </html>

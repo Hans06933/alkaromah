@@ -718,7 +718,7 @@
                         Asesmen berkelanjutan
                     </li>
                 </ul>
-                <a href="#" class="btn-more">Selengkapnya ➔</a>
+                <a href="detail_kurikulum.php" class="btn-more">Selengkapnya ➔</a>
             </div>
 
             <div class="pendekatan-container" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">

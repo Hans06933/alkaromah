@@ -1,20 +1,27 @@
 <?php
-// Mulai session jika diperlukan untuk flash message status pendaftaran
 session_start();
 
- include 'layout/header.php'; 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+include 'layout/header.php';
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-/* ==========================================================================
-   WORKSPACE SYSTEM & LAYOUT UTAMA PPDB
-   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .ppdb-workspace {
     padding: 40px 20px;
-    background-color: #f8fafc;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #f8fafc;
+    font-family: 'Segoe UI', sans-serif;
     min-height: 100vh;
 }
 
@@ -23,81 +30,111 @@ session_start();
     margin: 0 auto;
 }
 
-/* Hero Banner Selamat Datang */
+.alert-box {
+    padding: 18px 22px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alert-success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
 .ppdb-hero {
-    background: linear-gradient(135deg, #0f6b3b 0%, #1b4d32 100%);
-    border-radius: 18px;
-    padding: 35px;
-    color: #ffffff;
+    background: linear-gradient(rgba(15, 107, 59, 0.85), rgba(15, 107, 59, 0.85)), url('assets/img/ppdb-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    padding: 45px;
+    color: white;
     margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(15, 107, 59, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.ppdb-hero::before {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    top: -120px;
+    right: -80px;
 }
 
 .ppdb-hero h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin: 0 0 10px 0;
+    font-size: 38px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
 }
 
 .ppdb-hero p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin: 0;
-    color: #cbd5e1;
+    max-width: 700px;
+    line-height: 1.8;
+    color: #e2e8f0;
+    position: relative;
+    z-index: 2;
 }
 
-/* Susunan Grid 2 Kolom (Form Kiri - Info Kanan) */
 .ppdb-grid-layout {
     display: grid;
     grid-template-columns: 7fr 4fr;
     gap: 30px;
 }
 
-/* ==========================================================================
-   SISI KIRI: DESAIN FORMULIR PENDAFTARAN
-   ========================================================================== */
 .ppdb-form-card {
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    background: white;
+    border-radius: 20px;
     overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
 .ppdb-form-header {
     background: #f1f5f9;
-    padding: 20px 25px;
+    padding: 22px 25px;
     border-bottom: 1px solid #e2e8f0;
 }
 
 .ppdb-form-header h2 {
-    font-size: 1.15rem;
-    color: #1e293b;
-    margin: 0;
-    font-weight: 700;
+    font-size: 20px;
+    color: #0f172a;
 }
 
 .ppdb-form-body {
     padding: 25px;
 }
 
-/* Pembagi Seksi di Dalam Form */
 .form-section-divider {
-    font-size: 0.85rem;
+    margin: 30px 0 18px;
+    font-size: 14px;
     font-weight: 700;
     color: #0f6b3b;
+    border-bottom: 2px solid #dcfce7;
+    padding-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin: 30px 0 15px 0;
-    padding-bottom: 6px;
-    border-bottom: 2px solid #e2e8f0;
 }
 
-.form-section-divider:first-of-type {
+.form-section-divider:first-child {
     margin-top: 0;
 }
 
-/* Kontrol Grid Input */
 .input-grid-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -107,7 +144,7 @@ session_start();
 .input-group-block {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .input-group-block.full-width {
@@ -115,53 +152,49 @@ session_start();
 }
 
 .input-group-block label {
-    font-size: 0.8rem;
+    font-size: 14px;
     font-weight: 600;
-    color: #475569;
+    color: #334155;
 }
 
 .input-group-block input,
-.input-group-block select,
-.input-group-block textarea {
-    padding: 10px 14px;
-    font-size: 0.85rem;
+.input-group-block textarea,
+.input-group-block select {
+    padding: 13px 15px;
     border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #1e293b;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: 0.2s;
+    background: white;
 }
 
 .input-group-block input:focus,
-.input-group-block select:focus,
-.input-group-block textarea:focus {
+.input-group-block textarea:focus,
+.input-group-block select:focus {
     border-color: #0f6b3b;
+    box-shadow: 0 0 0 4px rgba(15, 107, 59, 0.08);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(15, 107, 59, 0.1);
 }
 
-/* Tombol Submit */
 .btn-submit-ppdb {
-    background: linear-gradient(135deg, #0f6b3b 0%, #1b4d32 100%);
-    color: white;
-    border: none;
-    padding: 14px 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
     width: 100%;
-    margin-top: 25px;
-    transition: opacity 0.2s;
+    border: none;
+    background: linear-gradient(135deg, #0f6b3b, #14532d);
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-submit-ppdb:hover {
-    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(15, 107, 59, 0.15);
 }
 
-/* ==========================================================================
-   SISI KANAN: PANEL INFORMASI & WIDGET
-   ========================================================================== */
 .ppdb-sidebar-panel {
     display: flex;
     flex-direction: column;
@@ -169,265 +202,304 @@ session_start();
 }
 
 .sidebar-widget {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 22px;
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
 }
 
 .sidebar-widget h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 0 0 15px 0;
-    border-left: 4px solid #facc15;
-    padding-left: 10px;
+    font-size: 18px;
+    margin-bottom: 18px;
+    color: #0f172a;
 }
 
-/* Alur List Pendaftaran */
 .timeline-flow {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
 .timeline-step {
     display: flex;
-    gap: 12px;
+    gap: 14px;
 }
 
 .step-number {
-    flex: 0 0 26px;
-    height: 26px;
-    background: #e6f7ec;
-    color: #0f6b3b;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    font-weight: 700;
-    font-size: 0.8rem;
+    background: #dcfce7;
+    color: #0f6b3b;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
 .step-text h4 {
-    margin: 0 0 3px 0;
-    font-size: 0.85rem;
-    color: #1e293b;
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 .step-text p {
-    margin: 0;
-    font-size: 0.75rem;
+    font-size: 13px;
     color: #64748b;
-    line-height: 1.4;
-}
-
-/* Persyaratan List */
-.rules-list {
-    padding-left: 18px;
-    margin: 0;
-}
-
-.rules-list li {
-    font-size: 0.8rem;
-    color: #475569;
-    margin-bottom: 8px;
     line-height: 1.5;
 }
 
-/* Tombol Bantuan WhatsApp */
+.rules-list {
+    padding-left: 18px;
+}
+
+.rules-list li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #475569;
+}
+
 .btn-wa-help {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
     background: #25d366;
     color: white;
     text-decoration: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 0.85rem;
+    padding: 14px;
+    border-radius: 12px;
     font-weight: 600;
-    text-align: center;
-    transition: background 0.2s;
+    transition: 0.2s;
 }
 
 .btn-wa-help:hover {
-    background: #1ebd54;
+    background: #1fb85a;
 }
 
-/* ==========================================================================
-   RESPONSIVE CONTROL (MOBILE OPTIMIZATION)
-   ========================================================================== */
-@media screen and (max-width: 992px) {
+@media (max-width: 992px) {
     .ppdb-grid-layout {
         grid-template-columns: 1fr;
     }
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 768px) {
+    .ppdb-hero {
+        padding: 30px 22px;
+    }
+    
+    .ppdb-hero h1 {
+        font-size: 28px;
+    }
+    
     .input-grid-row {
         grid-template-columns: 1fr;
     }
+    
     .input-group-block.full-width {
         grid-column: span 1;
     }
 }
+
 </style>
 
 <div class="ppdb-workspace">
     <div class="ppdb-container">
-        
+
+        <?php
+        if (isset($_SESSION['status_ppdb'])) {
+            if ($_SESSION['status_ppdb'] == "sukses") {
+                echo '
+                <div class="alert-box alert-success">
+                    <i class="fas fa-circle-check"></i>
+                    Pendaftaran berhasil dikirim. Panitia akan segera memverifikasi data Anda.
+                </div>';
+            } elseif ($_SESSION['status_ppdb'] == "gagal_validasi") {
+                echo '
+                <div class="alert-box alert-error">
+                    <i class="fas fa-circle-exclamation"></i>
+                    Data tidak valid. Pastikan semua form terisi dengan benar.
+                </div>';
+            } elseif ($_SESSION['status_ppdb'] == "gagal_upload") {
+                echo '
+                <div class="alert-box alert-error">
+                    <i class="fas fa-circle-exclamation"></i>
+                    Upload file gagal. Silakan coba kembali.
+                </div>';
+            } elseif ($_SESSION['status_ppdb'] == "gagal_format") {
+                echo '
+                <div class="alert-box alert-error">
+                    <i class="fas fa-circle-exclamation"></i>
+                    Format file tidak didukung. Gunakan JPG, PNG atau PDF.
+                </div>';
+            } elseif ($_SESSION['status_ppdb'] == "gagal_ukuran") {
+                echo '
+                <div class="alert-box alert-error">
+                    <i class="fas fa-circle-exclamation"></i>
+                    Ukuran file terlalu besar. Maksimal 3MB.
+                </div>';
+            }
+            unset($_SESSION['status_ppdb']);
+        }
+        ?>
+
         <div class="ppdb-hero">
-            <h1>Penerimaan Peserta Didik Baru (PPDB) Online</h1>
-            <p>Selamat datang di portal pendaftaran online MI Al Karomah. Silakan isi seluruh data formulir di bawah ini dengan lengkap, jujur, dan valid sesuai berkas resmi Kartu Keluarga (KK).</p>
+            <h1>PPDB Online MI Al Karomah 2026/2027</h1>
+            <p>
+                Selamat datang di portal resmi Penerimaan Peserta Didik Baru MI Al Karomah.
+                Silakan isi formulir pendaftaran dengan data yang benar sesuai dokumen resmi.
+            </p>
         </div>
 
         <div class="ppdb-grid-layout">
-            
+
             <div class="ppdb-main-form-column">
                 <div class="ppdb-form-card">
                     <div class="ppdb-form-header">
-                        <h2><i class="fas fa-wpforms" style="color: #0f6b3b; margin-right: 6px;"></i> Form Pendaftaran Santri Baru</h2>
+                        <h2>
+                            <i class="fas fa-user-graduate" style="color: #0f6b3b;"></i>
+                            Formulir Pendaftaran
+                        </h2>
                     </div>
-                    
+
                     <form action="proses_ppdb.php" method="POST" enctype="multipart/form-data" class="ppdb-form-body">
-                        
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
                         <div class="form-section-divider">1. Data Calon Siswa</div>
+
                         <div class="input-grid-row">
                             <div class="input-group-block full-width">
-                                <label for="nama_lengkap">Nama Lengkap Siswa *</label>
-                                <input type="text" id="nama_lengkap" name="nama_lengkap" placeholder="Contoh: Ahmad Fauzi" required>
-                            </div>
-                            
-                            <div class="input-group-block">
-                                <label for="nik">NIK Siswa (Cek di KK) *</label>
-                                <input type="number" id="nik" name="nik" placeholder="16 digit NIK" required>
+                                <label>Nama Lengkap *</label>
+                                <input type="text" name="nama_lengkap" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="jk">Jenis Kelamin *</label>
-                                <select id="jk" name="jk" required>
-                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                <label>NIK *</label>
+                                <input type="text" name="nik" maxlength="16" required>
+                            </div>
+
+                            <div class="input-group-block">
+                                <label>Jenis Kelamin *</label>
+                                <select name="jk" required>
+                                    <option value="">Pilih</option>
                                     <option value="L">Laki-laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="tempat_lahir">Tempat Lahir *</label>
-                                <input type="text" id="tempat_lahir" name="tempat_lahir" placeholder="Contoh: Tasikmalaya" required>
+                                <label>Tempat Lahir *</label>
+                                <input type="text" name="tempat_lahir" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="tanggal_lahir">Tanggal Lahir *</label>
-                                <input type="date" id="tanggal_lahir" name="tanggal_lahir" required>
+                                <label>Tanggal Lahir *</label>
+                                <input type="date" name="tanggal_lahir" required>
                             </div>
 
                             <div class="input-group-block full-width">
-                                <label for="alamat">Alamat Domisili Lengkap *</label>
-                                <textarea id="alamat" name="alamat" rows="3" placeholder="Nama Jalan, Kampung/Dusun, RT/RW, Desa, Kecamatan" required></textarea>
+                                <label>Alamat *</label>
+                                <textarea name="alamat" rows="4" required></textarea>
                             </div>
                         </div>
 
-                        <div class="form-section-divider">2. Data Orang Tua / Wali</div>
+                        <div class="form-section-divider">2. Data Orang Tua</div>
+
                         <div class="input-grid-row">
                             <div class="input-group-block">
-                                <label for="nama_ayah">Nama Ayah Kandung *</label>
-                                <input type="text" id="nama_ayah" name="nama_ayah" required>
+                                <label>Nama Ayah *</label>
+                                <input type="text" name="nama_ayah" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="nama_ibu">Nama Ibu Kandung *</label>
-                                <input type="text" id="nama_ibu" name="nama_ibu" required>
+                                <label>Nama Ibu *</label>
+                                <input type="text" name="nama_ibu" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="pekerjaan">Pekerjaan Utama Orang Tua *</label>
-                                <input type="text" id="pekerjaan" name="pekerjaan" placeholder="Misal: Wiraswasta, PNS, Buruh" required>
+                                <label>Pekerjaan *</label>
+                                <input type="text" name="pekerjaan" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="no_wa">No. HP / WhatsApp Aktif *</label>
-                                <input type="tel" id="no_wa" name="no_wa" placeholder="Contoh: 081234567890" required>
+                                <label>No WhatsApp *</label>
+                                <input type="text" name="no_wa" required>
                             </div>
                         </div>
 
-                        <div class="form-section-divider">3. Upload Berkas Pendukung (Format: JPG/PNG/PDF)</div>
+                        <div class="form-section-divider">3. Upload Berkas</div>
+
                         <div class="input-grid-row">
                             <div class="input-group-block">
-                                <label for="file_kk">Scan Kartu Keluarga (KK) *</label>
-                                <input type="file" id="file_kk" name="file_kk" accept="image/*,application/pdf" required>
+                                <label>Upload KK *</label>
+                                <input type="file" name="file_kk" accept=".jpg,.jpeg,.png,.pdf" required>
                             </div>
 
                             <div class="input-group-block">
-                                <label for="file_akta">Scan Akta Kelahiran *</label>
-                                <input type="file" id="file_akta" name="file_akta" accept="image/*,application/pdf" required>
+                                <label>Upload Akta *</label>
+                                <input type="file" name="file_akta" accept=".jpg,.jpeg,.png,.pdf" required>
                             </div>
                         </div>
 
                         <button type="submit" name="daftar_ppdb" class="btn-submit-ppdb">
-                            <i class="fas fa-paper-plane" style="margin-right: 6px;"></i> Kirim Data Pendaftaran
+                            <i class="fas fa-paper-plane"></i>
+                            Kirim Pendaftaran
                         </button>
                     </form>
                 </div>
             </div>
 
             <div class="ppdb-sidebar-panel">
-                
                 <div class="sidebar-widget">
-                    <h3><i class="fas fa-route" style="color: #0f6b3b; margin-right: 4px;"></i> Alur Pendaftaran</h3>
+                    <h3>Alur Pendaftaran</h3>
                     <div class="timeline-flow">
                         <div class="timeline-step">
                             <div class="step-number">1</div>
                             <div class="step-text">
-                                <h4>Isi Formulir Online</h4>
-                                <p>Lengkapi formulir di samping dengan data KK asli.</p>
+                                <h4>Isi Form</h4>
+                                <p>Lengkapi seluruh data calon siswa.</p>
                             </div>
                         </div>
                         <div class="timeline-step">
                             <div class="step-number">2</div>
                             <div class="step-text">
-                                <h4>Verifikasi Berkas</h4>
-                                <p>Panitia mengecek berkas file upload dalam waktu 2-3 hari kerja.</p>
+                                <h4>Upload Berkas</h4>
+                                <p>Unggah KK dan Akta Kelahiran.</p>
                             </div>
                         </div>
                         <div class="timeline-step">
                             <div class="step-number">3</div>
                             <div class="step-text">
-                                <h4>Pengumuman SK</h4>
-                                <p>Status penerimaan dikirim langsung melalui nomor WhatsApp aktif.</p>
+                                <h4>Verifikasi</h4>
+                                <p>Panitia akan memeriksa data pendaftaran.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="sidebar-widget">
-                    <h3><i class="fas fa-clipboard-list" style="color: #0f6b3b; margin-right: 4px;"></i> Syarat Pendaftaran</h3>
+                    <h3>Syarat Pendaftaran</h3>
                     <ul class="rules-list">
-                        <li>Calon siswa minimal berusia 6 tahun pada Juli 2026.</li>
-                        <li>Mengunggah foto/scan KK asli (tidak buram).</li>
-                        <li>Mengunggah foto/scan Akta Kelahiran asli.</li>
-                        <li>Menyerahkan pas foto fisik 3x4 (2 lembar) saat daftar ulang secara offline.</li>
+                        <li>Usia minimal 6 tahun.</li>
+                        <li>Data harus sesuai KK.</li>
+                        <li>File upload maksimal 3MB.</li>
+                        <li>Format file JPG, PNG, PDF.</li>
                     </ul>
                 </div>
 
                 <div class="sidebar-widget">
-                    <h3><i class="fas fa-headset" style="color: #0f6b3b; margin-right: 4px;"></i> Layanan Bantuan</h3>
-                    <p style="font-size: 0.8rem; line-height: 1.5; color: #64748b; margin: 0 0 15px 0;">
-                        Ada kendala atau pertanyaan seputar PPDB MI Al Karomah? Hubungi panitia via WhatsApp resmi kami:
-                    </p>
+                    <h3>Bantuan PPDB</h3>
                     <a href="https://wa.me/628123456789" target="_blank" class="btn-wa-help">
-                        <i class="fab fa-whatsapp" style="font-size: 1.1rem;"></i> Chat Panitia PPDB
+                        <i class="fab fa-whatsapp"></i>
+                        Hubungi Panitia
                     </a>
                 </div>
-
             </div>
 
-        </div> </div>
+        </div>
+    </div>
 </div>
 
-<?php
- include 'layout/footer.php'; 
-?>
+<?php include 'layout/footer.php'; ?>

@@ -35,11 +35,11 @@
             <h3>Tautan Cepat</h3>
             <div class="footer-line"></div>
             <ul class="quick-links">
-                <li><a href="#beranda"><i class="fas fa-chevron-right"></i> Beranda</a></li>
-                <li><a href="#profil"><i class="fas fa-chevron-right"></i> Profil Madrasah</a></li>
-                <li><a href="#akademik"><i class="fas fa-chevron-right"></i> Akademik</a></li>
-                <li><a href="#ppdb"><i class="fas fa-chevron-right"></i> PPDB</a></li>
-                <li><a href="#kontak"><i class="fas fa-chevron-right"></i> Kontak Form</a></li>
+                <li><a href="index.php"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                <li><a href="profil.php"><i class="fas fa-chevron-right"></i> Profil Madrasah</a></li>
+                <li><a href="akademik.php"><i class="fas fa-chevron-right"></i> Akademik</a></li>
+                <li><a href="ppdb.php"><i class="fas fa-chevron-right"></i> PPDB</a></li>
+                <li><a href="kontak.php"><i class="fas fa-chevron-right"></i> Kontak Form</a></li>
             </ul>
         </div>
 
@@ -49,15 +49,15 @@
             <div class="footer-info">
                 <a href="https://maps.google.com/?q=MI+Al+Karomah" target="_blank" class="footer-link">
                     <span class="icon-wrapper">📍</span> 
-                    <span class="text-wrapper">Jl Al Karomah No 01, Desa Karomah</span>
+                    <span class="text-wrapper">JL. RAYA SERANG KM. 32 Kp.kunir, Sumur Bandung, Kec. Jayanti, Kab. Tangerang, Banten.</span>
                 </a>
                 <a href="tel:025112345678" class="footer-link">
                     <span class="icon-wrapper">📞</span> 
-                    <span class="text-wrapper">(0251) 1234 5678</span>
+                    <span class="text-wrapper">(0813) 17908079 </span>
                 </a>
                 <a href="mailto:info@mialkaromah.sch.id" class="footer-link">
                     <span class="icon-wrapper">✉</span> 
-                    <span class="text-wrapper">info@mialkaromah.sch.id</span>
+                    <span class="text-wrapper">mialkaromah@gmail.com</span>
                 </a>
             </div>
         </div>

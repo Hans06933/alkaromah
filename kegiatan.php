@@ -759,9 +759,11 @@ $queryKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan
                 <div class="cta-join-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                     <div>
                         <h3>Jadilah Bagian dari<br>Kegiatan Kami!</h3>
-                        <p>Temukan kegiatan yang sesuai dengan minat dan bakat Anda.</p>
+                        <p>Temukan kegiatan yang sesuai dengan minat dan bakat Anda dengan mengikuti kemi</p>
                     </div>
-                    <a href="#" class="btn-cta-all">Lihat Semua Kegiatan ➔</a>
+                    <a href="https://www.instagram.com/mialkaromah" target="_blank" class="btn-cta-all" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i> Ikuti & Lihat Kegiatan di Instagram ➔
+                    </a>
                     
                     <svg class="cta-illustration" viewBox="0 0 100 100" fill="none">
                         <circle cx="75" cy="75" r="20" fill="#facc15" opacity="0.3"/>
