@@ -244,11 +244,16 @@
             cursor: pointer;
         }
 
-        .admin-profile-box img {
+        .admin-avatar {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            object-fit: cover;
+            background: linear-gradient(135deg, #0B5E34, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
         }
 
         .admin-name {
@@ -391,7 +396,9 @@
             </div>
             <div class="topbar-right">
                 <div class="admin-profile-box">
-                    <img src="https://i.pravatar.cc/100" alt="Admin">
+                    <div class="admin-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
                     <div class="admin-name">
                         <span>Administrator</span>
                         <i class="fas fa-chevron-down"></i>
@@ -414,3 +421,5 @@
         hamburgerBtn.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
     </script>
+</body>
+</html>
